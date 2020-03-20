@@ -103,31 +103,38 @@ class user extends CI_Controller {
             $alamat = $this->input->post('alamat');
             $tahunmasuk = $this->input->post('tahunmasuk');
             
-            $nis = $this->user_model->getSiswaId($nis)->result();
-            if(empty($nis[0]->nis)){
+            $niss = $this->user_model->getSiswaId($nis)->result();
+
+            if(empty($niss[0]->nis)){
                 $data2 = array(
-                    'nama' => $nama ,
-                    'nis' => $nis ,
-                    'tempatlahir' => $tempatlahir ,
-                    'jk' => $jk ,
+                    'nama' => $nama,
+                    'nis' => $nis,
+                    'tempat_lahir' => $tempatlahir,
+                    'jenis_kelamin' => $jk,
                     'alamat' => $alamat,
-                    'tahunmasuk' => $tahunmasuk
+                    'tahun_masuk' => $tahunmasuk
                 );
                 $this->user_model->registerSiswa($data2);
                 
+                $niss = $this->user_model->getSiswaId($nis)->result();
+                
                 $data1 = array(
-                    'email' => $email ,
-                    'password' => $password
+                    'siswa_id' => $niss[0]->id,
+                    'username' => $email,
+                    'password' => $password,
+                    'is_admin' => 0
                 );
+                $this->user_model->registerSiswaaccount($data1);
 
+                $this->session->set_flashdata('success', $this->user_model->get_alert('success', 'Akun berhasil di buat.'));
+                redirect('user');
+                
             }else{
                 $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Maaf NIS sudah Terdaftar .'));
-                redirect('user');
+                redirect('user/registerSiswa');
             }
-
-            redirect('user');
         } else {
-            $this->session->flashdata('error', $this->model_user->get_alert('warning', 'Lengkapi form di bawah.'));
+            $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Lengkapi form di bawah.'));
             redirect('user/registerSiswa');
         }
     }

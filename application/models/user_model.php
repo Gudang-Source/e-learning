@@ -17,7 +17,11 @@
         }
         public function registerSiswa($data)
         {
-            
+            $this->db->insert('el_siswa', $data);
+        }
+        public function registerSiswaaccount($data)
+        {
+            $this->db->insert('el_login', $data);
         }
 
         public function registerGuru($data)
@@ -25,14 +29,15 @@
             
         }
 
-        public function getSiswaId($nis)
+        public function getGuruId($nip)
         {
             
         }
 
-        public function getGuruId($nip)
+        public function getSiswaId($nis)
         {
-            
+            $this->db->where('nis', $nis);
+            return $this->db->get('el_siswa');
         }
 
         function get_alert($notif = 'success', $msg = '')
