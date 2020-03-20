@@ -35,3 +35,5 @@
 
 </head>
 <body class="animsition">
+<?php echo $this->session->flashdata('error');
+?>

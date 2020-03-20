@@ -6,12 +6,10 @@
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
-                            <a href="#">
-                                <img src="images/icon/logo.png" alt="CoolAdmin">
-                            </a>
+                            <p>Login</p>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form action="<?= base_url('user/prosesLogin')?>" method="post">
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email" placeholder="Email">

@@ -9,6 +9,12 @@
             $this->db->where($auth);
             return $this->db->get('el_login');
         }
+
+        public function getDataSiswa($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_siswa');
+        }
         public function registerSiswa($data)
         {
             
