@@ -38,17 +38,17 @@ class user extends CI_Controller {
             $password = md5($this->input->post('password'));
             $auth = $this->user_model->login($email,$password)->result();
             
-            // print_r($auth);
-            
             if (!empty($auth[0]->siswa_id)) {
 
                 $datasiswa = $this->user_model->getDataSiswa($auth[0]->siswa_id)->result();
+                // print_r($datasiswa[0]->nama);
                 $siswa = array(
                     'id' => $auth[0]->siswa_id,
                     'nama' => $datasiswa[0]->nama
                 );
+                // print_r($siswa);
                 $this->session->set_userdata($siswa);
-                
+                // $this->session->userdata('nama');
                 redirect('siswa');
             }elseif(!empty($auth[0]->pengajar_id)){
                 if (!empty($auth[0]->is_admin)) {
@@ -95,7 +95,7 @@ class user extends CI_Controller {
         
         if ($this->form_validation->run() == TRUE) {
             $email = $this->input->post('email');
-            $password = $this->input->post('password');
+            $password = md5($this->input->post('password'));
             $nama = $this->input->post('nama');
             $nis = $this->input->post('nis');
             $tempatlahir = $this->input->post('tempatlahir');
