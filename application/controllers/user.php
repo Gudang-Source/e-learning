@@ -25,11 +25,17 @@ class user extends CI_Controller {
         $this->load->view('auth/registerGuru');
         $this->load->view('part/footerauth');
     }
+    // ini view register admin
+    public function registerAdmin()
+    {
+        $this->load->view('part/headerauth');
+        $this->load->view('auth/registerAdmin');
+        $this->load->view('part/footerauth');
+    }
 
     // ini logika proses login
     public function prosesLogin()
     {
-        
         $this->form_validation->set_rules('email', 'email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
 
@@ -53,17 +59,17 @@ class user extends CI_Controller {
             }elseif(!empty($auth[0]->pengajar_id)){
                 if (!empty($auth[0]->is_admin)) {
                     $admin = array(
-                        'id' => $auth[0]->siswa_id,
-                        'nama' => $datasiswa[0]->nama
+                        'admin' => "1"
                     );
                     $this->session->set_userdata( $admin );
                     
                     redirect('admin');
                 }
+                $dataguru = $this->user_model->getDataGuru($auth[0]->pengajar_id)->result();
                 
                 $pengajar = array(
-                    'id' => $auth[0]->siswa_id,
-                    'nama' => $datasiswa[0]->nama
+                    'id' => $auth[0]->pengajar_id,
+                    'nama' => $dataguru[0]->nama
                 );
                 $this->session->set_userdata( $pengajar );
                 
@@ -142,11 +148,76 @@ class user extends CI_Controller {
     // ini logika register guru
     public function prosesRegisterGuru()
     {
-        $this->form_validation->set_rules('fieldname', 'fieldlabel', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('nama', 'nama', 'required');
+        $this->form_validation->set_rules('nip', 'nip', 'required');
+        $this->form_validation->set_rules('tempatlahir', 'tempatlahir', 'required');
+        $this->form_validation->set_rules('jk', 'jk', 'required');
+        $this->form_validation->set_rules('alamat', 'alamat', 'required');
+        
         
         if ($this->form_validation->run() == TRUE) {
-            $data = array('' => 'ad' );
-            $this->user_model->registerSiswa($data);
+            $email = $this->input->post('email');
+            $password = md5($this->input->post('password'));
+            $nama = $this->input->post('nama');
+            $nip = $this->input->post('nip');
+            $tempatlahir = $this->input->post('tempatlahir');
+            $jk = $this->input->post('jk');
+            $alamat = $this->input->post('alamat');
+           
+            
+            $nipp = $this->user_model->getSiswaId($nip)->result();
+
+            if(empty($nipp[0]->nip)){
+                $data2 = array(
+                    'nama' => $nama,
+                    'nip' => $nip,
+                    'tempat_lahir' => $tempatlahir,
+                    'jenis_kelamin' => $jk,
+                    'alamat' => $alamat
+                );
+                $this->user_model->registerGuru($data2);
+                
+                $nipp = $this->user_model->getPengajarId($nip)->result();
+                
+                $data1 = array(
+                    'pengajar_id' => $nipp[0]->id,
+                    'username' => $email,
+                    'password' => $password,
+                    'is_admin' => 0
+                );
+                $this->user_model->registerGuruaccount($data1);
+
+                $this->session->set_flashdata('success', $this->user_model->get_alert('success', 'Akun berhasil di buat.'));
+                redirect('user');
+                
+            }else{
+                $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Maaf NIP sudah Terdaftar .'));
+                redirect('user/registerGuru');
+            }
+        } else {
+            $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Lengkapi form di bawah.'));
+            redirect('user/registerGuru');
+        }
+    }
+
+    public function prosesRegisterAdmin()
+    {
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        
+        if ($this->form_validation->run() == TRUE) {
+            $email = $this->input->post('email');
+            $password = md5($this->input->post('password'));
+
+            $data = array(
+                'username' => $email,
+                'password' => $password,
+                'pengajar_id' => 1,
+                'is_admin' => 1
+            );
+            $this->user_model->registerAdminaccount($data);
             redirect('user');
         } else {
             $this->session->flashdata('error', $this->model_user->get_alert('warning', 'Lengkapi form di bawah.'));

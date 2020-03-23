@@ -15,29 +15,45 @@
             $this->db->where('id', $id);
             return $this->db->get('el_siswa');
         }
+        
+        public function getDataGuru($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengajar');
+        }
+
         public function registerSiswa($data)
         {
             $this->db->insert('el_siswa', $data);
         }
-        public function registerSiswaaccount($data)
+        public function registerGuru($data)
+        {
+            $this->db->insert('el_pengajar', $data);
+        }
+
+        public function registerAdminaccount($data)
+        {
+            $this->db->insert('el_login', $data);
+        }
+        public function registerGuruaccount($data)
         {
             $this->db->insert('el_login', $data);
         }
 
-        public function registerGuru($data)
+        public function registerSiswaaccount($data)
         {
-            
-        }
-
-        public function getGuruId($nip)
-        {
-            
+            $this->db->insert('el_login', $data);
         }
 
         public function getSiswaId($nis)
         {
             $this->db->where('nis', $nis);
             return $this->db->get('el_siswa');
+        }
+        public function getPengajarId($nis)
+        {
+            $this->db->where('nip', $nis);
+            return $this->db->get('el_pengajar');
         }
 
         function get_alert($notif = 'success', $msg = '')

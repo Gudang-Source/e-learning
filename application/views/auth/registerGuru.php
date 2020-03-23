@@ -46,11 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>alamat</label>
-                                    <input class="au-input au-input--full" type="email" name="alamat" placeholder="alamat">
-                                </div>
-                                <div class="form-group">
-                                    <label>Tahun masuk</label>
-                                    <input class="au-input au-input--full" type="text" name="tahunmasuk" placeholder="Tahun masuk">
+                                    <input class="au-input au-input--full" type="text" name="alamat" placeholder="alamat">
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
@@ -59,6 +55,12 @@
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
                             </form>
+                            <div class="register-link">
+                                <p>Register Sebagai?
+                                    <a href="<?= base_url('user/registerGuru')?>">Guru</a> atau
+                                    <a href="<?= base_url('user/registerSiswa')?>">siswa</a>
+                                </p>
+                            </div>
                             <div class="register-link">
                                 <p>Already have account?
                                     <a href="<?= base_url('user')?>">Sign In</a>

@@ -1,0 +1,9 @@
+INSERT INTO `el_pilihan` VALUES (1, 1, '<p>otot</p>\r\n', 1, 1, 1);
+INSERT INTO `el_pilihan` VALUES (2, 1, '<p>rangka</p>\r\n', 0, 2, 1);
+INSERT INTO `el_pilihan` VALUES (3, 1, '<p>saraf</p>\r\n', 0, 3, 1);
+INSERT INTO `el_pilihan` VALUES (4, 1, '<p>pencernaan</p>\r\n', 0, 4, 1);
+INSERT INTO `el_pilihan` VALUES (5, 1, '<p>anjai</p>\r\n', 0, 5, 0);
+INSERT INTO `el_pilihan` VALUES (6, 2, '<p>rangka</p>\r\n', 0, 4, 1);
+INSERT INTO `el_pilihan` VALUES (7, 2, '<p>otot</p>\r\n', 1, 1, 1);
+INSERT INTO `el_pilihan` VALUES (8, 2, '<p>saraf</p>\r\n', 0, 2, 1);
+INSERT INTO `el_pilihan` VALUES (9, 2, '<p>pencernaan</p>\r\n', 0, 3, 1);

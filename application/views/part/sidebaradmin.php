@@ -49,31 +49,26 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                            <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?= $nama ?></a>
+                                            <a class="js-acc-btn" href="#">Admin</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                                        <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?= $nama ?></a>
+                                                        <a href="#">Admin</a>
                                                     </h5>
                                                     <span class="email">johndoe@example.com</span>
                                                 </div>
                                             </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="<?= base_url('pengajar/profile')?>">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="account-dropdown__footer">
                                                 <a href="<?= base_url('user/logout') ?>">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>

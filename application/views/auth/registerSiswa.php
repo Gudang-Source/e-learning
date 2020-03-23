@@ -54,6 +54,12 @@
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
                             </form>
                             <div class="register-link">
+                                <p>Register Sebagai?
+                                    <a href="<?= base_url('user/registerGuru')?>">Guru</a> atau
+                                    <a href="<?= base_url('user/registerSiswa')?>">siswa</a>
+                                </p>
+                            </div>
+                            <div class="register-link">
                                 <p>Already have account?
                                     <a href="<?= base_url('user')?>">Sign In</a>
                                 </p>

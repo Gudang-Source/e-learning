@@ -1,0 +1,10 @@
+INSERT INTO `el_mapel` VALUES (1, 'Bahasa Indonesia', NULL, 1);
+INSERT INTO `el_mapel` VALUES (2, 'Bahasa Inggris', NULL, 1);
+INSERT INTO `el_mapel` VALUES (3, 'Matematika', NULL, 1);
+INSERT INTO `el_mapel` VALUES (4, 'Ekonomi', NULL, 1);
+INSERT INTO `el_mapel` VALUES (5, 'Geografi', NULL, 1);
+INSERT INTO `el_mapel` VALUES (6, 'Biologi', NULL, 1);
+INSERT INTO `el_mapel` VALUES (7, 'Penjas', NULL, 1);
+INSERT INTO `el_mapel` VALUES (8, 'Agama', NULL, 1);
+INSERT INTO `el_mapel` VALUES (9, 'Fisika', NULL, 1);
+INSERT INTO `el_mapel` VALUES (10, 'Kimia', NULL, 1);
