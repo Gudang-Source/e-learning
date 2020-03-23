@@ -12,7 +12,14 @@ class siswa extends CI_Controller {
         $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/dashboard');
         $this->load->view('part/footer');
-        
+    }
+
+    public function profile()
+    {
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/profile');
+        $this->load->view('part/footer');
     }
 
 }
