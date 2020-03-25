@@ -25,6 +25,7 @@ class user extends CI_Controller {
         $this->load->view('auth/registerGuru');
         $this->load->view('part/footerauth');
     }
+
     // ini view register admin
     public function registerAdmin()
     {
@@ -71,7 +72,7 @@ class user extends CI_Controller {
                     'id' => $auth[0]->pengajar_id,
                     'nama' => $dataguru[0]->nama
                 );
-                $this->session->set_userdata( $pengajar );
+                $this->session->set_userdata($pengajar);
                 
                 redirect('pengajar');
             }else{

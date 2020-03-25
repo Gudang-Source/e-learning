@@ -5,7 +5,16 @@
             <div class="map-data m-b-40">
                 <h3 class="title-3 m-b-30">Profile</h3>
                 <div class="filters">
-                    
+                    <img src="" alt="">
+
+                    nis :
+                    nama :
+                    Jenis Kelamin :
+                    Tempat Lahir :
+                    Tgl Lahir :
+                    agama :
+                    alamat :
+                    tahun masuk :
                 </div>
                 <div class="map-wrap m-t-45 m-b-20">
                     <div id="vmap" style="height: 284px;"></div>
