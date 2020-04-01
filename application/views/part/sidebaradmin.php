@@ -9,12 +9,12 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts</a>
+                            <a href="<?=base_url()?>Admin/dataSiswa/1">
+                                <i class="fas fa-chart-bar"></i>Siswa</a>
                         </li>
                         <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables</a>
+                            <a href="<?=base_url()?>Admin/dataPengajar">
+                                <i class="fas fa-table"></i>Pengajar</a>
                         </li>
                         <li>
                             <a href="form.html">
