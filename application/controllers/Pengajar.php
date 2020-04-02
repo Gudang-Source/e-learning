@@ -29,7 +29,7 @@
         {
             $data['profile'] = $this->pengajar_model->getProfilePengajar($this->session->userdata('id'))->result();
             $this->load->view('part/header');
-            $this->load->view('part/sidebaradmin');
+            $this->load->view('part/sidebarpengajar');
             $this->load->view('admin/profile',$data);
             $this->load->view('part/footer');
         }
