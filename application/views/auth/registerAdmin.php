@@ -35,10 +35,10 @@
                                     <div class="col col-md-6">
                                         <div class="form-check">
                                             <label for="inline-radio1" class="form-check-inline form-check">
-                                                <input type="radio" id="inline-radio1" name="jk" value="option1" class="form-check-input">Laki-Laki
+                                                <input type="radio" id="inline-radio1" name="jk" value="Laki-laki" class="form-check-input">Laki-Laki
                                             </label>
                                             <label for="inline-radio2" class="form-check-label ">
-                                                <input type="radio" id="inline-radio2" name="jk" value="option2" class="form-check-input">Perempuan
+                                                <input type="radio" id="inline-radio2" name="jk" value="Perempuan" class="form-check-input">Perempuan
                                             </label>
                                         </div>
                                     </div>

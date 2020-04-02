@@ -25,10 +25,10 @@ class siswa extends CI_Controller {
     }
     public function profile()
     {
-        $data['profile'] = $this->Pengajar_Model->getProfilePengajar($this->session->userdata('id'))->result();
+        $data['profile'] = $this->Siswa_Model->getProfileSiswa($this->session->userdata('id'))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
-        $this->load->view('admin/profile',$data);
+        $this->load->view('siswa/profile',$data);
         $this->load->view('part/footer');
     }
 

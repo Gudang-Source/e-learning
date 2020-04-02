@@ -52,12 +52,12 @@
                             <div class="form-check">
                                 <div class="radio">
                                     <label for="radio1" class="form-check-label ">
-                                        <input type="radio" id="radio1" name="gender" value="option1" class="form-check-input">Laki-Laki
+                                        <input type="radio" id="laki" <?php if ($profile[0]->jenis_kelamin == "Laki-laki") { echo "checked=''"; }?> name="gender" value="Laki-laki" class="form-check-input">Laki-Laki
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label for="radio2" class="form-check-label ">
-                                        <input type="radio" id="radio2" name="gender" value="option2" class="form-check-input">Perempuan
+                                        <input type="radio" id="perempuan" <?php if ($profile[0]->jenis_kelamin == "Perempuan") { echo "checked=''"; }?> name="gender" value="Perempuan" class="form-check-input">Perempuan
                                     </label>
                                 </div>
                             </div>
@@ -87,8 +87,10 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <input type="text" id="text-input" name="text-input" value="<?= $profile[0]->alamat?>" placeholder="alamat" class="form-control">
-                            
                         </div>
+                    </div>
+                    <div class="form-actions form-group">
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
                     </div>
                 </div>
             </div>
@@ -96,3 +98,17 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#laki").click(function(){
+        $("#perempuan").attr("checked", false);
+        $("#laki").attr("checked", true);
+
+    });
+    $("#perempuan").click(function(){         
+        $("#laki").attr("checked", false);
+        $("#perempuan").attr("checked", true);
+    });
+});
+</script>

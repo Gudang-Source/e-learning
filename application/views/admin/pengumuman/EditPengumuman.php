@@ -13,8 +13,7 @@
                                     <strong>Tambah pengumuman</strong>
                                 </div>
                                 <div class="card-body card-block">
-                                <input type="hidden" id="text-input" name="id" placeholder="Judul" value="<?= $pengumuman[0]->id?>" class="form-control">
-                                        
+                                    <input type="hidden" id="text-input" name="id" placeholder="Judul" value="<?= $pengumuman[0]->id?>" class="form-control">
                                         <div class="row form-group">
                                             <div class="col col-md-3">
                                                 <label for="text-input" class=" form-control-label">judul</label>
