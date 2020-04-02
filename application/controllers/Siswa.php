@@ -6,24 +6,29 @@ class siswa extends CI_Controller {
 
     public function index()
     {
-        $data['nama'] = $this->session->userdata('nama');
+        $data['pengumumansiswa'] = $this->Siswa_Model->getPengumumanSiswa()->result();
         
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/dashboard');
         $this->load->view('part/footer');
     }
-
+    public function TampilPengumuman($id)
+    {
+        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
+        $data['author'] = $this->Admin_Model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
+        // print_r($data);
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/pengumuman/DetailPengumuman',$data);
+        $this->load->view('part/footer');
+    }
     public function profile()
     {
-        $data['nama'] = $this->session->userdata('nama');
-        $id = $this->session->userdata('id');
-        $data['profile'] = $this->siswa_model->getProfil($id)->result();
-        // print_r($data);
-
+        $data['profile'] = $this->Pengajar_Model->getProfilePengajar($this->session->userdata('id'))->result();
         $this->load->view('part/header');
-        $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/profile',$data);
         $this->load->view('part/footer');
     }
 

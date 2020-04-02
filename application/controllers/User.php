@@ -43,15 +43,17 @@ class user extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
             $email = $this->input->post('email');
             $password = md5($this->input->post('password'));
-            $auth = $this->user_model->login($email,$password)->result();
+            $auth = $this->User_Model->login($email,$password)->result();
             
             if (!empty($auth[0]->siswa_id)) {
 
-                $datasiswa = $this->user_model->getDataSiswa($auth[0]->siswa_id)->result();
+                $datasiswa = $this->User_Model->getDataSiswa($auth[0]->siswa_id)->result();
                 // print_r($datasiswa[0]->nama);
                 $siswa = array(
+                    'siswa' => "1",
                     'id' => $auth[0]->siswa_id,
-                    'nama' => $datasiswa[0]->nama
+                    'nama' => $datasiswa[0]->nama,
+                    'username' => $auth[0]->username
                 );
                 // print_r($siswa);
                 $this->session->set_userdata($siswa);
@@ -59,29 +61,36 @@ class user extends CI_Controller {
                 redirect('siswa');
             }elseif(!empty($auth[0]->pengajar_id)){
                 if (!empty($auth[0]->is_admin)) {
+                    $dataguru = $this->User_Model->getDataGuru($auth[0]->pengajar_id)->result();
+                    
                     $admin = array(
-                        'admin' => "1"
+                        'admin' => "1",
+                        'id' => $auth[0]->pengajar_id,
+                        'nama' => $dataguru[0]->nama,
+                        'username' => $auth[0]->username
                     );
                     $this->session->set_userdata( $admin );
                     
                     redirect('admin');
                 }
-                $dataguru = $this->user_model->getDataGuru($auth[0]->pengajar_id)->result();
+                $dataguru = $this->User_Model->getDataGuru($auth[0]->pengajar_id)->result();
                 
                 $pengajar = array(
+                    'guru' => "1",
                     'id' => $auth[0]->pengajar_id,
-                    'nama' => $dataguru[0]->nama
+                    'nama' => $dataguru[0]->nama,
+                    'username' => $auth[0]->username
                 );
                 $this->session->set_userdata($pengajar);
                 
                 redirect('pengajar');
             }else{
-                $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'maaf username atau password salah.'));
+                $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'maaf username atau password salah.'));
                 redirect('user');
             }
             
         } else {
-            $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Form harus di isi.'));
+            $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'Form harus di isi.'));
             redirect('user');
         }
             
@@ -168,7 +177,7 @@ class user extends CI_Controller {
             $alamat = $this->input->post('alamat');
            
             
-            $nipp = $this->user_model->getSiswaId($nip)->result();
+            $nipp = $this->User_Model->getSiswaId($nip)->result();
 
             if(empty($nipp[0]->nip)){
                 $data2 = array(
@@ -178,9 +187,9 @@ class user extends CI_Controller {
                     'jenis_kelamin' => $jk,
                     'alamat' => $alamat
                 );
-                $this->user_model->registerGuru($data2);
+                $this->User_Model->registerGuru($data2);
                 
-                $nipp = $this->user_model->getPengajarId($nip)->result();
+                $nipp = $this->User_Model->getPengajarId($nip)->result();
                 
                 $data1 = array(
                     'pengajar_id' => $nipp[0]->id,
@@ -188,17 +197,17 @@ class user extends CI_Controller {
                     'password' => $password,
                     'is_admin' => 0
                 );
-                $this->user_model->registerGuruaccount($data1);
+                $this->User_Model->registerGuruaccount($data1);
 
-                $this->session->set_flashdata('success', $this->user_model->get_alert('success', 'Akun berhasil di buat.'));
+                $this->session->set_flashdata('success', $this->User_Model->get_alert('success', 'Akun berhasil di buat.'));
                 redirect('user');
                 
             }else{
-                $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Maaf NIP sudah Terdaftar .'));
+                $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'Maaf NIP sudah Terdaftar .'));
                 redirect('user/registerGuru');
             }
         } else {
-            $this->session->set_flashdata('error', $this->user_model->get_alert('warning', 'Lengkapi form di bawah.'));
+            $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'Lengkapi form di bawah.'));
             redirect('user/registerGuru');
         }
     }
@@ -207,21 +216,54 @@ class user extends CI_Controller {
     {
         $this->form_validation->set_rules('email', 'email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('nama', 'nama', 'required');
+        $this->form_validation->set_rules('nip', 'nip', 'required');
+        $this->form_validation->set_rules('tempatlahir', 'tempatlahir', 'required');
+        $this->form_validation->set_rules('jk', 'jk', 'required');
+        $this->form_validation->set_rules('alamat', 'alamat', 'required');
+        
         
         if ($this->form_validation->run() == TRUE) {
             $email = $this->input->post('email');
             $password = md5($this->input->post('password'));
+            $nama = $this->input->post('nama');
+            $nip = $this->input->post('nip');
+            $tempatlahir = $this->input->post('tempatlahir');
+            $jk = $this->input->post('jk');
+            $alamat = $this->input->post('alamat');
+           
+            
+            $nipp = $this->User_Model->getSiswaId($nip)->result();
 
-            $data = array(
-                'username' => $email,
-                'password' => $password,
-                'pengajar_id' => 1,
-                'is_admin' => 1
-            );
-            $this->user_model->registerAdminaccount($data);
-            redirect('user');
+            if(empty($nipp[0]->nip)){
+                $data2 = array(
+                    'nama' => $nama,
+                    'nip' => $nip,
+                    'tempat_lahir' => $tempatlahir,
+                    'jenis_kelamin' => $jk,
+                    'alamat' => $alamat
+                );
+                $this->User_Model->registerGuru($data2);
+                
+                $nipp = $this->User_Model->getPengajarId($nip)->result();
+                
+                $data1 = array(
+                    'pengajar_id' => $nipp[0]->id,
+                    'username' => $email,
+                    'password' => $password,
+                    'is_admin' => 1
+                );
+                $this->User_Model->registerGuruaccount($data1);
+
+                $this->session->set_flashdata('success', $this->User_Model->get_alert('success', 'Akun berhasil di buat.'));
+                redirect('user');
+                
+            }else{
+                $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'Maaf NIP sudah Terdaftar .'));
+                redirect('user/registerGuru');
+            }
         } else {
-            $this->session->flashdata('error', $this->model_user->get_alert('warning', 'Lengkapi form di bawah.'));
+            $this->session->set_flashdata('error', $this->User_Model->get_alert('warning', 'Lengkapi form di bawah.'));
             redirect('user/registerGuru');
         }
     }

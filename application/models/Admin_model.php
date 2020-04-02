@@ -24,6 +24,86 @@
         {
             return  $this->db->query("SELECT el_login.id,username,password FROM el_siswa join el_login ON el_login.siswa_id=el_siswa.id WHERE el_siswa.id=".$siswa_id);
         }
+        
+        public function getPengumuman()
+        {
+            return $this->db->get('el_pengumuman');
+        }
+
+        public function getPengumumanSiswa()
+        {
+            $this->db->where('tampil_siswa', '1');
+            return $this->db->get('el_pengumuman');
+        }
+
+        public function getPengumumanGuru()
+        {
+            $this->db->where('tampil_pengajar', '1');
+            return $this->db->get('el_pengumuman');
+        }
+
+        public function getDetailPengumuman($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengumuman');        
+        }
+
+        public function TambahPengumuman($data)
+        {
+            $this->db->insert('el_pengumuman', $data);    
+        }
+
+        public function updatePengumuman($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengumuman', $data);
+        }
+
+        public function hapusPengumuman($id)
+        {
+            $this->db->where('id', $id);
+            $this->db->delete('el_pengumuman');
+        }
+
+        public function getPengajar($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengajar');
+        }
+
+        public function GetAllMapel()
+        {
+            return $this->db->get('el_mapel');
+            
+        }
+
+        public function addMataPelajaran($data)
+        {
+            $this->db->insert('el_mapel', $data);
+        }
+
+        public function getMapelById($where)
+        {
+            $this->db->where('id', $where);
+            return $this->db->get('el_mapel');
+        }
+
+        public function editMapel($data,$where)
+        {
+            $this->db->where('id', $where);
+            $this->db->update('el_mapel',$data);
+        }
+
+        public function deleteMapel($id)
+        {
+            $this->db->where('id', $id);
+            $this->db->delete('el_mapel');
+        }
+        public function getProfileAdmin($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengajar');
+        }
     }
     
 ?>

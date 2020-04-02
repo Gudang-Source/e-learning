@@ -10,9 +10,11 @@ class admin extends CI_Controller {
 
     public function index()
     {
+        $data['pengumumansiswa'] = $this->Admin_Model->getPengumumanSiswa()->result();
+        $data['pengumumanguru'] = $this->Admin_Model->getPengumumanGuru()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
-        $this->load->view('admin/dashboard');
+        $this->load->view('admin/dashboard',$data);
         $this->load->view('part/footer');
     }
     public function dataSiswa($status)
@@ -47,6 +49,192 @@ class admin extends CI_Controller {
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/tambahSiswa');
         $this->load->view('part/footer');
+    }
+
+    public function profile()
+    {
+        $data['profile'] = $this->Admin_Model->getProfileAdmin($this->session->userdata('id'))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/profile',$data);
+        $this->load->view('part/footer');
+    }
+    
+    public function Pengumuman()
+    {
+        $data['pengumuman'] = $this->Admin_Model->getPengumuman()->result();
+        $data['pengumuman'] = $this->Admin_Model->getPengumuman()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/pengumuman/index',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function TambahPengumuman()
+    {
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/pengumuman/TambahPengumuman');
+        $this->load->view('part/footer');
+    }
+    
+    public function prosesTambahPengumuman()
+    {
+        $this->form_validation->set_rules('judul', 'judul', 'required');
+        $this->form_validation->set_rules('isi', 'isi', 'required');
+        $this->form_validation->set_rules('pengajar', 'pengajar', 'required');
+        $this->form_validation->set_rules('siswa', 'siswa', 'required');
+        
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'judul' => $this->input->post('judul'),
+                'konten' => $this->input->post('isi'),
+                'tgl_tampil' => $this->input->post('tanggal'),
+                'tgl_tutup' => $this->input->post('tanggal'),
+                'tampil_siswa' => $this->input->post('siswa'),
+                'tampil_pengajar' => $this->input->post('pengajar'),
+                'pengajar_id' => $this->session->userdata('id')                
+            );
+            $this->Admin_Model->TambahPengumuman($data);
+            redirect('admin/Pengumuman');
+            
+        } else {
+            $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));
+            
+            redirect('admin/TambahPengumuman');
+        }
+        
+    }
+
+    public function EditPengumuman($id)
+    {
+        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
+        // print_r($data);
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/pengumuman/EditPengumuman', $data);
+        $this->load->view('part/footer');
+    }
+    
+    public function prosesEditPengumuman()
+    {
+        $this->form_validation->set_rules('judul', 'judul', 'required');
+        $this->form_validation->set_rules('isi', 'isi', 'required');
+        $this->form_validation->set_rules('pengajar', 'pengajar', 'required');
+        $this->form_validation->set_rules('siswa', 'siswa', 'required');
+        
+        if ($this->form_validation->run() == TRUE) {
+            $id = $this->input->post('id');
+            $data = array(
+                'judul' => $this->input->post('judul'),
+                'konten' => $this->input->post('isi'),
+                'tgl_tampil' => $this->input->post('tanggal'),
+                'tgl_tutup' => $this->input->post('tanggal'),
+                'tampil_siswa' => $this->input->post('siswa'),
+                'tampil_pengajar' => $this->input->post('pengajar'),
+                'pengajar_id' => $this->session->userdata('id')                
+            );
+            $this->Admin_Model->updatePengumuman($data,$id);
+            // print_r($data);
+            redirect('admin/Pengumuman');
+            
+        } else {
+            $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));
+            redirect('admin/EditPengumuman/'.$this->input->post('id'));
+        }
+        
+    }
+
+    public function TampilPengumuman($id)
+    {
+        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
+        $data['author'] = $this->Admin_Model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
+        // print_r($data);
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/pengumuman/DetailPengumuman',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function hapusPengumuman($id)
+    {
+        $this->Admin_Model->hapusPengumuman($id);
+        redirect('admin/pengumuman');
+    }
+
+    public function Mapel()
+    {
+        $data['mapel'] = $this->Admin_Model->GetAllMapel()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/MataPelajaran/index',$data);
+        $this->load->view('part/footer');
+    }
+    public function TambahMataPelajaran()
+    {
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/MataPelajaran/addMataPelajaran');
+        $this->load->view('part/footer');
+    }
+
+    public function prosesTambahMapel()
+    {
+        $this->form_validation->set_rules('mapel', 'mapel', 'required');
+        $this->form_validation->set_rules('deskripsi', 'deskripsi', 'required');
+        
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'nama' => $this->input->post('mapel'),
+                'info' => $this->input->post('deskripsi'),                
+                'aktif' => 1                
+            );
+            $this->Admin_Model->addMataPelajaran($data);
+            redirect('admin/Mapel');
+        } else {
+            $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));
+            redirect('admin/TambahMataPelajaran');
+        }
+    }
+
+    public function hapusMataPelajaran($id)
+    {
+        $this->Admin_Model->deleteMapel($id);
+        redirect('admin/Mapel');
+    }
+
+    public function EditMataPelajaran($id)
+    {
+        $data['mapel'] = $this->Admin_Model->getMapelById($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/MataPelajaran/EditMataPelajaran',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function prosesEditMapel()
+    {
+        $this->form_validation->set_rules('mapel', 'mapel', 'required');
+        
+        if ($this->form_validation->run() == TRUE) {
+            $id = $this->input->post('id');
+            $aktif = $this->input->post('aktif');
+            if ($aktif == 1) {
+                $aktif = 1;
+            }else{
+                $aktif = 0;
+            }
+            $data = array(
+                'nama' => $this->input->post('mapel'),
+                'info' => $this->input->post('deskripsi'),                
+                'aktif' => $aktif
+            );
+            $this->Admin_Model->editMapel($data,$id);
+            redirect('admin/Mapel');
+        } else {
+            $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));
+            redirect('admin/EditMataPelajaran');
+        }
     }
 }
 

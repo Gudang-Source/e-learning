@@ -60,5 +60,6 @@
         {
             return '<div class="alert alert-'.$notif.'"><button type="button" class="close" data-dismiss="alert">×</button> '.$msg.'</div>';
         }
+        
     }
 ?>

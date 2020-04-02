@@ -9,7 +9,22 @@
             $this->db->where('id', $id);
             return $this->db->get('el_siswa');
         }
-    
+
+        public function getPengumumanSiswa()
+        {
+            $this->db->where('tampil_siswa', '1');
+            return $this->db->get('el_pengumuman');
+        }
+        public function getDetailPengumuman($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengumuman');        
+        }
+        public function getProfileSiswa($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_siswa');
+        }
     }
     
 ?>

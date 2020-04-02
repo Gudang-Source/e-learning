@@ -111,23 +111,23 @@
                         <div class="account-wrap">
                             <div class="account-item clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $this->session->userdata('nama')?>" />
                                 </div>
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#"><?= $nama ?></a>
+                                    <a class="js-acc-btn" href="#"><?= $this->session->userdata('nama')?></a>
                                 </div>
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
                                         <div class="image">
                                             <a href="#">
-                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $this->session->userdata('nama')?>" />
                                             </a>
                                         </div>
                                         <div class="content">
                                             <h5 class="name">
-                                                <a href="#"><?= $nama ?></a>
+                                                <a href="#"><?= $this->session->userdata('nama')?></a>
                                             </h5>
-                                            <span class="email">johndoe@example.com</span>
+                                            <span class="email"><?= $this->session->userdata('email')?></span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">

@@ -22,10 +22,6 @@
                         <i class="fas fa-chart-bar"></i>Beranda</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('pengajar/Pesan')?>">
-                        <i class="fas fa-table"></i>Pesan</a>
-                </li>
-                <li>
                     <a href="<?= base_url('pengajar/jadwalMapel')?>">
                         <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                 </li>
@@ -45,6 +41,10 @@
                     <a href="<?= base_url('pengajar/filterpengajar')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter pengajar</a>
                 </li>                 
+                <li>
+                    <a href="<?= base_url('pengajar/Pesan')?>">
+                        <i class="fas fa-table"></i>Pesan</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -111,23 +111,31 @@
                         <div class="account-wrap">
                             <div class="account-item clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo 
+                                                $this->session->userdata('nama');
+                                                 ?>" />
                                 </div>
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#"><?= $nama ?></a>
+                                    <a class="js-acc-btn" href="#"><?php echo 
+                                                $this->session->userdata('nama');
+                                                 ?></a>
                                 </div>
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
                                         <div class="image">
                                             <a href="#">
-                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?= $nama ?>" />
+                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo 
+                                                $this->session->userdata('nama');
+                                                 ?>" />
                                             </a>
                                         </div>
                                         <div class="content">
                                             <h5 class="name">
-                                                <a href="#"><?= $nama ?></a>
+                                                <a href="#"><?php echo 
+                                                $this->session->userdata('nama');
+                                                 ?></a>
                                             </h5>
-                                            <span class="email">johndoe@example.com</span>
+                                            <span class="email"><?= $this->session->userdata('email')?></span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">
