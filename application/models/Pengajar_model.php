@@ -53,6 +53,16 @@ class pengajar_model extends CI_Model {
         {
             $this->db->insert($table,$data);
         }
+        public function updateProfile($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);
+        }
+        public function updateImage($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);
+        }
 
 }
 

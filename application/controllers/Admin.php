@@ -10,8 +10,8 @@ class admin extends CI_Controller {
 
     public function index()
     {
-        $data['pengumumansiswa'] = $this->Admin_Model->getPengumumanSiswa()->result();
-        $data['pengumumanguru'] = $this->Admin_Model->getPengumumanGuru()->result();
+        $data['pengumumansiswa'] = $this->Admin_model->getPengumumanSiswa()->result();
+        $data['pengumumanguru'] = $this->Admin_model->getPengumumanGuru()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/dashboard',$data);
@@ -53,17 +53,31 @@ class admin extends CI_Controller {
 
     public function profile()
     {
-        $data['profile'] = $this->Admin_Model->getProfileAdmin($this->session->userdata('id'))->result();
+        $data['profile'] = $this->Admin_model->getProfileAdmin($this->session->userdata('id'))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/profile',$data);
         $this->load->view('part/footer');
     }
+
+    public function updateprofile($id)
+    {
+        $data = array(
+            'nip' => $this->input->post('NIP'), 
+            'nama' => $this->input->post('Nama'), 
+            'jenis_kelamin' => $this->input->post('jk'), 
+            'tempat_lahir' => $this->input->post('tempatlahir'), 
+            'tgl_lahir' => $this->input->post('tgllahir'), 
+            'alamat' => $this->input->post('alamat')
+        );
+        $this->Admin_model->updateProfile($data,$id);
+        redirect('admin/profile');
+    }
     
     public function Pengumuman()
     {
-        $data['pengumuman'] = $this->Admin_Model->getPengumuman()->result();
-        $data['pengumuman'] = $this->Admin_Model->getPengumuman()->result();
+        $data['pengumuman'] = $this->Admin_model->getPengumuman()->result();
+        $data['pengumuman'] = $this->Admin_model->getPengumuman()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/pengumuman/index',$data);
@@ -95,7 +109,7 @@ class admin extends CI_Controller {
                 'tampil_pengajar' => $this->input->post('pengajar'),
                 'pengajar_id' => $this->session->userdata('id')                
             );
-            $this->Admin_Model->TambahPengumuman($data);
+            $this->Admin_model->TambahPengumuman($data);
             redirect('admin/Pengumuman');
             
         } else {
@@ -108,7 +122,7 @@ class admin extends CI_Controller {
 
     public function EditPengumuman($id)
     {
-        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
+        $data['pengumuman'] = $this->Admin_model->getDetailPengumuman($id)->result();
         // print_r($data);
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
@@ -134,7 +148,7 @@ class admin extends CI_Controller {
                 'tampil_pengajar' => $this->input->post('pengajar'),
                 'pengajar_id' => $this->session->userdata('id')                
             );
-            $this->Admin_Model->updatePengumuman($data,$id);
+            $this->Admin_model->updatePengumuman($data,$id);
             // print_r($data);
             redirect('admin/Pengumuman');
             
@@ -147,8 +161,8 @@ class admin extends CI_Controller {
 
     public function TampilPengumuman($id)
     {
-        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
-        $data['author'] = $this->Admin_Model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
+        $data['pengumuman'] = $this->Admin_model->getDetailPengumuman($id)->result();
+        $data['author'] = $this->Admin_model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
         // print_r($data);
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
@@ -158,13 +172,13 @@ class admin extends CI_Controller {
 
     public function hapusPengumuman($id)
     {
-        $this->Admin_Model->hapusPengumuman($id);
+        $this->Admin_model->hapusPengumuman($id);
         redirect('admin/pengumuman');
     }
 
     public function Mapel()
     {
-        $data['mapel'] = $this->Admin_Model->GetAllMapel()->result();
+        $data['mapel'] = $this->Admin_model->GetAllMapel()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/MataPelajaran/index',$data);
@@ -189,7 +203,7 @@ class admin extends CI_Controller {
                 'info' => $this->input->post('deskripsi'),                
                 'aktif' => 1                
             );
-            $this->Admin_Model->addMataPelajaran($data);
+            $this->Admin_model->addMataPelajaran($data);
             redirect('admin/Mapel');
         } else {
             $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));
@@ -199,13 +213,13 @@ class admin extends CI_Controller {
 
     public function hapusMataPelajaran($id)
     {
-        $this->Admin_Model->deleteMapel($id);
+        $this->Admin_model->deleteMapel($id);
         redirect('admin/Mapel');
     }
 
     public function EditMataPelajaran($id)
     {
-        $data['mapel'] = $this->Admin_Model->getMapelById($id)->result();
+        $data['mapel'] = $this->Admin_model->getMapelById($id)->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/MataPelajaran/EditMataPelajaran',$data);
@@ -229,7 +243,7 @@ class admin extends CI_Controller {
                 'info' => $this->input->post('deskripsi'),                
                 'aktif' => $aktif
             );
-            $this->Admin_Model->editMapel($data,$id);
+            $this->Admin_model->editMapel($data,$id);
             redirect('admin/Mapel');
         } else {
             $this->session->set_flashdata('alert', $this->User_Model->get_alert('warning', 'lengkapilah form di bawah.'));

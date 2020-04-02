@@ -9,7 +9,7 @@
                 </div>
                 
             <div class="filters">
-                <form action="<?= base_url('admin/updategambar')?>" method="post" enctype="multipart/form-data" class="row form-group">
+                <form action="<?= base_url('pengajar/updategambar')?>" enctype="multipart/form-data" method="post" class="row form-group">
                     <div class="col col-md-3">
                         <input type="file" id="file-input" name="file-input" class="form-control-file">
                     </div>
@@ -17,7 +17,7 @@
                         <button type="submit" class="btn btn-primary btn-sm">Update Gambar</button>
                     </div>
                 </form>
-                <form action="<?=base_url('admin/updateprofile')?>" method="post">
+                <form action="<?=base_url('pengajar/updateprofile/').$this->session->userdata('id');?>" method="post">
                     <div class="row form-group">
                         <div class="col col-md-3">
                             <label class=" form-control-label">Username</label>
@@ -33,7 +33,7 @@
                             <label for="text-input" class=" form-control-label">NIP</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" value="<?= $profile[0]->nip?>" name="NIP" placeholder="Nama" class="form-control">
+                            <input type="text" id="text-input" value="<?= $profile[0]->nip?>" name="NIP" placeholder="NIP" class="form-control">
                             
                         </div>
                     </div><div class="row form-group">
@@ -69,7 +69,7 @@
                             <label for="text-input" class=" form-control-label">Tempat Lahir</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="tgllahir" value="<?= $profile[0]->tempat_lahir?>" placeholder="Tempat Lahir" class="form-control">
+                            <input type="text" id="text-input" name="tempatlahir" value="<?= $profile[0]->tempat_lahir?>" placeholder="Tempat Lahir" class="form-control">
                             
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                             <label for="text-input" class=" form-control-label">Tgl Lahir</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" value="<?= $profile[0]->tgl_lahir?>" placeholder="Tgl Lahir" class="form-control">
+                            <input type="text" id="text-input" name="tgllahir" value="<?= $profile[0]->tgl_lahir?>" placeholder="Tgl Lahir" class="form-control">
                             
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             <label for="text-input" class=" form-control-label">alamat</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" value="<?= $profile[0]->alamat?>" placeholder="alamat" class="form-control">
+                            <input type="text" id="text-input" name="alamat" value="<?= $profile[0]->alamat?>" placeholder="alamat" class="form-control">
                         </div>
                     </div>
                     <div class="form-actions form-group">

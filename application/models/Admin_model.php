@@ -104,6 +104,17 @@
             $this->db->where('id', $id);
             return $this->db->get('el_pengajar');
         }
+        public function updateProfile($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);
+        }
+        public function updateImage($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);
+        }
+        
     }
     
 ?>

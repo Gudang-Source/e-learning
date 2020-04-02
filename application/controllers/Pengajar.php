@@ -33,6 +33,19 @@
             $this->load->view('admin/profile',$data);
             $this->load->view('part/footer');
         }
+        public function updateprofile($id)
+        {
+            $data = array(
+                'nip' => $this->input->post('NIP'), 
+                'nama' => $this->input->post('Nama'), 
+                'jenis_kelamin' => $this->input->post('jk'), 
+                'tempat_lahir' => $this->input->post('tempatlahir'), 
+                'tgl_lahir' => $this->input->post('tgllahir'), 
+                'alamat' => $this->input->post('alamat')
+            );
+            $this->Pengajar_model->updateProfile($data,$id);
+            redirect('pengajar/profile');
+        }
         public function Pesan()
         {
             $data['nama'] = $this->session->userdata('nama');

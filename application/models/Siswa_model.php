@@ -53,6 +53,16 @@
         {
             $this->db->insert($table,$data);
         }
+        public function updateProfile($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_siswa', $data);
+        }
+        public function updateImage($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);
+        }
     }
     
 ?>

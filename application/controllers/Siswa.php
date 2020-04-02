@@ -31,11 +31,27 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/profile',$data);
         $this->load->view('part/footer');
     }
+    public function updateprofile($id)
+    {
+        $data = array(
+            'nis' => $this->input->post('NIS'), 
+            'nama' => $this->input->post('Nama'), 
+            'jenis_kelamin' => $this->input->post('jk'), 
+            'tempat_lahir' => $this->input->post('tempatlahir'), 
+            'tgl_lahir' => $this->input->post('tgllahir'), 
+            'alamat' => $this->input->post('alamat'),
+            'agama' => $this->input->post('agama'),
+            'tahun_masuk' => $this->input->post('tahunmasuk')
+        );
+        $this->siswa_model->updateProfile($data,$id);
+        redirect('siswa/profile');
+        
+    }
 
     public function Pesan()
     {
         $data['nama'] = $this->session->userdata('nama');
-        $data['pesan']=$this->siswa_model->pesan($this->session->userdata('idLogin'))->result();
+        $data['pesan']= $this->siswa_model->pesan($this->session->userdata('idLogin'))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/pesan',$data);
