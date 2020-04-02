@@ -6,7 +6,7 @@ class siswa extends CI_Controller {
 
     public function index()
     {
-        $data['pengumumansiswa'] = $this->Siswa_Model->getPengumumanSiswa()->result();
+        $data['pengumumansiswa'] = $this->siswa_model->getPengumumanSiswa()->result();
         
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
@@ -25,7 +25,7 @@ class siswa extends CI_Controller {
     }
     public function profile()
     {
-        $data['profile'] = $this->Siswa_Model->getProfileSiswa($this->session->userdata('id'))->result();
+        $data['profile'] = $this->siswa_model->getProfileSiswa($this->session->userdata('id'))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa');
         $this->load->view('siswa/profile',$data);
@@ -35,9 +35,10 @@ class siswa extends CI_Controller {
     public function Pesan()
     {
         $data['nama'] = $this->session->userdata('nama');
+        $data['pesan']=$this->siswa_model->pesan($this->session->userdata('idLogin'))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('siswa/pesan',$data);
         $this->load->view('part/footer');
     }
 
@@ -85,7 +86,41 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/profile');
         $this->load->view('part/footer');
     }
-    
+    public function tambahPesan()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['tujuan']=$this->siswa_model->view_where('el_login',array('id !='=>$this->session->userdata('idLogin')))->result();
+        // print_r($data);
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/tambahPesan',$data);
+        $this->load->view('part/footer');
+    }
+    public function savePesan()
+    {
+        $values=array(
+            'type_id'=>1,
+            'content'=>$this->input->post('isiPesan'),
+            'owner_id'=>$this->session->userdata('idLogin'),
+            'sender_receiver_id'=>$this->input->post('tujuan'),
+            'date'=>date('Y-m-d H:i:s'),
+            'opened'=>0
+        );
+        $this->siswa_model->insert($values,'el_messages');
+        redirect(base_url().'siswa/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
+    }
+    public function detailPesan($send,$receive)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $penerima=$this->siswa_model->view_where('el_login',array('id'=>$receive))->result();
+        $data['receiver']=$penerima[0]->username;
+        $data['isi']=$this->siswa_model->isiPesan($send,$receive)->result();
+
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/detailPesan',$data);
+        $this->load->view('part/footer');
+    }
 
 }
 ?>
