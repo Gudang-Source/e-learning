@@ -27,7 +27,7 @@ class siswa extends CI_Controller {
     {
         $data['profile'] = $this->Siswa_Model->getProfileSiswa($this->session->userdata('id'))->result();
         $this->load->view('part/header');
-        $this->load->view('part/sidebaradmin');
+        $this->load->view('part/sidebarsiswa');
         $this->load->view('siswa/profile',$data);
         $this->load->view('part/footer');
     }

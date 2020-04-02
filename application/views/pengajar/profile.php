@@ -6,17 +6,18 @@
                 <h3 class="title-3 m-b-30">Profile</h3>
                 <div class="mx-auto d-block">
                     <img class="rounded-circle " src="<?=base_url('assets/images/icon/user.png') ?>" alt="Card image cap">
-                    <div class="row form-group">
-                        <div class="col col-md-2">
-                            <label for="file-input" class=" form-control-label">Upload Image</label>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <input type="file" id="file-input" name="file-input" class="form-control-file">
-                        </div>
-                    </div>
                 </div>
-                <div class="filters">
-                   
+                
+            <div class="filters">
+                <form action="<?= base_url('admin/updategambar')?>" method="post" enctype="multipart/form-data" class="row form-group">
+                    <div class="col col-md-3">
+                        <input type="file" id="file-input" name="file-input" class="form-control-file">
+                    </div>
+                    <div class="col-10 col-md-5">
+                        <button type="submit" class="btn btn-primary btn-sm">Update Gambar</button>
+                    </div>
+                </form>
+                <form action="<?=base_url('admin/updateprofile')?>" method="post">
                     <div class="row form-group">
                         <div class="col col-md-3">
                             <label class=" form-control-label">Username</label>
@@ -32,7 +33,7 @@
                             <label for="text-input" class=" form-control-label">NIP</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" value="<?= $profile[0]->nip?>" name="text-input" placeholder="Nama" class="form-control">
+                            <input type="text" id="text-input" value="<?= $profile[0]->nip?>" name="NIP" placeholder="Nama" class="form-control">
                             
                         </div>
                     </div><div class="row form-group">
@@ -40,7 +41,7 @@
                             <label for="text-input" class=" form-control-label">Nama</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" value="<?= $profile[0]->nama?>" name="text-input" placeholder="Nama" class="form-control">
+                            <input type="text" id="text-input" value="<?= $profile[0]->nama?>" name="Nama" placeholder="Nama" class="form-control">
                             
                         </div>
                     </div>
@@ -52,12 +53,12 @@
                             <div class="form-check">
                                 <div class="radio">
                                     <label for="radio1" class="form-check-label ">
-                                        <input type="radio" id="laki" <?php if ($profile[0]->jenis_kelamin == "Laki-laki") { echo "checked=''"; }?> name="gender" value="Laki-laki" class="form-check-input">Laki-Laki
+                                        <input type="radio" id="laki" <?php if ($profile[0]->jenis_kelamin == "Laki-laki") { echo "checked=''"; }?> name="jk" value="Laki-laki" class="form-check-input">Laki-Laki
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label for="radio2" class="form-check-label ">
-                                        <input type="radio" id="perempuan" <?php if ($profile[0]->jenis_kelamin == "Perempuan") { echo "checked=''"; }?> name="gender" value="Perempuan" class="form-check-input">Perempuan
+                                        <input type="radio" id="perempuan" <?php if ($profile[0]->jenis_kelamin == "Perempuan") { echo "checked=''"; }?> name="jk" value="Perempuan" class="form-check-input">Perempuan
                                     </label>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
                             <label for="text-input" class=" form-control-label">Tempat Lahir</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" value="<?= $profile[0]->tempat_lahir?>" placeholder="Tempat Lahir" class="form-control">
+                            <input type="text" id="text-input" name="tgllahir" value="<?= $profile[0]->tempat_lahir?>" placeholder="Tempat Lahir" class="form-control">
                             
                         </div>
                     </div>
@@ -92,7 +93,7 @@
                     <div class="form-actions form-group">
                         <button type="submit" class="btn btn-primary btn-sm">Update</button>
                     </div>
-                </div>
+                </form>
             </div>
             <!-- END MAP DATA-->
         </div>
