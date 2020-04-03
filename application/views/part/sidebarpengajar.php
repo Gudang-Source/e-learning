@@ -82,7 +82,7 @@
                         <i class="fas fa-map-marker-alt"></i>Materi</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('pengajar/filterPengajar')?>">
+                    <a href="<?= base_url('pengajar/dataPengajar')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter pengajar</a>
                 </li>   
                 <li>
@@ -135,7 +135,7 @@
                                                 $this->session->userdata('nama');
                                                  ?></a>
                                             </h5>
-                                            <span class="email"><?= $this->session->userdata('email')?></span>
+                                            <span class="email"><?= $this->session->userdata('username')?></span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">

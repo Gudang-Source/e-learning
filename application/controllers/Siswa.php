@@ -35,7 +35,7 @@ class siswa extends CI_Controller {
     {
         $data = array(
             'nis' => $this->input->post('NIS'), 
-            'nama' => $this->input->post('Nama'), 
+            'nama' => $this->input->post('nama'), 
             'jenis_kelamin' => $this->input->post('jk'), 
             'tempat_lahir' => $this->input->post('tempatlahir'), 
             'tgl_lahir' => $this->input->post('tgllahir'), 

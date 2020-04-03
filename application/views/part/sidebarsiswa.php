@@ -127,7 +127,7 @@
                                             <h5 class="name">
                                                 <a href="#"><?= $this->session->userdata('nama')?></a>
                                             </h5>
-                                            <span class="email"><?= $this->session->userdata('email')?></span>
+                                            <span class="email"><?= $this->session->userdata('username')?></span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">

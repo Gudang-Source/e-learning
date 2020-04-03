@@ -13,6 +13,14 @@
             $this->load->view('pengajar/dashboard',$data);
             $this->load->view('part/footer');
         }
+        public function dataPengajar()
+        {
+            $data['pengajar']=$this->pengajar_model->view('el_pengajar')->result();
+            $this->load->view('part/header');
+            $this->load->view('part/sidebaradmin');
+            $this->load->view('pengajar/dataPengajar',$data);
+            $this->load->view('part/footer');
+        }
         public function TampilPengumuman($id)
         {
             $data['pengumuman'] = $this->pengajar_model->getDetailPengumuman($id)->result();
