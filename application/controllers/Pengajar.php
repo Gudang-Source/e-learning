@@ -17,7 +17,7 @@
         {
             $data['pengajar']=$this->pengajar_model->view('el_pengajar')->result();
             $this->load->view('part/header');
-            $this->load->view('part/sidebaradmin');
+            $this->load->view('part/sidebarpengajar');
             $this->load->view('pengajar/dataPengajar',$data);
             $this->load->view('part/footer');
         }
