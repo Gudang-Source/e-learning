@@ -63,6 +63,48 @@
             $this->db->where('id', $id);
             $this->db->update('el_pengajar', $data);
         }
+        public function filterSiswa($like,$kelamin,$agama,$kelas)
+        {
+            $this->db->select('el_kelas_siswa.siswa_id, el_siswa.nis, el_siswa.nama as nama_siswa, el_siswa.jenis_kelamin, el_siswa.tempat_lahir, el_siswa.tgl_lahir, el_siswa.agama, el_siswa.tahun_masuk, el_siswa.alamat, el_siswa.status_id, el_kelas.nama as nama_kelas, el_kelas_siswa.kelas_id as id_kelas');
+            $this->db->from('el_siswa');
+            $this->db->join('el_kelas_siswa','el_kelas_siswa.siswa_id=el_siswa.id');
+            $this->db->join('el_kelas','el_kelas.id=el_kelas_siswa.kelas_id');
+            $this->db->where('el_kelas_siswa.aktif','1');
+            if (!empty($like)) {
+                $this->db->group_start();
+                if ($like['nis']!='')
+                $this->db->like('el_siswa.nis',$like['nis']);
+                if ($like['nama']!='')
+                $this->db->or_like('el_siswa.nama',$like['nama']);
+                if ($like['tahun_masuk']!='')
+                $this->db->or_like('el_siswa.tahun_masuk',$like['tahun_masuk']);
+                if ($like['tempat_lahir']!='')
+                $this->db->or_like('el_siswa.tempat_lahir',$like['tempat_lahir']);
+                if ($like['alamat']!='')
+                $this->db->or_like('el_siswa.alamat',$like['alamat']);
+                if ($like['tgl_lahir']!='')
+                $this->db->or_like('el_siswa.tgl_lahir',$like['tgl_lahir']);
+                if ($like['status_id']!='')
+                $this->db->or_like('el_siswa.status_id',$like['status_id']);
+                if (!empty($kelamin)) {
+                    for ($i=0; $i <count($kelamin) ; $i++) { 
+                        $this->db->or_like('el_siswa.jenis_kelamin',$kelamin[$i]);
+                    } 
+                }
+                if (!empty($agama)) {
+                    for ($i=0; $i <count($agama) ; $i++) { 
+                        $this->db->or_like('el_siswa.agama',$agama[$i]);
+                    } 
+                }
+                if (!empty($kelas)) {
+                    for ($i=0; $i <count($kelas) ; $i++) { 
+                        $this->db->or_like('el_kelas.nama',$kelas[$i]);
+                    } 
+                }
+                $this->db->group_end();
+            }
+            return $this->db->get();
+        }
     }
     
 ?>
