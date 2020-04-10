@@ -58,12 +58,12 @@ class siswa extends CI_Controller {
         $this->load->view('part/footer');
     }
 
-    public function jadwalMapel()
+    public function jadwalMapel($id)
     {
-        $data['nama'] = $this->session->userdata('nama');
+        $data['jadwal'] = $this->siswa_model->jadwalPelajaran($id)->result();
         $this->load->view('part/header');
-        $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/jadwalpelajaran',$data);
         $this->load->view('part/footer');
     }
 
