@@ -195,7 +195,7 @@
                             <tr>
                                 <td><?=$key->nis?></td>
                                 <td><b><?=$key->nama_siswa?></b><br><?=$key->nama_kelas?>, <?=$key->jenis_kelamin?>, <?=$key->agama?></td>
-                                <td><a href="" class="btn btn-primary">Detail</a></td>
+                                <td><a href="<?=base_url()?>Siswa/detailFilterSiswa/<?=$key->siswa_id?>" class="btn btn-primary">Detail</a></td>
                             </tr>
                             <?php } ?>
                             </tbody>

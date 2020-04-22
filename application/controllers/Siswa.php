@@ -171,6 +171,24 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/detailPesan',$data);
         $this->load->view('part/footer');
     }
+    public function detailFilterSiswa($id)
+    {
+        $dataFilter['data']=$this->siswa_model->detailFilterSiswa($id)->result();
+        $data['nama'] = $this->session->userdata('nama');
+        print_r($dataFilter);
+        // $this->load->view('part/header');
+        // $this->load->view('part/sidebarsiswa',$data);
+        // $this->load->view('siswa/profile');
+        // $this->load->view('part/footer');
+    }
+    public function detailFilterPengajar()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/profile');
+        $this->load->view('part/footer');
+    }
 
 }
 ?>

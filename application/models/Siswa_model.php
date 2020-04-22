@@ -105,6 +105,15 @@
             }
             return $this->db->get();
         }
+        public function detailFilterSiswa($where)
+        {
+            $this->db->select('el_kelas_siswa.siswa_id, el_siswa.nis, el_siswa.nama as nama_siswa, el_siswa.jenis_kelamin, el_siswa.tempat_lahir, el_siswa.tgl_lahir, el_siswa.agama, el_siswa.tahun_masuk, el_siswa.alamat, el_siswa.status_id, el_kelas.nama as nama_kelas, el_kelas_siswa.kelas_id as id_kelas');
+            $this->db->from('el_siswa');
+            $this->db->join('el_kelas_siswa','el_kelas_siswa.siswa_id=el_siswa.id');
+            $this->db->join('el_kelas','el_kelas.id=el_kelas_siswa.kelas_id');
+            $this->db->where('el_siswa.id',$where);
+            return $this->db->get();
+        }
     }
     
 ?>
