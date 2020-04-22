@@ -26,7 +26,7 @@
                         <i class="fas fa-table"></i>Pesan</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('siswa/jadwalMapel')?>">
+                    <a href="<?= base_url('siswa/jadwalMapel/1')?>">
                         <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                 </li>
                 <li>
@@ -70,7 +70,7 @@
                         <i class="fas fa-table"></i>Pesan</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('siswa/jadwalMapel')?>">
+                    <a href="<?= base_url('siswa/jadwalMapel/1')?>">
                         <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                 </li>
                 <li>

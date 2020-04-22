@@ -64,12 +64,13 @@
             $this->load->view('part/footer');
         }
 
-        public function jadwalMapel()
+        public function jadwalMengajar($id)
         {
-            $data['nama'] = $this->session->userdata('nama');
+            $data['jadwal'] = $this->pengajar_model->jadwalPelajaran($id,
+            $this->session->userdata('id'))->result();    
             $this->load->view('part/header');
-            $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('pengajar/profile');
+            $this->load->view('part/sidebarpengajar');
+            $this->load->view('pengajar/jadwalmengajar',$data);
             $this->load->view('part/footer');
         }
 

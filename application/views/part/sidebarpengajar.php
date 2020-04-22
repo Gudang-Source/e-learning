@@ -70,7 +70,7 @@
                         <i class="fas fa-table"></i>Pesan</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('pengajar/jadwalMapel')?>">
+                    <a href="<?= base_url('pengajar/jadwalMengajar/1')?>">
                         <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                 </li>
                 <li>
@@ -86,7 +86,7 @@
                         <i class="fas fa-map-marker-alt"></i>Filter pengajar</a>
                 </li>   
                 <li>
-                    <a href="<?= base_url('pengajar/filterpengajar')?>">
+                    <a href="<?= base_url('pengajar/filtersiswa')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter Siswa</a>
                 </li>                 
             </ul>

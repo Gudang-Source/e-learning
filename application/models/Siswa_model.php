@@ -114,6 +114,29 @@
             $this->db->where('el_siswa.id',$where);
             return $this->db->get();
         }
+        public function jadwalPelajaran($hari)
+        {
+            return $this->db->query('SELECT
+            el_mapel_ajar.hari_id,
+            el_mapel_ajar.jam_mulai,
+            el_mapel_ajar.jam_selesai,
+            el_mapel_ajar.pengajar_id,
+            el_mapel_ajar.mapel_kelas_id,
+            el_pengajar.nama,
+            el_mapel_ajar.aktif,
+            el_mapel.nama AS pelajaran,
+            el_mapel_kelas.kelas_id
+            FROM
+            el_mapel_ajar
+            JOIN el_pengajar ON el_mapel_ajar.pengajar_id = el_pengajar.id
+            JOIN el_mapel_kelas ON el_mapel_ajar.mapel_kelas_id = el_mapel_kelas.id
+            INNER JOIN el_mapel ON el_mapel_kelas.mapel_id = el_mapel.id
+            WHERE
+            el_mapel_ajar.hari_id = '.$hari.'
+            ORDER BY
+            el_mapel_ajar.jam_mulai ASC
+            '); 
+        }
     }
     
 ?>

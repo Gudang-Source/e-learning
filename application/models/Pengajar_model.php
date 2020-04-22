@@ -62,7 +62,30 @@ class pengajar_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->update('el_pengajar', $data);
     }
-
+    public function jadwalPelajaran($hari,$id)
+    {
+        return $this->db->query('SELECT
+        el_mapel_ajar.hari_id,
+        el_mapel_ajar.jam_mulai,
+        el_mapel_ajar.jam_selesai,
+        el_mapel_ajar.pengajar_id,
+        el_mapel_ajar.mapel_kelas_id,
+        el_pengajar.nama,
+        el_mapel_ajar.aktif,
+        el_mapel.nama AS pelajaran,
+        el_mapel_kelas.kelas_id
+        FROM
+        el_mapel_ajar
+        JOIN el_pengajar ON el_mapel_ajar.pengajar_id = el_pengajar.id
+        JOIN el_mapel_kelas ON el_mapel_ajar.mapel_kelas_id = el_mapel_kelas.id
+        INNER JOIN el_mapel ON el_mapel_kelas.mapel_id = el_mapel.id
+        WHERE
+        el_mapel_ajar.hari_id = '.$hari.' AND
+        el_mapel_ajar.pengajar_id = '.$id.'
+        ORDER BY
+        el_mapel_ajar.jam_mulai ASC
+        '); 
+    }
 }
 
 /* End of file Pengajar_Model.php */
