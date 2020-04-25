@@ -93,22 +93,91 @@
         }
 
         public function filterPengajar()
-        {
-            $data['nama'] = $this->session->userdata('nama');
-            $this->load->view('part/header');
-            $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('pengajar/profile');
-            $this->load->view('part/footer');
+    {
+        $daftarFilter=array();
+        $daftarKelamin=array();
+        if ($this->input->post()) {
+            $daftarKelamin=$this->input->post('jeniskelamin');
+            $daftarFilter=array(
+                'nip'=>$this->input->post('nip'),
+                'nama'=>$this->input->post('nama'),
+                'tempat_lahir'=>$this->input->post('tempatLahir'),
+                'tgl_lahir'=>$this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
+                'alamat'=>$this->input->post('alamat'),
+                'is_admin'=>$this->input->post('opsi')
+            );
         }
+        $data['nama'] = $this->session->userdata('nama');
+        $dataFilter['data']=$this->siswa_model->filterPengajar($daftarFilter,$daftarKelamin)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/filterPengajar',$dataFilter);
+        $this->load->view('part/footer');
+    }
 
-        public function filterSiswa()
-        {
-            $data['nama'] = $this->session->userdata('nama');
-            $this->load->view('part/header');
-            $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('pengajar/profile');
-            $this->load->view('part/footer');
+    public function filterSiswa()
+    {
+        $daftarFilter=array();
+        $daftarKelamin=array();
+        $daftarAgama=array();
+        $daftarKelas=array();
+        if ($this->input->post()) {
+            $daftarKelas=$this->input->post('kelas');
+            $daftarAgama=$this->input->post('agama');
+            $daftarKelamin=$this->input->post('jeniskelamin');
+            $daftarFilter=array(
+                'nis'=>$this->input->post('nis'),
+                'nama'=>$this->input->post('nama'),
+                'tahun_masuk'=>$this->input->post('tahunMasuk'),
+                'tempat_lahir'=>$this->input->post('tempatLahir'),
+                'tgl_lahir'=>$this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
+                'alamat'=>$this->input->post('alamat'),
+                'status_id'=>$this->input->post('statusSiswa')
+            );
         }
+        $data['nama'] = $this->session->userdata('nama');
+        // echo "<pre>";
+        // print_r($daftarFilter);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($daftarKelas);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($daftarAgama);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($daftarKelamin);
+        // echo "</pre>";
+        $dataFilter['data']=$this->siswa_model->filterSiswa($daftarFilter,$daftarKelamin,$daftarAgama,$daftarKelas)->result();
+        // echo "<pre>";
+        // print_r($dataFilter);
+        // echo "</pre>";
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/filterSiswa',$dataFilter);
+        $this->load->view('part/footer');
+    }
+    public function detailFilterSiswa($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['siswa']=$this->siswa_model->view_where('el_siswa',array('id'=>$id))->result();
+        $data['kelas']=$this->siswa_model->getKelasSiswa($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/detailFilterSiswa',$data);
+        $this->load->view('part/footer');
+    }
+    public function detailFilterPengajar($id)
+    {
+        // $this->load->model('siswa_model');
+        $data['nama'] = $this->session->userdata('nama');
+        $data['pengajar']=$this->siswa_model->view_where('el_pengajar',array('id'=>$id))->result();
+        $data['jadwal']=$this->siswa_model->jadwalPengajar($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/detailFilterPengajar',$data);
+        $this->load->view('part/footer');
+    }
         public function tambahPesan()
     {
         $data['nama'] = $this->session->userdata('nama');

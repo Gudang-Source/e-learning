@@ -10,7 +10,7 @@
                     </button>
                     <div class="collapse" id="collapseExample">
                       <div class="card card-body">
-                        <form action="<?=base_url()?>siswa/filterSiswa" enctype="multipart/form-data" method="post">
+                        <form action="<?=base_url()?>pengajar/filterSiswa" enctype="multipart/form-data" method="post">
                           <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">NIS</label>
                             <div class="col-sm-10">
@@ -195,7 +195,7 @@
                             <tr>
                                 <td><?=$key->nis?></td>
                                 <td><b><?=$key->nama_siswa?></b><br><?=$key->nama_kelas?>, <?=$key->jenis_kelamin?>, <?=$key->agama?></td>
-                                <td><a href="<?=base_url()?>siswa/detailFilterSiswa/<?=$key->siswa_id?>" class="btn btn-primary">Detail</a></td>
+                                <td><a href="<?=base_url()?>pengajar/detailFilterSiswa/<?=$key->siswa_id?>" class="btn btn-primary">Detail</a></td>
                             </tr>
                             <?php } ?>
                             </tbody>

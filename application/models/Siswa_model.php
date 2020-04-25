@@ -137,6 +137,61 @@
             el_mapel_ajar.jam_mulai ASC
             '); 
         }
+        public function getKelasSiswa($siswa_id)
+        {
+            return  $this->db->query("SELECT el_kelas_siswa.id,siswa_id,nama,kelas_id,el_kelas_siswa.aktif FROM el_kelas_siswa join el_kelas ON el_kelas.id=el_kelas_siswa.kelas_id WHERE el_kelas_siswa.siswa_id=".$siswa_id);
+        }
+        public function filterPengajar($like,$kelamin)
+        {
+            $this->db->select('el_pengajar.`id`, `nip`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `alamat`, `foto`, `status_id`,`is_admin`');
+            $this->db->from('el_pengajar');
+            $this->db->join('el_login','el_login.pengajar_id=el_pengajar.id');
+            $this->db->where('status_id','1');
+            if (!empty($like)) {
+                $this->db->group_start();
+                if ($like['nip']!='')
+                $this->db->like('nip',$like['nip']);
+                if ($like['nama']!='')
+                $this->db->or_like('nama',$like['nama']);
+                if ($like['tempat_lahir']!='')
+                $this->db->or_like('tempat_lahir',$like['tempat_lahir']);
+                if ($like['alamat']!='')
+                $this->db->or_like('alamat',$like['alamat']);
+                if ($like['tgl_lahir']!='')
+                $this->db->or_like('tgl_lahir',$like['tgl_lahir']);
+                if ($like['is_admin']!='')
+                $this->db->or_like('is_admin',$like['is_admin']);
+                if (!empty($kelamin)) {
+                    for ($i=0; $i <count($kelamin) ; $i++) { 
+                        $this->db->or_like('jenis_kelamin',$kelamin[$i]);
+                    } 
+                }
+                $this->db->group_end();
+            }
+            return $this->db->get();
+        }
+        public function jadwalPengajar($id)
+        {
+            return $this->db->query('SELECT
+            el_mapel_ajar.hari_id,
+            el_mapel_ajar.jam_mulai,
+            el_mapel_ajar.jam_selesai,
+            el_mapel_ajar.pengajar_id,
+            el_mapel_ajar.mapel_kelas_id,
+            el_pengajar.nama,
+            el_mapel_ajar.aktif,
+            el_mapel.nama AS pelajaran,
+            el_mapel_kelas.kelas_id
+            FROM
+            el_mapel_ajar
+            JOIN el_pengajar ON el_mapel_ajar.pengajar_id = el_pengajar.id
+            JOIN el_mapel_kelas ON el_mapel_ajar.mapel_kelas_id = el_mapel_kelas.id
+            INNER JOIN el_mapel ON el_mapel_kelas.mapel_id = el_mapel.id
+            WHERE el_mapel_ajar.pengajar_id = '.$id.'
+            ORDER BY
+            el_mapel_ajar.hari_id ASC
+            '); 
+        }
     }
     
 ?>

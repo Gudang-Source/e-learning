@@ -50,7 +50,7 @@
                                 <i class="fas fa-map-marker-alt"></i>Filter Pengajar</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('admin/filtera')?>">
+                            <a href="<?= base_url('admin/filterSiswa')?>">
                                 <i class="fas fa-map-marker-alt"></i>Filter Siswa</a>
                         </li> 
                     </ul>

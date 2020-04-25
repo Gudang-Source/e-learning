@@ -82,7 +82,7 @@
                         <i class="fas fa-map-marker-alt"></i>Materi</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('pengajar/dataPengajar')?>">
+                    <a href="<?= base_url('pengajar/filterPengajar')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter pengajar</a>
                 </li>   
                 <li>
