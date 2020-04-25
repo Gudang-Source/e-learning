@@ -87,10 +87,24 @@ class siswa extends CI_Controller {
     
     public function filterPengajar()
     {
+        $daftarFilter=array();
+        $daftarKelamin=array();
+        if ($this->input->post()) {
+            $daftarKelamin=$this->input->post('jeniskelamin');
+            $daftarFilter=array(
+                'nip'=>$this->input->post('nip'),
+                'nama'=>$this->input->post('nama'),
+                'tempat_lahir'=>$this->input->post('tempatLahir'),
+                'tgl_lahir'=>$this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
+                'alamat'=>$this->input->post('alamat'),
+                'is_admin'=>$this->input->post('opsi')
+            );
+        }
         $data['nama'] = $this->session->userdata('nama');
+        $dataFilter['data']=$this->siswa_model->filterPengajar($daftarFilter,$daftarKelamin)->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('siswa/filterPengajar',$dataFilter);
         $this->load->view('part/footer');
     }
 
@@ -136,6 +150,26 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/filterSiswa',$dataFilter);
         $this->load->view('part/footer');
     }
+    public function detailFilterSiswa($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['siswa']=$this->siswa_model->view_where('el_siswa',array('id'=>$id))->result();
+        $data['kelas']=$this->siswa_model->getKelasSiswa($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/detailFilterSiswa',$data);
+        $this->load->view('part/footer');
+    }
+    public function detailFilterPengajar($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['pengajar']=$this->siswa_model->view_where('el_pengajar',array('id'=>$id))->result();
+        $data['jadwal']=$this->siswa_model->jadwalPengajar($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/detailFilterPengajar',$data);
+        $this->load->view('part/footer');
+    }
     public function tambahPesan()
     {
         $data['nama'] = $this->session->userdata('nama');
@@ -169,24 +203,6 @@ class siswa extends CI_Controller {
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/detailPesan',$data);
-        $this->load->view('part/footer');
-    }
-    public function detailFilterSiswa($id)
-    {
-        $dataFilter['data']=$this->siswa_model->detailFilterSiswa($id)->result();
-        $data['nama'] = $this->session->userdata('nama');
-        print_r($dataFilter);
-        // $this->load->view('part/header');
-        // $this->load->view('part/sidebarsiswa',$data);
-        // $this->load->view('siswa/profile');
-        // $this->load->view('part/footer');
-    }
-    public function detailFilterPengajar()
-    {
-        $data['nama'] = $this->session->userdata('nama');
-        $this->load->view('part/header');
-        $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
         $this->load->view('part/footer');
     }
 
