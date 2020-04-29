@@ -17,7 +17,7 @@
                                 <i class="fas fa-chart-bar"></i>Siswa</a>
                         </li>
                         <li>
-                            <a href="<?=base_url()?>Admin/dataPengajar">
+                            <a href="<?=base_url()?>Admin/dataPengajar/1">
                                 <i class="fas fa-table"></i>Pengajar</a>
                         </li>
                         
@@ -34,8 +34,16 @@
                                 <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                         </li>
                         <li>
+                            <a href="<?= base_url('admin/mapelKelas')?>">
+                                <i class="far fa-check-square"></i>Mata Pelajaran Kelas</a>
+                        </li>
+                        <li>
                             <a href="<?= base_url('admin/Mapel')?>">
                                 <i class="far fa-check-square"></i>Manajemen Mapel</a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url('admin/Kelas')?>">
+                                <i class="far fa-check-square"></i>Manajemen Kelas</a>
                         </li>
                         <li>
                             <a href="<?= base_url('admin/tugas')?>">

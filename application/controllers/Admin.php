@@ -25,9 +25,9 @@ class admin extends CI_Controller {
         $this->load->view('admin/dataSiswa',$data);
         $this->load->view('part/footer');
     }
-    public function dataPengajar()
+    public function dataPengajar($id)
     {
-    	$data['pengajar']=$this->Admin_model->view('el_pengajar')->result();
+    	$data['pengajar']=$this->Admin_model->view_where('el_pengajar',array('status_id'=>$id))->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/dataPengajar',$data);
@@ -38,16 +38,36 @@ class admin extends CI_Controller {
     	$data['siswa']=$this->Admin_model->view_where('el_siswa',array('id'=>$id))->result();
     	$data['kelas']=$this->Admin_model->getKelasSiswa($id)->result();
     	$data['akun']=$this->Admin_model->getAkunSiswa($id)->result();
+        $data['daftarkelas']=$this->Admin_model->view_where('el_kelas',array('aktif'=>1))->result();
+
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/detailSiswa',$data);
         $this->load->view('part/footer');
     }
+    public function detailPengajar($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['pengajar']=$this->siswa_model->view_where('el_pengajar',array('id'=>$id))->result();
+        $data['jadwal']=$this->siswa_model->jadwalPengajar($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/detailPengajar',$data);
+        $this->load->view('part/footer');
+    }
     public function tambahSiswa()
     {
+        $data['kelas']=$this->Admin_model->view_where('el_kelas',array('aktif'=>1))->result();
     	$this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
-        $this->load->view('admin/tambahSiswa');
+        $this->load->view('admin/tambahSiswa',$data);
+        $this->load->view('part/footer');
+    }
+    public function tambahPengajar()
+    {
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin');
+        $this->load->view('admin/tambahPengajar');
         $this->load->view('part/footer');
     }
 
@@ -73,7 +93,16 @@ class admin extends CI_Controller {
         $this->Admin_model->updateProfile($data,$id);
         redirect('admin/profile');
     }
-    
+    public function updateStatusPengajar($id,$status)
+    {
+        $this->Admin_model->update(array('status_id'=>$status),array('id'=>$id),'el_pengajar');
+        redirect('Admin/dataPengajar/'.$status);
+    }
+    public function updateStatusSiswa($id,$status)
+    {
+        $this->Admin_model->update(array('status_id'=>$status),array('id'=>$id),'el_siswa');
+        redirect('Admin/dataSiswa/'.$status);
+    }
     public function Pengumuman()
     {
         $data['pengumuman'] = $this->Admin_model->getPengumuman()->result();
@@ -335,6 +364,240 @@ class admin extends CI_Controller {
         $this->load->view('part/sidebaradmin',$data);
         $this->load->view('admin/detailFilterPengajar',$data);
         $this->load->view('part/footer');
+    }
+    public function simpanSiswa()
+    {
+        $dataSiswa=array(
+                'nis'=>$this->input->post('nis'),
+                'nama'=>$this->input->post('nama'),
+                'tahun_masuk'=>$this->input->post('tahun_masuk'),
+                'tempat_lahir'=>$this->input->post('tempat_lahir'),
+                'tgl_lahir'=>$this->input->post('tgl_lahir'),
+                'alamat'=>$this->input->post('alamat'),
+                'status_id'=>$this->input->post('statusSiswa'),
+                'agama'=>$this->input->post('agama'),
+                'jenis_kelamin'=>$this->input->post('jenis_kelamin'),
+                'status_id'=>0,
+                // 'foto'=>
+        );
+        $return_id=$this->Admin_model->insert($dataSiswa,'el_siswa');
+        $dataKelas=array(
+            'siswa_id'=>$return_id,
+            'kelas_id'=>$this->input->post('kelas_id'),
+            'aktif'=>1
+        );
+        $this->Admin_model->insert($dataKelas,'el_kelas_siswa');
+        $dataLogin=array(
+            'username'=>$this->input->post('username'),
+            'password'=>md5($this->input->post('password')),
+            'siswa_id'=>$return_id,
+            'is_admin'=>0
+        );
+        $this->Admin_model->insert($dataLogin,'el_login');
+        redirect('Admin/dataSiswa/0');
+    }
+    public function updateKelasSiswa($idsiswa,$idkelassiswa)
+    {
+        // echo $idsiswa.','.$idkelassiswa;
+        $this->Admin_model->update(array('aktif'=>0),array('id'=>$idkelassiswa),'el_kelas_siswa');
+        $this->Admin_model->insert(array('siswa_id'=>$idsiswa,'kelas_id'=>$this->input->post('kelas_id'),'aktif'=>1),'el_kelas_siswa');
+        redirect('Admin/detailSiswa/'.$idsiswa);
+    }
+    public function updateAkunSiswa($akun_id,$idsiswa)
+    {
+        $dataAkun=array(
+            'username'=>$this->input->post('username'),
+            'password'=>md5($this->input->post('password'))
+        );
+        $this->Admin_model->update($dataAkun,array('id'=>$akun_id),'el_login'); 
+        redirect('Admin/detailSiswa/'.$idsiswa);
+    }
+    public function updateSiswa($idsiswa)
+    {
+        $dataSiswa=array(
+            'nis'=>$this->input->post('nis'),
+                'nama'=>$this->input->post('nama'),
+                'tahun_masuk'=>$this->input->post('tahun_masuk'),
+                'tempat_lahir'=>$this->input->post('tempat_lahir'),
+                'tgl_lahir'=>$this->input->post('tgl_lahir'),
+                'alamat'=>$this->input->post('alamat'),
+                'status_id'=>$this->input->post('statusSiswa'),
+                'agama'=>$this->input->post('agama'),
+                'jenis_kelamin'=>$this->input->post('jenis_kelamin'),
+                'status_id'=>1
+        );
+        $this->Admin_model->update($dataSiswa,array('id'=>$idsiswa),'el_siswa'); 
+        redirect('Admin/detailSiswa/'.$idsiswa);
+    }
+    public function updatePengajar($idpengajar)
+    {
+        $dataPengajar=array(
+                'nip'=>$this->input->post('nip'),
+                'nama'=>$this->input->post('nama'),
+                'tempat_lahir'=>$this->input->post('tempat_lahir'),
+                'jenis_kelamin'=>$this->input->post('jenis_kelamin'),
+                'tgl_lahir'=>$this->input->post('tgl_lahir'),
+                'alamat'=>$this->input->post('alamat')
+        );//print_r($dataPengajar);
+        $this->Admin_model->update($dataPengajar,array('id'=>$idpengajar),'el_pengajar'); 
+        redirect('Admin/detailPengajar/'.$idpengajar);
+    }
+    public function simpanPengajar()
+    {
+        $dataPengajar=array(
+                'nip'=>$this->input->post('nip'),
+                'nama'=>$this->input->post('nama'),
+                'jenis_kelamin'=>$this->input->post('jenis_kelamin'),
+                'tempat_lahir'=>$this->input->post('tempat_lahir'),
+                'tgl_lahir'=>$this->input->post('tgl_lahir'),
+                'alamat'=>$this->input->post('alamat')
+        );//print_r($dataPengajar);
+        $return_id=$this->Admin_model->insert($dataPengajar,'el_pengajar');
+        $dataLogin=array(
+            'username'=>$this->input->post('username'),
+            'password'=>md5($this->input->post('password')),
+            'pengajar_id'=>$return_id,
+            'is_admin'=>$this->input->post('opsi')
+        );
+        $this->Admin_model->insert($dataLogin,'el_login');
+        redirect('Admin/dataPengajar/0');
+    }
+    public function Pesan()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['pesan']= $this->siswa_model->pesan($this->session->userdata('idLogin'))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/pesan',$data);
+        $this->load->view('part/footer');
+    }
+    public function tambahPesan()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['tujuan']=$this->Admin_model->view_where('el_login',array('id !='=>$this->session->userdata('idLogin')))->result();
+        // print_r($data);
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/tambahPesan',$data);
+        $this->load->view('part/footer');
+    }
+    public function savePesan()
+    {
+        $values=array(
+            'type_id'=>1,
+            'content'=>$this->input->post('isiPesan'),
+            'owner_id'=>$this->session->userdata('idLogin'),
+            'sender_receiver_id'=>$this->input->post('tujuan'),
+            'date'=>date('Y-m-d H:i:s'),
+            'opened'=>0
+        );
+        // print_r($values);
+        // echo $this->input->post('tujuan');
+        $this->siswa_model->insert($values,'el_messages');
+        redirect(base_url().'admin/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
+    }
+    public function detailPesan($send,$receive)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $penerima=$this->Admin_model->view_where('el_login',array('id'=>$receive))->result();
+        $data['receiver']=$penerima[0]->id;
+        $data['receiver_username']=$penerima[0]->username;
+        $data['isi']=$this->siswa_model->isiPesan($send,$receive)->result();
+
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/detailPesan',$data);
+        $this->load->view('part/footer');
+    }
+    public function kelas()
+    {
+        $data['data']=$this->Admin_model->getKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/kelas',$data);
+        $this->load->view('part/footer');
+    }
+    public function editKelas($id)
+    {
+        $kelas=$this->Admin_model->view_where('el_kelas',array('id'=>$id))->result();
+        $data['namaKelas']=$kelas[0]->nama;
+        $data['status']=$kelas[0]->aktif;
+        $data['idkelas']=$kelas[0]->id;
+        $data['data']=$this->Admin_model->getKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/editKelas',$data);
+        $this->load->view('part/footer');
+    }
+    public function tambahKelas()
+    {
+        $urutan=$this->Admin_model->getLastUrutanKelas()->result();
+        // echo $urutan[0]->urutan+1;
+        $data=array(
+            'nama'=>$this->input->post('namaKelas'),
+            'urutan'=>$urutan[0]->urutan+1,
+            'aktif'=>'1'
+        );
+        $this->Admin_model->insert($data,'el_kelas');
+        redirect('Admin/kelas');
+    }
+    public function updateKelas($id)
+    {
+        $new_status='';
+        if ($this->input->post('status')=='') {
+            $new_status=0;
+        }else{
+            $new_status=1;
+        }
+        $data=array(
+            'nama'=>$this->input->post('namaKelas'),
+            'aktif'=>$new_status
+        );print_r($data);echo "$id";
+        $this->Admin_model->update($data,array('id'=>$id),'el_kelas');
+        redirect('Admin/kelas');
+    }
+    public function mapelKelas()
+    {
+        $data['data']=$this->Admin_model->getKelas()->result();
+        $data['mapel']=$this->Admin_model->getMapelKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/mapelKelas',$data);
+        $this->load->view('part/footer');
+    }
+    public function aturMapelKelas($id)
+    {
+        $data['idkelas']=$id;
+        $data['mapel']=$this->Admin_model->view_where('el_mapel',array('aktif'=>1))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/aturMapelKelas',$data);
+        $this->load->view('part/footer');
+    }
+    public function simpanAturMapel($id)
+    {
+        $daftarMapel=$this->input->post('mapel');
+        echo "<pre>";
+        print_r($daftarMapel);
+        echo "</pre>";
+        for ($i=0; $i <count($daftarMapel) ; $i++) { 
+            $data=array(
+                'kelas_id'=>$id,
+                'mapel_id'=>$daftarMapel[$i],
+                'aktif'=>1
+            );
+            // print_r($data);
+            $this->Admin_model->insert($data,'el_mapel_kelas');
+        }
+        redirect('Admin/mapelKelas');
+    }
+    public function hapusMapelKelas($id)
+    {
+        $data=array(
+            'aktif'=>0
+        );//echo $id;
+        $this->Admin_model->update($data,array('id'=>$id),'el_mapel_kelas');
+        redirect('Admin/mapelKelas');
     }
 }
 

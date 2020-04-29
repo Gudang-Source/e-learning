@@ -197,7 +197,8 @@ class siswa extends CI_Controller {
     {
         $data['nama'] = $this->session->userdata('nama');
         $penerima=$this->siswa_model->view_where('el_login',array('id'=>$receive))->result();
-        $data['receiver']=$penerima[0]->username;
+        $data['receiver']=$penerima[0]->id;
+        $data['receiver_username']=$penerima[0]->username;
         $data['isi']=$this->siswa_model->isiPesan($send,$receive)->result();
 
         $this->load->view('part/header');

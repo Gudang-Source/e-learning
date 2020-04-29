@@ -6,7 +6,7 @@
                 <h3 class="title-3 m-b-30">Pesan / Detail Pesan</h3>
                 <div class="filters">
                     <div class="row" style="margin-bottom: 10px">
-                        <a href="<?=base_url()?>pengajar/tambahPesan" class="btn btn-primary btn-sm">Tambah Pesan</a>
+                        <a href="<?=base_url()?>admin/tambahPesan" class="btn btn-primary btn-sm">Tambah Pesan</a>
                     </div>
                     <div class="row">
                         <table class="table">
@@ -26,11 +26,11 @@
                         </table>
                     </div>
                     <!--<div class="row">
-                        <form method="post" enctype="multipart/form-data" action="<?=base_url()?>pengajar/savePesan">
+                        <form method="post" enctype="multipart/form-data" action="<?=base_url()?>admin/savePesan">
                             <div class="form-group">
-                                <label for="ftujuan">Tujuan</label><br>
                                 <input type="text" readonly value="<?=$receiver_username?>" name="tujuann" class="form-control" id="ftujuan">
-                                <input type="hidden" value="<?=$receiver?>" name="tujuan">
+                                <input type="hidden" value="<?=$receiver?>" name="tujuan" class="form-control" id="ftujuan">
+                                <label for="ftujuan">Tujuan</label>
                             </div>
                             <div class="form-group">
                                 <label for="fisi">Pesan</label><br>

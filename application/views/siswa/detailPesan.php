@@ -25,10 +25,11 @@
                         <?php }?>
                         </table>
                     </div>
-                    <div class="row">
+                    <!--<div class="row">
                         <form method="post" enctype="multipart/form-data" action="<?=base_url()?>siswa/savePesan">
                             <div class="form-group">
-                                <input type="text" value="<?=$receiver?>" name="tujuan" class="form-control" id="ftujuan">
+                                <input type="text" readonly value="<?=$receiver_username?>" name="tujuann" class="form-control" id="ftujuan">
+                                <input type="hidden" value="<?=$receiver?>" name="tujuan" class="form-control" id="ftujuan">
                                 <label for="ftujuan">Tujuan</label>
                             </div>
                             <div class="form-group">
@@ -39,7 +40,7 @@
                                 <button type="submit" class="btn btn-primary btn-block">Kirim</button>
                             </div>
                         </form>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="map-wrap m-t-45 m-b-20">
                     <div id="vmap" style="height: 284px;"></div>

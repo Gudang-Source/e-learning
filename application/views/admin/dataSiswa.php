@@ -2,6 +2,7 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid"> 
+                        <div class="map-data m-b-40">
                         <div class="row">
                             <div class="col-lg">
                                 <h2 class="title-1 m-b-25">Data Siswa</h2>
@@ -17,23 +18,18 @@
                                     <table class="table table-borderless table-striped table-earning">
                                         <thead>
                                             <tr>
-                                                <th>NIS</th>
-                                                <th>Nama</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Agama</th>
-                                                <th>Kelas</th>
-                                                <th>Status Siswa</th>
+                                                <th>Info Siswa</th>
+                                                <th>Status</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php foreach ($siswa as $key) { ?>
                                             <tr>
-                                                <td><?=$key->nis?></td>
-                                                <td><?=$key->nama?></td>
-                                                <td><?=$key->jenis_kelamin?></td>
-                                                <td><?=$key->agama?></td>
-                                                <td><?=$key->kelas?></td>
+                                                <td>
+                                                    <b><?=$key->nama?></b> (<?=$key->nis?>)<br>
+                                                    <?=$key->kelas?>, <?=$key->agama?>, <?=$key->jenis_kelamin?>
+                                                </td>
                                                 <td>
                                                     <?php
                                                     if ($key->status_id==0) {
@@ -50,7 +46,15 @@
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="<?=base_url()?>Admin/detailSiswa/<?=$key->id;?>">Detail</a>
+                                                    <a type="button" class="btn btn-secondary btn-sm" href="<?=base_url()?>Admin/detailSiswa/<?=$key->id;?>">Detail</a>
+                                                    <?php if ($key->status_id==0) { ?>
+                                                    <a type="button" class="btn btn-success btn-sm" href="<?=base_url()?>Admin/updateStatusSiswa/<?=$key->id;?>/1">Aktif</a>
+                                                    <a type="button" class="btn btn-danger btn-sm" href="<?=base_url()?>Admin/updateStatusSiswa/<?=$key->id;?>/2">Blok</a>
+                                                <?php }?>
+                                                <?php if ($key->status_id==2) { ?>
+                                                    <a type="button" class="btn btn-success btn-sm" href="<?=base_url()?>Admin/updateStatusSiswa/<?=$key->id;?>/1">Aktif</a>
+                                                    <a type="button" class="btn btn-danger btn-sm" href="<?=base_url()?>Admin/updateStatusSiswa/<?=$key->id;?>/3">Alumni</a>
+                                                <?php }?>
                                                 </td>
                                             </tr>
                                         <?php }?>
@@ -59,6 +63,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">

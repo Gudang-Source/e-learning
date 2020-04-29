@@ -69,6 +69,7 @@ class user extends CI_Controller {
                     
                     $admin = array(
                         'admin' => "1",
+                        'idLogin'=> $auth[0]->id,
                         'id' => $auth[0]->pengajar_id,
                         'nama' => $dataguru[0]->nama,
                         'username' => $auth[0]->username

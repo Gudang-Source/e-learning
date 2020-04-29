@@ -206,7 +206,7 @@
         $data['nama'] = $this->session->userdata('nama');
         $data['isi']=$this->pengajar_model->isiPesan($send,$receive)->result();
         $penerima=$this->siswa_model->view_where('el_login',array('id'=>$receive))->result();
-        $data['receiver']=$penerima[0]->username;
+        $data['receiver']=$penerima[0]->id;
         $this->load->view('part/header');
         $this->load->view('part/sidebarpengajar',$data);
         $this->load->view('siswa/detailPesan',$data);

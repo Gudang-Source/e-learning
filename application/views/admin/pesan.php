@@ -6,14 +6,14 @@
                 <h3 class="title-3 m-b-30">Pesan</h3>
                 <div class="filters">
                     <div class="row" style="margin-bottom: 10px">
-                        <a href="<?=base_url()?>siswa/tambahPesan" class="btn btn-primary btn-sm">Tambah Pesan</a>
+                        <a href="<?=base_url()?>admin/tambahPesan" class="btn btn-primary btn-sm">Tambah Pesan</a>
                     </div>
                     <div class="row">
                         <table class="table">
                             <?php foreach ($pesan as $key) { ?>
                                 <tr>
                                     <td>
-                                        <a class="btn btn-default btn-block" style="text-align: left;" href="<?=base_url()?>siswa/detailPesan/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">
+                                        <a class="btn btn-default btn-block" style="text-align: left;" href="<?=base_url()?>admin/detailPesan/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">
                                         Dari :
                                             <span style="color: lightblue"> <?=$key->pengirim?></span>
                                         Untuk : 
