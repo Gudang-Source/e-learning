@@ -106,7 +106,6 @@ class admin extends CI_Controller {
     public function Pengumuman()
     {
         $data['pengumuman'] = $this->Admin_model->getPengumuman()->result();
-        $data['pengumuman'] = $this->Admin_model->getPengumuman()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebaradmin');
         $this->load->view('admin/pengumuman/index',$data);
