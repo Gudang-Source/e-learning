@@ -4,6 +4,7 @@
                     <div class="container-fluid"> 
                         <div class="row">
                             <div class="col-lg">
+                                <h3><?= $hari[$day-1]?></h3>
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-right">
                                         <a href= "<?= base_url('Pengajar/ambilMapel')?>"class="au-btn au-btn-icon au-btn--green au-btn--small">
@@ -26,15 +27,17 @@
                                                 <th>Pengajar</th>
                                                 <th>Jam Mulai</th>
                                                 <th>Jam_selesai</th>
+                                                <th>Kelas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php foreach ($jadwal as $key) { ?>
                                             <tr>
-                                                <td><?=$key->pelajaran?></td>
-                                                <td><?=$key->nama?></td>
+                                                <td><?=$key->mapel?></td>
+                                                <td><?=$key->pengajar?></td>
                                                 <td><?=$key->jam_mulai?></td>
                                                 <td><?=$key->jam_selesai?></td>
+                                                <td><?=$key->nama_kelas?></td>
                                             </tr>
                                         <?php }?>
                                         </tbody>

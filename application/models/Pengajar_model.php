@@ -65,25 +65,35 @@ class pengajar_model extends CI_Model {
     public function jadwalPelajaran($hari,$id)
     {
         return $this->db->query('SELECT
-        el_mapel_ajar.hari_id,
-        el_mapel_ajar.jam_mulai,
-        el_mapel_ajar.jam_selesai,
-        el_mapel_ajar.pengajar_id,
-        el_mapel_ajar.mapel_kelas_id,
-        el_pengajar.nama,
-        el_mapel_ajar.aktif,
-        el_mapel.nama AS pelajaran,
-        el_mapel_kelas.kelas_id
+        emk.id AS id,
+        emk.kelas_id,
+        em.nama AS mapel,
+        emk.mapel_id,
+        emk.aktif AS kelas_aktif,
+        ema.jam_mulai,
+        ema.id AS mapelajarid,
+        ema.jam_selesai,
+        ema.hari_id,
+        ema.pengajar_id,
+        ep.nama AS pengajar,
+        ek.nama AS nama_kelas,
+        eks.siswa_id,
+        eks.aktif
         FROM
-        el_mapel_ajar
-        JOIN el_pengajar ON el_mapel_ajar.pengajar_id = el_pengajar.id
-        JOIN el_mapel_kelas ON el_mapel_ajar.mapel_kelas_id = el_mapel_kelas.id
-        INNER JOIN el_mapel ON el_mapel_kelas.mapel_id = el_mapel.id
+        el_mapel_kelas AS emk
+        JOIN el_mapel AS em ON em.id = emk.mapel_id
+        INNER JOIN el_mapel_ajar AS ema ON ema.mapel_kelas_id = emk.id
+        INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
+        INNER JOIN el_kelas AS ek ON ek.id = emk.kelas_id
+        INNER JOIN el_kelas_siswa AS eks ON ek.id = eks.kelas_id
         WHERE
-        el_mapel_ajar.hari_id = '.$hari.' AND
-        el_mapel_ajar.pengajar_id = '.$id.'
+        emk.aktif = 1 AND
+        eks.aktif = 1 AND
+        ema.hari_id = '.$hari.' AND 
+        ema.pengajar_id = '.$id.' 
         ORDER BY
-        el_mapel_ajar.jam_mulai ASC
+        ema.jam_mulai ASC
+        
         '); 
     }
 

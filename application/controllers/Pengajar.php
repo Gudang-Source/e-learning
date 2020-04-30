@@ -66,6 +66,8 @@
 
         public function jadwalMengajar($id)
         {
+            $data['hari'] = array("Senin","Selasa","Rabu","Kamis","Jumat");
+            $data['day']=$id;
             $data['jadwal'] = $this->pengajar_model->jadwalPelajaran($id,
             $this->session->userdata('id'))->result();    
             $this->load->view('part/header');

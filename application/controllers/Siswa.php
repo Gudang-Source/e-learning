@@ -60,7 +60,10 @@ class siswa extends CI_Controller {
 
     public function jadwalMapel($id)
     {
-        $data['jadwal'] = $this->siswa_model->jadwalPelajaran($id)->result();
+        $data['hari'] = array("Senin","Selasa","Rabu","Kamis","Jumat");
+        $data['day']=$id;
+        $data['kelas'] = $this->siswa_model->getKelas($this->session->userdata('id'))->result();
+        $data['jadwal'] = $this->siswa_model->jadwalPelajaran($this->session->userdata('id'),$id)->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa');
         $this->load->view('siswa/jadwalpelajaran',$data);
