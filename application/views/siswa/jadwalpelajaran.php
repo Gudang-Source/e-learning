@@ -4,6 +4,8 @@
                     <div class="container-fluid"> 
                         <div class="row">
                             <div class="col-lg">
+                                <h3><?= $kelas[0]->nama?></h3>
+                                <h3><?= $hari[$day-1]?></h3>
                                 <div class="btn-group btn-group-sm pull-right" role="group" aria-label="Basic example" style="margin-bottom: 10px">
                                     <a href="<?=base_url()?>Siswa/jadwalMapel/1" class="btn btn-secondary">Senin</a>
                                     <a href="<?=base_url()?>Siswa/jadwalMapel/2" class="btn btn-secondary">Selasa</a>
@@ -24,8 +26,8 @@
                                         <tbody>
                                         <?php foreach ($jadwal as $key) { ?>
                                             <tr>
-                                                <td><?=$key->pelajaran?></td>
-                                                <td><?=$key->nama?></td>
+                                                <td><?=$key->mapel?></td>
+                                                <td><?=$key->pengajar?></td>
                                                 <td><?=$key->jam_mulai?></td>
                                                 <td><?=$key->jam_selesai?></td>
                                             </tr>

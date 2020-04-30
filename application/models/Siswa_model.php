@@ -114,28 +114,37 @@
             $this->db->where('el_siswa.id',$where);
             return $this->db->get();
         }
-        public function jadwalPelajaran($hari)
+        public function jadwalPelajaran($id,$hari)
         {
-            return $this->db->query('SELECT
-            el_mapel_ajar.hari_id,
-            el_mapel_ajar.jam_mulai,
-            el_mapel_ajar.jam_selesai,
-            el_mapel_ajar.pengajar_id,
-            el_mapel_ajar.mapel_kelas_id,
-            el_pengajar.nama,
-            el_mapel_ajar.aktif,
-            el_mapel.nama AS pelajaran,
-            el_mapel_kelas.kelas_id
+            return $this->db->query("SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama AS mapel,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif,
+            ema.jam_mulai,
+            ema.id AS mapelajarid,
+            ema.jam_selesai,
+            ema.hari_id,
+            ema.pengajar_id,
+            ep.nama AS pengajar,
+            ek.nama AS nama_kelas,
+            eks.siswa_id,
+            eks.aktif
             FROM
-            el_mapel_ajar
-            JOIN el_pengajar ON el_mapel_ajar.pengajar_id = el_pengajar.id
-            JOIN el_mapel_kelas ON el_mapel_ajar.mapel_kelas_id = el_mapel_kelas.id
-            INNER JOIN el_mapel ON el_mapel_kelas.mapel_id = el_mapel.id
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            INNER JOIN el_mapel_ajar AS ema ON ema.mapel_kelas_id = emk.id
+            INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
+            INNER JOIN el_kelas AS ek ON ek.id = emk.kelas_id
+            INNER JOIN el_kelas_siswa AS eks ON ek.id = eks.kelas_id
             WHERE
-            el_mapel_ajar.hari_id = '.$hari.'
-            ORDER BY
-            el_mapel_ajar.jam_mulai ASC
-            '); 
+            emk.aktif = 1 AND
+            eks.siswa_id = ".$id." AND
+            eks.aktif = 1 AND
+            ema.hari_id = ".$hari.
+            " ORDER BY ema.jam_mulai ASC
+            "); 
         }
         public function getKelasSiswa($siswa_id)
         {
@@ -205,6 +214,18 @@
         public function getSoalUjian($id)
         {
             return $this->db->query('SELECT * FROM el_ujian_soal JOIN el_soal USING(id_soal) WHERE el_ujian_soal.id_ujian='.$id);
+        }
+        public function getKelas($id)
+        {
+            return $this->db->query("SELECT
+            ek.nama
+            FROM
+            el_kelas_siswa AS eks
+            INNER JOIN el_kelas AS ek ON eks.kelas_id = ek.id
+            WHERE
+            eks.aktif = 1 AND
+            eks.siswa_id = 
+            ".$id);
         }
     }
     

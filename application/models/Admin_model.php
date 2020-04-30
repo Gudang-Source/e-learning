@@ -13,6 +13,13 @@
             $this->db->where($where);
             $this->db->update($table, $data);
         }
+        public function delete($id,$table)
+        {
+            $this->db->where($id);
+            $this->db->delete($table);
+            
+            
+        }
         public function getDataSiswa($status)
         {
             return  $this->db->query("SELECT el_siswa.id,el_siswa.nama,nis,agama, jenis_kelamin,el_kelas.nama as kelas, status_id FROM el_siswa join el_kelas_siswa on el_kelas_siswa.siswa_id=el_siswa.id join el_kelas ON el_kelas.id=el_kelas_siswa.kelas_id WHERE el_kelas_siswa.aktif=1 AND status_id=".$status);
@@ -83,7 +90,6 @@
         public function GetAllMapel()
         {
             return $this->db->get('el_mapel');
-            
         }
 
         public function addMataPelajaran($data)
@@ -131,9 +137,73 @@
         {
             return  $this->db->query("SELECT * FROM  el_kelas ORDER BY urutan DESC LIMIT 1");
         }
+        public function getKelasId($id)
+        {
+            return  $this->db->query("SELECT * FROM  el_kelas WHERE id = ".$id);
+        }
         public function getMapelKelas()
         {
-            return  $this->db->query("SELECT el_mapel_kelas.id as id,kelas_id,nama,mapel_id,el_mapel_kelas.aktif as kelas_aktif FROM `el_mapel_kelas` JOIN el_mapel ON el_mapel.id=el_mapel_kelas.mapel_id WHERE el_mapel_kelas.aktif=1");
+            return  $this->db->query("SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif
+            FROM
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            WHERE
+            emk.aktif = 1");
+        }
+
+        public function getJadwalKelas($hari,$id)
+        {
+            return $this->db->query("SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama AS mapel,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif,
+            ema.id AS mapel_kelas_id,
+            ema.jam_mulai,
+            ema.jam_selesai,
+            ema.hari_id,
+            ema.pengajar_id,
+            ep.nama AS pengajar
+            FROM
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            INNER JOIN el_mapel_ajar AS ema ON ema.mapel_kelas_id = emk.id
+            INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
+            WHERE
+            emk.aktif = 1 AND
+            emk.kelas_id = ".$id."  AND
+            ema.hari_id = ".$hari);
+        }
+
+        public function getJadwalKelasId($id)
+        {
+            return $this->db->query("SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama AS mapel,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif,
+            ema.id AS mapel_kelas_id,
+            ema.jam_mulai,
+            ema.jam_selesai,
+            ema.hari_id,
+            ema.pengajar_id,
+            ep.nama AS pengajar
+            FROM
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            INNER JOIN el_mapel_ajar AS ema ON ema.mapel_kelas_id = emk.id
+            INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
+            WHERE
+            emk.aktif = 1 AND
+            ema.id = ".$id);
+            
         }
         
     }

@@ -5,20 +5,14 @@
                     <div class="row">
                             <div class="col-md-8">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Mata Pelajaran</h3>
-                                <div class="table-data__tool">
-                                    <div class="table-data__tool-right">
-                                        <a href= "<?= base_url('admin/TambahMataPelajaran')?>"class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i>add Mata Pelajaran</a>
-                                    </div>
-                                </div>
+                                <h3 class="title-5 m-b-35">Pilih Mata Pelajaran</h3>
                                 <div class="table-responsive table-responsive-data2">
                                     <table class="table table-data2">
                                         <thead>
                                             <tr>
                                                 <th>id</th>
                                                 <th>Judul</th>
-                                                <th>Aktif</th>
+                                                <th>Terambil</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -30,7 +24,7 @@
                                                         <?= $i->nama ?>
                                                     </td>
                                                     <td class="desc"><?php
-                                                        if($i->aktif == 1){?>
+                                                        if($i->id == $pengajar[0]->id_mapel){?>
                                                             <i class="fa fa-check"></i>
                                                         <?php }else{ ?>
                                                             <i class="fa fa-minus"></i>
@@ -40,11 +34,8 @@
                                                     
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <a href="<?= base_url('Admin/EditMataPelajaran/').$i->id?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="zmdi zmdi-edit"></i>
-                                                            </a>
-                                                            <a href="<?= base_url('Admin/hapusMataPelajaran/').$i->id?>" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="zmdi zmdi-delete"></i>
+                                                            <a href="<?= base_url('Pengajar/pickMapel/').$i->id?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="zmdi zmdi-arrow-left"></i>
                                                             </a>
                                                         </div>
                                                     </td>
