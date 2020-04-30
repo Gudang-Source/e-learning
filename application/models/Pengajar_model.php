@@ -86,6 +86,17 @@ class pengajar_model extends CI_Model {
         el_mapel_ajar.jam_mulai ASC
         '); 
     }
+
+    public function GetAllMapel()
+    {
+        return $this->db->get('el_mapel');
+    }
+
+    public function updateMapelPengajar($data,$id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('el_pengajar', $data);    
+    }
 }
 
 /* End of file Pengajar_Model.php */

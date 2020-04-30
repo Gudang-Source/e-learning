@@ -598,6 +598,108 @@ class admin extends CI_Controller {
         $this->Admin_model->update($data,array('id'=>$id),'el_mapel_kelas');
         redirect('Admin/mapelKelas');
     }
+
+    public function jadwalMapel()
+    {
+        $data['data']=$this->Admin_model->getKelas()->result();
+        $data['mapel']=$this->Admin_model->getMapelKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/jadwalMapel/jadwal',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function LihatJadwalMapel($hari,$id)
+    {   
+        $data['hari'] = array("Senin","Selasa","Rabu","Kamis","Jumat");
+        $data['idkelas']=$id;
+        $data['day']=$hari;
+        $data['jadwal']=$this->Admin_model->getJadwalKelas($hari,$id)->result();
+        $data['kelas']=$this->Admin_model->getKelasId($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/jadwalMapel/jadwalmengajar',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function tambahJamMengajar($mapelkelas,$idkelas,$mapel)
+    {
+        $data['idkelas']=$idkelas;
+        $data['idmapelkelas']=$mapelkelas;
+        $data['kelas']=$this->Admin_model->getKelasId($idkelas)->result();
+        $mapelid =$this->Admin_model->view_where('el_mapel_kelas',array('id'=>$mapelkelas))->result();
+        $data['pengajar']=$this->Admin_model->view_where('el_pengajar',array('id_mapel'=>$mapelid[0]->mapel_id))->result();
+        $data['mapel']=$this->Admin_model->view_where('el_mapel',array('id'=>$mapel))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/jadwalMapel/tambahJadwalKelas',$data);
+        $this->load->view('part/footer');
+    }
+    public function editJamMengajar($id,$idmapelkelas,$mapelkelas)
+    {
+        $data['idkelas']=$id;
+        $data['idmapelkelas']=$idmapelkelas;
+        $data['mapel']=$this->Admin_model->getJadwalKelasId($idmapelkelas)->result();
+        $mapelid =$this->Admin_model->view_where('el_mapel_kelas',array('id'=>$mapelkelas))->result();
+        $data['kelas']=$this->Admin_model->getKelasId($id)->result();$this->load->view('part/header');
+        $data['pengajar']=$this->Admin_model->view_where('el_pengajar',array('id_mapel'=>$mapelid[0]->mapel_id))->result();
+
+        $this->load->view('part/sidebaradmin',$data);
+        $this->load->view('admin/jadwalMapel/editJadwalkelas',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function prosesTambahJadwalMapel()
+    {
+
+        $hari = $this->input->post('hari');
+        $start = $this->input->post('jammulai');
+        $finish = $this->input->post('jamselesai');
+        $pengajar = $this->input->post('pengajar');
+        $mapelkelas = $this->input->post('idmapelkelas');
+        $idkelas = $this->input->post('idkelas');
+        
+        $jadwal = array(
+            'hari_id' => $hari, 
+            'jam_mulai' => $start, 
+            'jam_selesai' => $finish, 
+            'pengajar_id' => $pengajar, 
+            'mapel_kelas_id' => $mapelkelas, 
+            'aktif' => 1, 
+        );
+
+        $this->Admin_model->insert($jadwal,'el_mapel_ajar');
+        redirect('admin/LihatJadwalMapel/'.$hari.'/'.$idkelas);
+    }
+    public function prosesEditJadwalMapel()
+    {
+
+        $id = $this->input->post('idmapelajar');
+        $start = $this->input->post('jammulai');
+        $finish = $this->input->post('jamselesai');
+        $pengajar = $this->input->post('pengajar');
+        $mapelkelas = $this->input->post('idmapelkelas');
+        $idkelas = $this->input->post('idkelas');
+        
+        $jadwal = array( 
+            'jam_mulai' => $start, 
+            'jam_selesai' => $finish, 
+            'pengajar_id' => $pengajar, 
+            'mapel_kelas_id' => $mapelkelas, 
+            'aktif' => 1, 
+        );
+
+        $this->Admin_model->update($jadwal,array('id'=> $id),'el_mapel_ajar');
+        redirect('admin/LihatJadwalMapel/1/'.$idkelas);
+    }
+
+    public function hapusJadwalMapel($id,$idkelas)
+    {
+        $this->Admin_model->delete(array('id'=>$id),'el_mapel_ajar');
+        redirect('admin/LihatJadwalMapel/1/'.$idkelas);
+
+    }
+
 }
 
 ?>
