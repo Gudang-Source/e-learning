@@ -21,26 +21,14 @@
                                     <td>
                                         <p class="small"><?=$key->date?></p>
                                     </td>
+                                    <td>
+                                        <a class="btn btn-danger btn-sm" href="<?=base_url()?>siswa/hapusPesan/<?=$key->idpesan?>/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">Hapus</a>
+                                    </td>
                                 </tr>
                         <?php }?>
                         </table>
                     </div>
-                    <!--<div class="row">
-                        <form method="post" enctype="multipart/form-data" action="<?=base_url()?>siswa/savePesan">
-                            <div class="form-group">
-                                <input type="text" readonly value="<?=$receiver_username?>" name="tujuann" class="form-control" id="ftujuan">
-                                <input type="hidden" value="<?=$receiver?>" name="tujuan" class="form-control" id="ftujuan">
-                                <label for="ftujuan">Tujuan</label>
-                            </div>
-                            <div class="form-group">
-                                <label for="fisi">Pesan</label><br>
-                                <textarea name="isiPesan" id="fisi" style="border: 1px solid gray;border-radius: 5px" rows="5"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block">Kirim</button>
-                            </div>
-                        </form>
-                    </div>-->
+                    
                 </div>
                 <div class="map-wrap m-t-45 m-b-20">
                     <div id="vmap" style="height: 284px;"></div>

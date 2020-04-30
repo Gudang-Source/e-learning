@@ -598,6 +598,11 @@ class admin extends CI_Controller {
         $this->Admin_model->update($data,array('id'=>$id),'el_mapel_kelas');
         redirect('Admin/mapelKelas');
     }
+    public function hapusPesan($id,$sender,$receiver)
+    {
+        $this->pengajar_model->delete(array('id'=>$id),'el_messages');
+        redirect('admin/detailPesan/'.$sender.'/'.$receiver);
+    }
 }
 
 ?>

@@ -12,15 +12,14 @@
                         <table class="table">
                             <?php foreach ($pesan as $key) { ?>
                                 <tr>
-                                    <td>Dari :
-                                        <a href="<?=base_url()?>pengajar/detailPesan/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">
+                                    <td>
+                                        <a class="btn btn-default btn-block" style="text-align: left;" href="<?=base_url()?>admin/detailPesan/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">
+                                        Dari :
                                             <span style="color: lightblue"> <?=$key->pengirim?></span>
-                                        </a>
                                         Untuk : 
-                                        <a href="<?=base_url()?>pengajar/detailPesan/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>">
                                             <span style="color: lightblue"><?=$key->penerima?></span>
+                                        <p class="small"><?=$key->content?></p>
                                         </a>
-                                    <p class="small"><?=$key->content?></p></td>
                                 </tr>
                         <?php }?>
                         </table>

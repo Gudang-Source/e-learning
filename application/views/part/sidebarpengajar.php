@@ -45,6 +45,14 @@
                     <a href="<?= base_url('pengajar/Pesan')?>">
                         <i class="fas fa-table"></i>Pesan</a>
                 </li>
+                <li>
+                    <a href="<?= base_url('pengajar/ujian')?>">
+                        <i class="fas fa-table"></i>Ujian</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('pengajar/soal')?>">
+                        <i class="fas fa-table"></i>Soal Ujian</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -88,6 +96,14 @@
                 <li>
                     <a href="<?= base_url('pengajar/filtersiswa')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter Siswa</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('pengajar/ujian')?>">
+                        <i class="fas fa-table"></i>Ujian Online</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('pengajar/soal')?>">
+                        <i class="fas fa-table"></i>Soal Ujian</a>
                 </li>                 
             </ul>
         </nav>

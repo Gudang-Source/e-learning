@@ -88,6 +88,10 @@
                 <li>
                     <a href="<?= base_url('siswa/filterSiswa')?>">
                         <i class="fas fa-map-marker-alt"></i>Filter Siswa</a>
+                </li> 
+                <li>
+                    <a href="<?= base_url('siswa/ujian')?>">
+                        <i class="fas fa-map-marker-alt"></i>Ujian Online</a>
                 </li>                 
             </ul>
         </nav>

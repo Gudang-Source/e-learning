@@ -21,6 +21,9 @@
                                     <td>
                                         <p class="small"><?=$key->date?></p>
                                     </td>
+                                    <td>
+                                        <a class="btn btn-danger btn-sm" href="<?=base_url()?>admin/hapusPesan/<?=$key->idpesan?>/<?=$key->owner_id?>/<?=$key->sender_receiver_id?>/">Hapus</a>
+                                    </td>
                                 </tr>
                         <?php }?>
                         </table>

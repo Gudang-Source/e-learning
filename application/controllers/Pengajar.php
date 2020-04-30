@@ -199,7 +199,7 @@
             'opened'=>0
         );
         $this->pengajar_model->insert($values,'el_messages');
-        redirect(base_url().'siswa/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
+        redirect(base_url().'pengajar/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
     }
     public function detailPesan($send,$receive)
     {
@@ -209,8 +209,144 @@
         $data['receiver']=$penerima[0]->id;
         $this->load->view('part/header');
         $this->load->view('part/sidebarpengajar',$data);
-        $this->load->view('siswa/detailPesan',$data);
+        $this->load->view('pengajar/detailPesan',$data);
         $this->load->view('part/footer');
     }
+    public function ujian()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['ujian']= $this->pengajar_model->getUjian($this->session->userdata('id'))->result();
+        $data['mapel'] = $this->pengajar_model->getKelasPengajar($this->session->userdata('id'))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/ujian',$data);
+        $this->load->view('part/footer');
     }
+    public function buatUjian()
+    {
+       $values=array(
+            'judul'=>$this->input->post('nama'),
+            'tgl_dibuat'=>date('Y-m-d H:i'),
+            'tgl_expired'=>$this->input->post('tgl').' '.$this->input->post('jam'),
+            'waktu'=>$this->input->post('waktu'),
+            'mapel_kelas_id'=>$this->input->post('mapelKelas'),
+            'pengajar_id'=>$this->session->userdata('id')
+        );
+        $this->pengajar_model->insert($values,'el_ujian');
+        redirect('pengajar/ujian');
+    }
+    public function detailUjian($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['ujian']= $this->pengajar_model->getUjianDetail($id)->result();
+        $data['mapel'] = $this->pengajar_model->getKelasPengajar($this->session->userdata('id'))->result();
+        $data['soal']= $this->pengajar_model->view_where('el_soal',array('pengajar_id'=>$this->session->userdata('id')))->result();
+        $data['soal_ujian']= $this->pengajar_model->getSoalUjian($id)->result();
+        $data['id_soalnya']=$id;
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/detailUjian',$data);
+        $this->load->view('part/footer');
+    }
+    public function hasilUjian($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['ujian']= $this->pengajar_model->view('el_ujian')->result();
+        $data['siswa']= $this->pengajar_model->view('el_siswa')->result();
+        $data['jawaban']= $this->pengajar_model->view_where('el_jawaban',array('id_ujian'=>$id))->result();
+        $data['id_ujian']=$id;
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/hasilUjian',$data);
+        $this->load->view('part/footer');
+    }
+    public function updateUjian($id)
+    {
+        $values=array(
+            'judul'=>$this->input->post('nama'),
+            'tgl_dibuat'=>date('Y-m-d H:i'),
+            'tgl_expired'=>$this->input->post('tgl').' '.$this->input->post('jam'),
+            'waktu'=>$this->input->post('waktu'),
+            'mapel_kelas_id'=>$this->input->post('mapelKelas'),
+            'pengajar_id'=>$this->session->userdata('id')
+        );
+        $this->pengajar_model->update($values,array('id'=>$id),'el_ujian');
+        redirect('pengajar/ujian');
+    }
+    public function soal()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['soal']= $this->pengajar_model->view_where('el_soal',array('pengajar_id'=>$this->session->userdata('id')))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/soal',$data);
+        $this->load->view('part/footer');
+    }
+    public function simpanSoal($id)
+    {
+        if ($id==1) {
+            $values=array(
+                'pertanyaan'=>$this->input->post('pertanyaan'),
+                'pg_a'=>'A.'.$this->input->post('pg_a'),
+                'pg_b'=>'B.'.$this->input->post('pg_b'),
+                'pg_c'=>'C.'.$this->input->post('pg_c'),
+                'jawaban_pg'=>$this->input->post('jawaban_pg'),
+                'tipe'=>$id,
+                'pengajar_id'=>$this->session->userdata('id')
+            );
+        $this->pengajar_model->insert($values,'el_soal');
+        }elseif ($id==2) {
+            $values=array(
+                'pertanyaan'=>$this->input->post('pertanyaan'),
+                'tipe'=>$id,
+                'pengajar_id'=>$this->session->userdata('id')
+            );
+        $this->pengajar_model->insert($values,'el_soal');
+        }
+        redirect('pengajar/soal');
+    }
+    public function tambahSoalUjian($id)
+    {
+        $daftarSoal=$this->input->post('pertanyaan');
+        for ($i=0; $i <count($daftarSoal) ; $i++) { 
+            $data=array(
+                'id_ujian'=>$id,
+                'id_soal'=>$daftarSoal[$i],
+                'aktif'=>1
+            );
+            $this->pengajar_model->insert($data,'el_ujian_soal');
+        }
+        redirect('pengajar/detailUjian/'.$id);
+    }
+    public function nilaiEssay($id,$id_ujian)
+    {
+        $nilaiEssay=$this->input->post('nilai_essay');
+        $nilaiPG= $this->input->post('nilai_pg');
+        $jumlahSoal= $this->input->post('jumlah_soal');
+        $nilai_total=((($nilaiEssay/3)+$nilaiPG)/$jumlahSoal)*100;
+        $values=array(
+            'nilai_essay'=>$this->input->post('nilai_essay'),
+            'nilai_total'=>$nilai_total
+        );
+        // echo $nilai_total;
+        // print_r($values);
+        $this->pengajar_model->update($values,array('id_jawaban'=>$id),'el_jawaban');
+        redirect('pengajar/hasilUjian/'.$id_ujian);
+    }
+    public function hapusSoal($id)
+    {
+        $this->pengajar_model->delete(array('id_soal'=>$id),'el_soal');
+        redirect('pengajar/soal/');
+    }
+    public function hapusSoalUjian($id,$id_ujian)
+    {
+        $this->pengajar_model->update(array('aktif'=>0),array('id_ujian_soal'=>$id),'el_ujian_soal');
+        redirect('pengajar/detailUjian/'.$id_ujian);
+    }
+    public function hapusPesan($id,$sender,$receiver)
+    {
+        $this->pengajar_model->delete(array('id'=>$id),'el_messages');
+        redirect('pengajar/detailPesan/'.$sender.'/'.$receiver);
+    }
+}
 ?>

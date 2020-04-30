@@ -46,7 +46,7 @@
         }
         public function isiPesan($send,$receive)
         {
-            $query="SELECT e1.username as pengirim,m.owner_id,m.content,m.sender_receiver_id,e2.username as penerima,m.date FROM el_login e1 JOIN el_messages m ON m.owner_id=e1.id JOIN el_login e2 ON e2.id=m.sender_receiver_id WHERE (m.owner_id=$send AND m.sender_receiver_id=$receive) OR (m.owner_id=$receive AND m.sender_receiver_id=$send) group by m.date order by m.date ASC";
+            $query="SELECT m.id as idpesan,e1.username as pengirim,m.owner_id,m.content,m.sender_receiver_id,e2.username as penerima,m.date FROM el_login e1 JOIN el_messages m ON m.owner_id=e1.id JOIN el_login e2 ON e2.id=m.sender_receiver_id WHERE (m.owner_id=$send AND m.sender_receiver_id=$receive) OR (m.owner_id=$receive AND m.sender_receiver_id=$send) group by m.date order by m.date ASC";
             return $this->db->query($query);
         }
         public function insert($data,$table)
@@ -191,6 +191,20 @@
             ORDER BY
             el_mapel_ajar.hari_id ASC
             '); 
+        }
+        public function getUjianSiswa($id)
+        {
+            return $this->db->query('SELECT DISTINCT el_ujian.id,judul,tgl_dibuat,tgl_expired,waktu,el_ujian.mapel_kelas_id,el_mapel.nama as mapel,el_kelas.nama as kelas,el_kelas_siswa.kelas_id,el_kelas_siswa.siswa_id
+                FROM el_ujian 
+                JOIN el_mapel_kelas on el_mapel_kelas.id=el_ujian.mapel_kelas_id 
+                JOIN el_mapel on el_mapel.id=el_mapel_kelas.mapel_id 
+                JOIN el_kelas on el_kelas.id=el_mapel_kelas.kelas_id
+                JOIN el_kelas_siswa on el_kelas_siswa.kelas_id =el_kelas.id
+                WHERE el_kelas_siswa.aktif=1 and el_kelas_siswa.siswa_id='.$id);
+        }
+        public function getSoalUjian($id)
+        {
+            return $this->db->query('SELECT * FROM el_ujian_soal JOIN el_soal USING(id_soal) WHERE el_ujian_soal.id_ujian='.$id);
         }
     }
     

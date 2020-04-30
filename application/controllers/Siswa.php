@@ -206,6 +206,67 @@ class siswa extends CI_Controller {
         $this->load->view('siswa/detailPesan',$data);
         $this->load->view('part/footer');
     }
-
+    public function ujian()
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['ujian']= $this->siswa_model->getUjianSiswa($this->session->userdata('id'))->result();
+        $data['jawaban']=$this->siswa_model->view_where('el_jawaban',array('id_siswa'=>$this->session->userdata('id')))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('siswa/ujian',$data);
+        $this->load->view('part/footer');
+    }
+    public function masukUjian($id)
+    {
+        $data['nama'] = $this->session->userdata('nama');
+        $data['id_ujian']=$id;
+        $data['ujian']= $this->siswa_model->getUjianSiswa($this->session->userdata('id'))->result();
+        $data['soal_ujian']= $this->siswa_model->getSoalUjian($id)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('siswa/masukUjian',$data);
+        $this->load->view('part/footer');
+    }
+    public function koreksiUjian($id_siswa,$id_ujian)
+    {
+        $soal_ujian= $this->siswa_model->getSoalUjian($id_ujian)->result();
+        $jumlah_soal= count($soal_ujian);
+        // echo $jumlah_soal;
+        $jawaban=array();
+        $nilai=0;
+        for ($i=0; $i <$jumlah_soal ; $i++) {
+            $jawaban[]=$soal_ujian[$i]->id_soal.':'.$this->input->post($soal_ujian[$i]->id_soal);
+            if ($soal_ujian[$i]->tipe == 1) {
+                if ($soal_ujian[$i]->jawaban_pg == $this->input->post($soal_ujian[$i]->id_soal)) {
+                    $nilai=+1;
+                }
+            }
+        }
+        $tes_jawaban=implode(',', $jawaban);
+        $nilai_total=($nilai/$jumlah_soal)*100;
+        $dataJawaban=array(
+            'id_ujian'=>$id_ujian,
+            'id_siswa'=>$id_siswa,
+            'jawaban'=>$tes_jawaban,
+            'nilai_pg'=>$nilai,
+            'nilai_total'=>$nilai_total,
+            'jumlah_soal'=>$jumlah_soal
+        );
+        $this->siswa_model->insert($dataJawaban,'el_jawaban');
+        redirect('siswa/ujian');
+        // echo $nilai;
+        // echo "<hr>"; 
+        // echo $tes_jawaban;
+        // echo "<hr>"; 
+        // echo $id_ujian;
+        // echo $id_siswa; 
+        // $no_soal=$soal_ujian[0]->id_soal;
+        // echo $this->input->post($no_soal);
+    }
+    public function hapusPesan($id,$sender,$receiver)
+    {
+        $this->pengajar_model->delete(array('id'=>$id),'el_messages');
+        redirect('siswa/detailPesan/'.$sender.'/'.$receiver);
+    }
 }
 ?>
