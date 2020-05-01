@@ -20,6 +20,11 @@
             $this->db->where('id', $id);
             return $this->db->get('el_pengumuman');        
         }
+        public function getPengajar($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengajar');
+        }
         public function getProfileSiswa($id)
         {
             $this->db->where('id', $id);

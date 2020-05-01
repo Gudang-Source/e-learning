@@ -199,6 +199,28 @@ class pengajar_model extends CI_Model {
         
         $this->db->where('materi_id', $id);
         $this->db->delete('el_materi_kelas');
+    }
+
+    public function getTugasKelas($kelas,$mapel,$id)
+    {
+        return $this->db->query('SELECT
+        et.id,
+        et.mapel_id,
+        et.pengajar_id,
+        et.judul,
+        etk.id AS idtugaskelas,
+        etk.kelas_id,
+        ep.nama,
+        et.tgl_buat,
+        et.durasi
+        FROM
+        el_tugas AS et
+        INNER JOIN el_tugas_kelas AS etk ON etk.tugas_id = et.id
+        INNER JOIN el_pengajar AS ep ON ep.id = et.pengajar_id
+        WHERE
+        et.mapel_id = '.$mapel.' AND
+        et.pengajar_id = '.$id.' AND
+        etk.kelas_id = '.$kelas);
         
     }
 }

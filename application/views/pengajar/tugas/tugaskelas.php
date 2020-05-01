@@ -19,7 +19,7 @@
                                         <tr>
                                             <td width="80%"><?=$k->nama?></td>
                                             <?php if ($k->mapel_id == $pengajar[0]->id_mapel) { ?>
-                                                <td><a href="<?=base_url()?>pengajar/listMateri/<?=$k->kelas_id?>/<?= $k->mapel_id?>" class="btn btn-success">Tugas</a></td>
+                                                <td><a href="<?=base_url()?>pengajar/listTugas/<?=$k->kelas_id?>/<?= $k->mapel_id?>" class="btn btn-success">Tugas</a></td>
                                             <?php }else{?>
                                                 <td></td>
                                             <?php }?>

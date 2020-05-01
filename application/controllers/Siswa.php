@@ -15,8 +15,8 @@ class siswa extends CI_Controller {
     }
     public function TampilPengumuman($id)
     {
-        $data['pengumuman'] = $this->Admin_Model->getDetailPengumuman($id)->result();
-        $data['author'] = $this->Admin_Model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
+        $data['pengumuman'] = $this->siswa_model->getDetailPengumuman($id)->result();
+        $data['author'] = $this->siswa_model->getPengajar($data['pengumuman'][0]->pengajar_id)->result();
         // print_r($data);
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa');

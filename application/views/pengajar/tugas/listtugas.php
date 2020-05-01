@@ -9,8 +9,8 @@
                                 <div class="table-data__tool">
                                     
                                     <div class="table-data__tool-right">
-                                        <a href= "<?= base_url('pengajar/tambahMateri/'.$idkelas.'/'.$mapelid)?>"class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i>Tambah Materi</a>
+                                        <a href= "<?= base_url('pengajar/tambahTugas/'.$idkelas.'/'.$mapelid)?>"class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i>Tambah Tugas</a>
                                     </div>
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
@@ -19,7 +19,8 @@
                                             <tr>
                                                 <th>id</th>
                                                 <th>Judul</th>
-                                                <th>Tanggal</th>
+                                                <th>Tanggal Upload</th>
+                                                <th>Deadline</th>
                                                 <th>Pengajar</th>
                                                 <th></th>
                                             </tr>
@@ -31,14 +32,15 @@
                                                     <td>
                                                         <?= $i->judul ?>
                                                     </td>
-                                                    <td class="desc"><?= $i->tgl_posting ?></td>
+                                                    <td class="desc"><?= $i->tgl_buat ?></td>
+                                                    <td class="desc"><?= $i->durasi ?></td>
                                                     <td class="desc"><?= $i->nama ?></td>
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <a href="<?= base_url('Pengajar/detailMateri/'). $i->id?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
+                                                            <a href="<?= base_url('Pengajar/detailTugas/'). $i->id?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
                                                                 <i class="zmdi zmdi-open-in-new"></i>
                                                             </a>
-                                                            <a href="<?= base_url('Pengajar/hapusMateri/').$i->id."/".$idkelas."/".$mapelid?>" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <a href="<?= base_url('Pengajar/hapusTugas/').$i->id."/".$idkelas."/".$mapelid?>" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </a>
                                                         </div>
