@@ -15,7 +15,7 @@
                                 <div class="card-body card-block">
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label for="text-input" class=" form-control-label"><strong>u<?= $i->judul ?></strong></label>
+                                                <label for="text-input" class=" form-control-label"><strong><?= $i->judul ?></strong></label>
                                             </div>
 
                                         </div>
@@ -24,18 +24,26 @@
                                                 <label for="textarea-input" class=" form-control-label"><u><?= $i->pengajar_id?></u></label>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label for="textarea-input" class=" form-control-label"><?= $i->tgl_posting?></label>
+                                                <label for="textarea-input" class=" form-control-label"><b>Start</b>  <?= $i->tgl_buat?></label>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label for="textarea-input" class=" form-control-label"><u></u></label>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label for="textarea-input" class=" form-control-label"><b>deadline</b>  <?= $i->durasi?></label>
                                             </div>
                                         </div>
                                         
                                         <div class="row form-group">
                                             <div class="col col-md-7">
-                                               <p><?php echo $i->konten?></p> 
+                                               <p><?php echo $i->info?></p> 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-7">
-                                               <p><a href="<?= base_url()."Pengajar/download/".$i->file?>"><?php echo $i->file?></a></p> 
+                                               <p>Download File tugas <a href="<?= base_url()."Pengajar/downloadTugas/".$i->file?>"><?php echo $i->file?></a></p> 
                                             </div>
                                         </div>
                                         

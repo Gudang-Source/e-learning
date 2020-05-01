@@ -118,8 +118,9 @@
             $tanggal = $this->input->post('tanggal');
             $deadline = $this->input->post('deadline');
             $content = $this->input->post('isi');
+            $todate = date('Y-m-d H:i:s', strtotime($deadline));
 
-            $config['upload_path']          = './assets/materi/';
+            $config['upload_path']          = './assets/tugas/';
             $config['allowed_types']        = '*';
     
             $this->load->library('upload', $config);
@@ -141,7 +142,7 @@
                     'pengajar_id' =>$this->session->userdata('id'),
                     'tgl_buat' => $tanggal,
                     'judul' => $judul,
-                    'durasi' => $deadline,
+                    'durasi' => $todate,
                     'info' => $content,
                     'file' => $upload['file_name'],
                     'aktif' => 1,
@@ -154,16 +155,43 @@
             }
         }
 
-        public function detailTugas($idmateri)
+        public function detailTugas($idtugas)
         {
-            $data['materi'] = $this->pengajar_model->view_where('el_tugas',array('id'=>$idmateri))->result();
-            
+            $data['materi'] = $this->pengajar_model->view_where('el_tugas',array('id'=>$idtugas))->result();
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar');
-            $this->load->view('pengajar/materi/detailmateri',$data);
+            $this->load->view('pengajar/tugas/detailtugas',$data);
             $this->load->view('part/footer');
         }
 
+        public function hapusTugas($id,$kelas,$mapelid)
+        {
+            $this->pengajar_model->hapusTugas($id);
+            redirect("pengajar/listTugas/".$kelas."/".$mapelid);
+        }
+        public function penilaian($idtugas,$kelas,$mapelid)
+        {
+            $data['idkelas'] = $kelas;
+            $data['idmapel'] = $mapelid;
+            $data['idtugas'] = $idtugas;
+            $data['upload'] = $this->pengajar_model->hasilUploadTugas($kelas,$idtugas)->result();
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarpengajar');
+            $this->load->view('pengajar/tugas/listnilai',$data);
+            $this->load->view('part/footer');
+
+        }
+        public function updateNilai($id,$idtugas,$kelas,$mapelid)
+        {
+            $data['idkelas'] = $kelas;
+            $data['idmapel'] = $mapelid;
+            $data['idtugas'] = $idtugas;
+
+            $nilai = $this->input->post('nilai');
+            $data = array('nilai' => $nilai );
+            $this->pengajar_model->updateNilai($data,$id);
+            redirect('pengajar/penilaian/'.$idtugas.'/'.$kelas.'/'.$mapelid);
+        }
         public function materi()
         {
             $data['data']=$this->pengajar_model->getKelas()->result();
@@ -240,9 +268,9 @@
             }
         }
 
-        public function detailMateri($idmateri)
+        public function detailMateri($idtugas)
         {
-            $data['materi'] = $this->pengajar_model->view_where('el_materi',array('id'=>$idmateri))->result();
+            $data['materi'] = $this->pengajar_model->view_where('el_materi',array('id'=>$idtugas))->result();
             
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar');
@@ -252,6 +280,11 @@
         public function download($nama)
         {
             $pth    =   file_get_contents(base_url()."assets/materi/".$nama);
+            force_download($nama, $pth);
+        }
+        public function downloadTugas($nama)
+        {
+            $pth    =   file_get_contents(base_url()."assets/tugas/".$nama);
             force_download($nama, $pth);
         }
 

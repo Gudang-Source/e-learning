@@ -20,11 +20,6 @@
             $this->db->where('id', $id);
             return $this->db->get('el_pengumuman');        
         }
-        public function getPengajar($id)
-        {
-            $this->db->where('id', $id);
-            return $this->db->get('el_pengajar');
-        }
         public function getProfileSiswa($id)
         {
             $this->db->where('id', $id);
@@ -286,6 +281,26 @@
             WHERE
             em.mapel_id = '.$mapel.' AND 
             emk.kelas_id = '.$kelas);
+        }
+        public function getTugasKelas($kelas,$mapel)
+        {
+            return $this->db->query('SELECT
+            et.id,
+            et.mapel_id,
+            et.pengajar_id,
+            et.judul,
+            etk.id AS idtugaskelas,
+            etk.kelas_id,
+            ep.nama,
+            et.tgl_buat,
+            et.durasi
+            FROM
+            el_tugas AS et
+            INNER JOIN el_tugas_kelas AS etk ON etk.tugas_id = et.id
+            INNER JOIN el_pengajar AS ep ON ep.id = et.pengajar_id
+            WHERE
+            et.mapel_id = '.$mapel.' AND
+            etk.kelas_id = '.$kelas);
         }
     
     }

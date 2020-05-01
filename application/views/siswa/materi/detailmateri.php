@@ -15,7 +15,7 @@
                                 <div class="card-body card-block">
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label for="text-input" class=" form-control-label"><strong>u<?= $i->judul ?></strong></label>
+                                                <label for="text-input" class=" form-control-label"><strong><?= $i->judul ?></strong></label>
                                             </div>
                                         </div>
                                         <div class="row form-group">

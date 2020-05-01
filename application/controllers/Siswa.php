@@ -72,11 +72,73 @@ class siswa extends CI_Controller {
 
     public function tugas()
     {
-        $data['nama'] = $this->session->userdata('nama');
+        $data['data']=$this->siswa_model->getAllKelas()->result();
+        $data['kelas']=$this->siswa_model->getKelas($this->session->userdata('id'))->result();
+        $data['mapel']=$this->siswa_model->getMapelKelas()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('siswa/tugas/tugaskelas');
         $this->load->view('part/footer');
+    }
+
+    public function listTugas($kelas,$mapelid)
+    {
+        $data['idkelas'] = $kelas;
+        $data['mapelid'] = $mapelid;
+        $data['mapel']=$this->siswa_model->view_where('el_mapel',array('id'=>$mapelid))->result();
+        $data['materi']=$this->siswa_model->getTugasKelas($kelas,$mapelid)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/tugas/listtugas',$data);
+        $this->load->view('part/footer');
+    }
+    public function detailTugas($idtugas,$mapelid,$kelas)
+    {
+        $data['materi'] = $this->pengajar_model->view_where('el_tugas',array('id'=>$idtugas))->result();
+        $data['kelasid'] = $kelas;
+        $data['mapelid'] = $mapelid;
+        $data['tugasid'] = $idtugas;
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/tugas/detailtugas',$data);
+        $this->load->view('part/footer');
+    }
+    public function uploadTugas()
+    {
+        $idsiswa = $this->session->userdata('id');
+        $idkelas = $this->input->post('idkelas');
+        $idtugas = $this->input->post('idtugas');
+        $idmapel = $this->input->post('idmapel');
+        
+        $config['upload_path']          = './assets/tugas/';
+        $config['allowed_types']        = '*';
+
+        $this->load->library('upload', $config);
+        $upload = $this->upload->do_upload('materi');
+        if (!$upload){
+            $data['error'] = $this->upload->display_errors();
+            $data['materi'] = $this->pengajar_model->view_where('el_tugas',array('id'=>$idtugas))->result();
+            $data['idkelas'] = $idkelas;
+            $data['mapelid'] = $idmapel;
+            $data['tugasid'] = $idtugas;
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarsiswa');
+            $this->load->view('siswa/tugas/detailtugas',$data);
+            $this->load->view('part/footer');
+        }else{
+            $upload = $this->upload->data();
+            $kumpul = array(
+                'kelas_id' => $idkelas , 
+                'siswa_id' => $idsiswa , 
+                'tugas_id' => $idtugas ,
+                'file' => $upload['file_name'],
+                'nilai' => 0,
+            );
+            $this->session->set_flashdata('success', 'Tugas Berhasil di upload tinggal menunggu hasil nilai');
+            $this->pengajar_model->insert($kumpul,'el_tugas_kumpul');
+            redirect('siswa/detailTugas/'.$idtugas.'/'.$idmapel.'/'.$idkelas);
+        }
+
     }
 
     public function materi()
@@ -103,7 +165,7 @@ class siswa extends CI_Controller {
     }
     public function detailMateri($idmateri)
     {
-        $data['materi'] = $this->pengajar_model->view_where('el_materi',array('id'=>$idmateri))->result();
+        $data['materi'] = $this->siswa_model->view_where('el_materi',array('id'=>$idmateri))->result();
         
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa');
@@ -113,7 +175,7 @@ class siswa extends CI_Controller {
 
     public function download($nama)
     {
-        $pth = file_get_contents(base_url()."assets/materi/".$nama);
+        $pth = file_get_contents(base_url()."assets/tugas/".$nama);
         force_download($nama, $pth);
     }
     

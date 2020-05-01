@@ -5,7 +5,7 @@
                     <div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Tugas</h3>
+                                <h3 class="title-5 m-b-35">Pengumuman</h3>
                                 <div class="table-data__tool">
                                     
                                     <div class="table-data__tool-right">
@@ -26,7 +26,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($materi as $i) { ?>
+                                        <?php foreach ($materi as $i) { ?>
                                                 <tr class="tr-shadow">
                                                     <td><?= $i->id ?></td>
                                                     <td>
@@ -37,14 +37,8 @@
                                                     <td class="desc"><?= $i->nama ?></td>
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <a href="<?= base_url('Pengajar/detailTugas/'). $i->id?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
+                                                            <a href="<?= base_url('siswa/detailTugas/').$i->id."/".$mapelid."/".$idkelas?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
                                                                 <i class="zmdi zmdi-open-in-new"></i>
-                                                            </a>
-                                                            <a href="<?= base_url('Pengajar/hapusTugas/').$i->id."/".$idkelas."/".$mapelid?>" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="zmdi zmdi-delete"></i>
-                                                            </a>
-                                                            <a href="<?= base_url('Pengajar/penilaian/').$i->id."/".$idkelas."/".$mapelid?>" class="item" data-toggle="tooltip" data-placement="top" title="Penilaian Tugas">
-                                                                <i class="zmdi zmdi-download"></i>
                                                             </a>
                                                         </div>
                                                     </td>

@@ -201,6 +201,15 @@ class pengajar_model extends CI_Model {
         $this->db->delete('el_materi_kelas');
     }
 
+    public function hapusTugas($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('el_tugas');
+        
+        $this->db->where('tugas_id', $id);
+        $this->db->delete('el_tugas_kelas');
+    }
+
     public function getTugasKelas($kelas,$mapel,$id)
     {
         return $this->db->query('SELECT
@@ -222,6 +231,27 @@ class pengajar_model extends CI_Model {
         et.pengajar_id = '.$id.' AND
         etk.kelas_id = '.$kelas);
         
+    }
+    public function hasilUploadTugas($kelas,$id)
+    {
+        return $this->db->query('SELECT
+        etk.file,
+        etk.nilai,
+        etk.id,
+        es.nama,
+        etk.siswa_id
+        FROM
+        el_tugas_kumpul AS etk
+        INNER JOIN el_siswa AS es ON es.id = etk.siswa_id
+        WHERE
+        etk.kelas_id = '.$kelas.' AND
+        etk.tugas_id = '.$id);
+    }
+
+    public function updateNilai($data,$where)
+    {
+        $this->db->where('id', $where);
+        $this->db->update('el_tugas_kumpul', $data);
     }
 }
 

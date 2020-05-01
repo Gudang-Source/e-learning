@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2020 at 06:02 AM
+-- Generation Time: May 01, 2020 at 11:43 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -360,7 +360,7 @@ CREATE TABLE `el_mapel_ajar` (
 INSERT INTO `el_mapel_ajar` (`id`, `hari_id`, `jam_mulai`, `jam_selesai`, `pengajar_id`, `mapel_kelas_id`, `aktif`) VALUES
 (1, 1, '08:00:00', '10:30:00', 2, 11, 1),
 (2, 3, '11:00:00', '13:00:00', 2, 11, 1),
-(3, 1, '12:33:00', '33:22:00', 2, 3, 1);
+(3, 1, '12:33:00', '01:36:00', 3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -392,7 +392,10 @@ INSERT INTO `el_mapel_kelas` (`id`, `kelas_id`, `mapel_id`, `aktif`) VALUES
 (10, 2, 10, 1),
 (11, 7, 6, 1),
 (12, 1, 1, 0),
-(13, 1, 2, 0);
+(13, 1, 2, 0),
+(16, 7, 2, 1),
+(17, 7, 3, 1),
+(18, 7, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -418,7 +421,8 @@ CREATE TABLE `el_materi` (
 --
 
 INSERT INTO `el_materi` (`id`, `mapel_id`, `pengajar_id`, `siswa_id`, `judul`, `konten`, `file`, `tgl_posting`, `publish`, `views`) VALUES
-(1, 1, 2, NULL, 'skuy living', NULL, 'skuy_living_1581519810.docx', '2020-02-12 22:03:30', 1, 1);
+(1, 1, 2, NULL, 'skuy living', NULL, 'skuy_living_1581519810.docx', '2020-02-12 22:03:30', 1, 1),
+(4, 2, 2, NULL, 'opening', 'data fill', 'catatan7.txt', '2020-05-01 06:52:13', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -437,7 +441,8 @@ CREATE TABLE `el_materi_kelas` (
 --
 
 INSERT INTO `el_materi_kelas` (`id`, `materi_id`, `kelas_id`) VALUES
-(1, 1, 11);
+(1, 1, 11),
+(2, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -463,9 +468,6 @@ INSERT INTO `el_messages` (`id`, `type_id`, `content`, `owner_id`, `sender_recei
 (1, 2, '<p>saya sangat senang belajar e-learning</p>\r\n', 2, 1, '2019-12-14 19:30:49', 1),
 (8, 1, '<p>cgcgcgcgcg</p>\r\n', 5, 1, '2020-01-04 02:11:39', 1),
 (5, 2, '<p>ok bos&nbsp;</p>\r\n', 2, 1, '2019-12-14 19:32:37', 1),
-(9, 2, '<p>oleole</p>\n', 3, 2, '2020-04-02 14:51:25', 1),
-(10, 1, '<p>oleole</p>\n', 2, 3, '2020-04-02 14:51:25', 1),
-(15, 1, 'halo pak', 2, 3, '2020-04-02 19:29:12', 0),
 (16, 1, 'opo le', 3, 2, '2020-04-02 19:30:44', 0),
 (20, 1, 'Nuhun euy!', 1, 2, '2020-04-29 19:43:15', 0);
 
@@ -689,12 +691,12 @@ CREATE TABLE `el_tugas` (
   `id` int(11) NOT NULL,
   `mapel_id` int(11) NOT NULL,
   `pengajar_id` int(11) NOT NULL,
-  `type_id` tinyint(1) NOT NULL COMMENT '1=upload,2=essay,3=ganda',
   `judul` varchar(255) NOT NULL,
-  `durasi` int(11) DEFAULT NULL COMMENT 'lama pengerjaan dalam menit',
   `info` text DEFAULT NULL,
-  `aktif` tinyint(1) NOT NULL DEFAULT 0,
+  `file` text DEFAULT NULL,
   `tgl_buat` datetime DEFAULT NULL,
+  `durasi` datetime DEFAULT NULL COMMENT 'lama pengerjaan dalam menit',
+  `aktif` tinyint(1) NOT NULL DEFAULT 0,
   `tampil_siswa` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=tidak tampil di siswa, 1=tampil siswa'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -702,9 +704,9 @@ CREATE TABLE `el_tugas` (
 -- Dumping data for table `el_tugas`
 --
 
-INSERT INTO `el_tugas` (`id`, `mapel_id`, `pengajar_id`, `type_id`, `judul`, `durasi`, `info`, `aktif`, `tgl_buat`, `tampil_siswa`) VALUES
-(1, 6, 2, 3, 'SISTEM GERAK PADA MANUSIA', 30, '<p>kerjakan soal ini dengan baik dan benar&nbsp;</p>\r\n', 0, '2019-12-14 01:43:45', 1),
-(2, 6, 2, 3, 'SISTEM GERAK PADA MANUSIA', 30, '<p>KERJAKAN SOAL DENGAN BAIK DAN BENAR</p>\r\n', 0, '2019-12-20 13:30:29', 1);
+INSERT INTO `el_tugas` (`id`, `mapel_id`, `pengajar_id`, `judul`, `info`, `file`, `tgl_buat`, `durasi`, `aktif`, `tampil_siswa`) VALUES
+(4, 2, 2, 'Tugas WFH', 'COBA kerjakan selama korona', 'catatan9.txt', '2020-05-01 09:39:19', '2020-05-14 13:00:00', 1, 1),
+(5, 2, 2, 'tugas wfh', 'kerjain sampai korona', 'catatan10.txt', '2020-05-01 09:48:50', '2020-05-04 07:48:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -723,8 +725,30 @@ CREATE TABLE `el_tugas_kelas` (
 --
 
 INSERT INTO `el_tugas_kelas` (`id`, `tugas_id`, `kelas_id`) VALUES
-(1, 1, 2),
-(2, 2, 7);
+(5, 5, 7),
+(4, 4, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `el_tugas_kumpul`
+--
+
+CREATE TABLE `el_tugas_kumpul` (
+  `id` int(11) NOT NULL,
+  `kelas_id` int(11) DEFAULT NULL,
+  `siswa_id` int(11) DEFAULT NULL,
+  `tugas_id` int(11) DEFAULT NULL,
+  `file` text DEFAULT NULL,
+  `nilai` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `el_tugas_kumpul`
+--
+
+INSERT INTO `el_tugas_kumpul` (`id`, `kelas_id`, `siswa_id`, `tugas_id`, `file`, `nilai`) VALUES
+(2, 7, 2, 5, 'catatan12.txt', '22');
 
 -- --------------------------------------------------------
 
@@ -958,8 +982,8 @@ ALTER TABLE `el_soal`
 --
 ALTER TABLE `el_tugas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `mapel_id` (`mapel_id`,`pengajar_id`,`type_id`),
-  ADD KEY `mapel_id_2` (`mapel_id`,`pengajar_id`,`type_id`);
+  ADD KEY `mapel_id` (`mapel_id`,`pengajar_id`),
+  ADD KEY `mapel_id_2` (`mapel_id`,`pengajar_id`);
 
 --
 -- Indexes for table `el_tugas_kelas`
@@ -968,6 +992,12 @@ ALTER TABLE `el_tugas_kelas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tugas_id` (`tugas_id`,`kelas_id`),
   ADD KEY `tugas_id_2` (`tugas_id`,`kelas_id`);
+
+--
+-- Indexes for table `el_tugas_kumpul`
+--
+ALTER TABLE `el_tugas_kumpul`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `el_tugas_pertanyaan`
@@ -1045,19 +1075,19 @@ ALTER TABLE `el_mapel_ajar`
 -- AUTO_INCREMENT for table `el_mapel_kelas`
 --
 ALTER TABLE `el_mapel_kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `el_materi`
 --
 ALTER TABLE `el_materi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `el_materi_kelas`
 --
 ALTER TABLE `el_materi_kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `el_messages`
@@ -1105,12 +1135,18 @@ ALTER TABLE `el_soal`
 -- AUTO_INCREMENT for table `el_tugas`
 --
 ALTER TABLE `el_tugas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `el_tugas_kelas`
 --
 ALTER TABLE `el_tugas_kelas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `el_tugas_kumpul`
+--
+ALTER TABLE `el_tugas_kumpul`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
