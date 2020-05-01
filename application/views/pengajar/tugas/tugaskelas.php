@@ -3,24 +3,27 @@
         <div class="container-fluid">
             <!-- MAP DATA-->
             <div class="map-data m-b-40">
-                <h3 class="title-3 m-b-30">Mata Pelajaran Kelas</h3>
+                <h3 class="title-3 m-b-30">Materi Kelas</h3>
                 <div class="mx-auto d-block">
                     <div class="container-fluid">
                         <?php foreach ($data as $key) { ?>
                       <div class="card card-body">
                         <h5><?=$key->nama?></h5>
                         <hr>
-                            <a href="<?=base_url()?>admin/LihatJadwalMapel/1/<?=$key->id?>" class="btn btn-primary pull-right">Lihat Jadwal Kelas</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <tbody>
                                     <?php foreach ($mapel as $k) {
                                         if ($key->id == $k->kelas_id) {
                                      ?>
-                                    <tr>
-                                        <td width="80%"><?=$k->nama?></td>
-                                        <td><a href="<?=base_url()?>admin/tambahJamMengajar/<?=$k->id?>/<?=$k->kelas_id?>/<?= $k->mapel_id?>" class="btn btn-success">Tambah Jadwal</a></td>
-                                    </tr>
+                                        <tr>
+                                            <td width="80%"><?=$k->nama?></td>
+                                            <?php if ($k->mapel_id == $pengajar[0]->id_mapel) { ?>
+                                                <td><a href="<?=base_url()?>pengajar/listMateri/<?=$k->kelas_id?>/<?= $k->mapel_id?>" class="btn btn-success">Tugas</a></td>
+                                            <?php }else{?>
+                                                <td></td>
+                                            <?php }?>
+                                        </tr>
                                     <?php } }?>
                                     </tbody>
                                 </table>

@@ -60,6 +60,7 @@ class pengajar_model extends CI_Model {
     public function insert($data,$table)
     {
         $this->db->insert($table,$data);
+        return $this->db->insert_id();
     }
     public function updateProfile($data,$id)
     {

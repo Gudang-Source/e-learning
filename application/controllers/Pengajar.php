@@ -78,10 +78,12 @@
 
         public function tugas()
         {
-            $data['nama'] = $this->session->userdata('nama');
+            $data['data']=$this->pengajar_model->getKelas()->result();
+            $data['pengajar']=$this->pengajar_model->getPengajar($this->session->userdata('id'))->result();
+            $data['mapel']=$this->pengajar_model->getMapelKelas()->result();
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('pengajar/profile');
+            $this->load->view('pengajar/tugas/tugaskelas');
             $this->load->view('part/footer');
         }
 
