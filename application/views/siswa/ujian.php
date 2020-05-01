@@ -36,13 +36,13 @@
                                             }
                                         } ?>
                                         </td>
-                                        <td><?php  foreach ($jawaban as $kuy) {
-                                            if ($kuy->id_ujian != $k->id) {
+                                        <td><?php  //foreach ($jawaban as $kuy) {
+                                            //if ($kuy->id_ujian != $k->id) {
                                                 if (date('Y-m-d')<=$k->tgl_expired): ?> 
-                                                <a href="<?=base_url()?>siswa/masukUjian/<?=$k->id?>" class="btn btn-primary btn-sm">Masuk Ujian Online</a>
+                                                <a href="<?=base_url()?>siswa/masukUjian/<?=$k->id?>/<?=$k->waktu?>" class="btn btn-primary btn-sm">Masuk Ujian Online</a>
                                             <?php endif;
-                                            }
-                                        }?>
+                                            //}
+                                       // }?>
                                         </td>
                                     </tr>
                                     <?php } ?>

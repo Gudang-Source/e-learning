@@ -1,4 +1,42 @@
+<script type="text/javascript">
+                        var d = new Date(<?=json_encode($waktu)?>);
+                        var w       = new Date();
+                        var dd    = d - w;
+                        console.log(dd);
+                        setTimeout(function(){SubmitFunction() }, dd);
+                        function SubmitFunction(){
+                            alert("Waktu Anda Habis");
+                            //submitted.innerHTML="Time is up!";
+                            document.getElementById('ujianOnline').submit();
+                        }
+                        function Countdown() {          
+                             setInterval(function () {
 
+                                var jam     = document.getElementById("hours");
+                                var menit   = document.getElementById("minutes");
+                                var detik   = document.getElementById("seconds");
+                                
+                                var deadline    = d;//new Date(d);
+                                var waktu       = new Date();
+                                var distance    = deadline-waktu;
+                        //console.log(distance);
+                                var hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                // var minutes = parseInt(distance / 60, 10);
+                                // var seconds = parseInt(distance % 60, 10);
+
+                                // minutes = minutes < 10 ? "0" + minutes : minutes;
+                                // seconds = seconds < 10 ? "0" + seconds : seconds;
+                                jam.innerHTML     = hours;
+                                menit.innerHTML   = minutes;
+                                detik.innerHTML   = seconds;
+
+                            },1000);
+                        }
+                        Countdown();
+                        //var div = document.getElementById('');
+                    </script>
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
@@ -9,7 +47,8 @@
                 <div class="mx-auto d-block">
                     <div class="container-fluid">
                       <div class="card card-body">
-                            <form method="post" action="<?=base_url('siswa/koreksiUjian')?>/<?=$this->session->userdata('id')?>/<?=$id_ujian?>">
+                        <div style="border: 1px solid black;background-color: skyblue;color: black;font-weight: bold;"><span>Waktu Anda mengerjakan Ujian </span><span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span></div>
+                            <form id="ujianOnline" nama="ujianOnline" method="post" action="<?=base_url('siswa/koreksiUjian')?>/<?=$this->session->userdata('id')?>/<?=$id_ujian?>">
                                 <?php $no=1; foreach ($soal_ujian as $key) {
                                     if ($key->tipe==1) {?>
                                         <div class="form-group row">
@@ -54,6 +93,7 @@
     </div>
     
 </div>
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

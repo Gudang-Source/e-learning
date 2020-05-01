@@ -215,18 +215,20 @@ class siswa extends CI_Controller {
         $data['ujian']= $this->siswa_model->getUjianSiswa($this->session->userdata('id'))->result();
         $data['jawaban']=$this->siswa_model->view_where('el_jawaban',array('id_siswa'=>$this->session->userdata('id')))->result();
         $this->load->view('part/header');
-        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/ujian',$data);
         $this->load->view('part/footer');
     }
-    public function masukUjian($id)
+    public function masukUjian($id,$waktu)
     {
+        date_default_timezone_set('Asia/Jakarta');
         $data['nama'] = $this->session->userdata('nama');
         $data['id_ujian']=$id;
-        $data['ujian']= $this->siswa_model->getUjianSiswa($this->session->userdata('id'))->result();
+        $data['waktu']=date('Y-m-d H:i',strtotime('+'.$waktu.' minutes',strtotime(date('Y-m-d H:i'))));
+        $data['ujian']= $this->siswa_model->getmasukUjianSiswa($id)->result();
         $data['soal_ujian']= $this->siswa_model->getSoalUjian($id)->result();
         $this->load->view('part/header');
-        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('part/sidebarsiswa',$data);
         $this->load->view('siswa/masukUjian',$data);
         $this->load->view('part/footer');
     }
