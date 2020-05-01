@@ -46,14 +46,6 @@
                                 <i class="far fa-check-square"></i>Manajemen Kelas</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('admin/tugas')?>">
-                                <i class="fas fa-calendar-alt"></i>Tugas</a>
-                        </li>
-                        <li>
-                            <a href="<?= base_url('admin/materi')?>">
-                                <i class="fas fa-map-marker-alt"></i>Materi</a>
-                        </li>
-                        <li>
                             <a href="<?= base_url('admin/filterPengajar')?>">
                                 <i class="fas fa-map-marker-alt"></i>Filter Pengajar</a>
                         </li>

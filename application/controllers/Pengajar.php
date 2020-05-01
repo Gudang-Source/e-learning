@@ -87,11 +87,99 @@
 
         public function materi()
         {
-            $data['nama'] = $this->session->userdata('nama');
+            $data['data']=$this->pengajar_model->getKelas()->result();
+            $data['pengajar']=$this->pengajar_model->getPengajar($this->session->userdata('id'))->result();
+            $data['mapel']=$this->pengajar_model->getMapelKelas()->result();
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('pengajar/profile');
+            $this->load->view('pengajar/materi/materikelas');
             $this->load->view('part/footer');
+        }
+
+        public function listMateri($kelas,$mapelid)
+        {
+            $data['idkelas'] = $kelas;
+            $data['mapelid'] = $mapelid;
+            $data['materi']=$this->pengajar_model->getMateriKelas($kelas,$mapelid,$this->session->userdata('id'))->result();
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarpengajar');
+            $this->load->view('pengajar/materi/listmateri',$data);
+            $this->load->view('part/footer');
+        }
+        public function tambahMateri($kelas,$mapelid)
+        {
+            $data['idkelas'] = $kelas;
+            $data['idmapel'] = $mapelid;
+            $data['kelas']=$this->pengajar_model->view_where('el_kelas',array('id' => $kelas))->result();
+            $data['mapel']=$this->pengajar_model->view_where('el_mapel',array('id' => $mapelid))->result();
+
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarpengajar');
+            $this->load->view('pengajar/materi/TambahMateri',$data);
+            $this->load->view('part/footer');
+        }
+        
+        public function prosesUploadMateri()
+        {
+            $judul = $this->input->post('judul');
+            $idkelas = $this->input->post('idkelas');
+            $idmapel = $this->input->post('idmapel');
+            $tanggal = $this->input->post('tanggal');
+            $content = $this->input->post('isi');
+
+            $config['upload_path']          = './assets/materi/';
+            $config['allowed_types']        = '*';
+    
+            $this->load->library('upload', $config);
+            $upload = $this->upload->do_upload('materi');
+            if (!$upload){
+                $data['idkelas'] = $idkelas;
+                $data['error'] = $this->upload->display_errors();
+                $data['idmapel'] = $idmapel;
+                $data['kelas']=$this->pengajar_model->view_where('el_kelas',array('id' => $idkelas))->result();
+                $data['mapel']=$this->pengajar_model->view_where('el_mapel',array('id' => $idmapel))->result();
+                $this->load->view('part/header');
+                $this->load->view('part/sidebarpengajar');
+                $this->load->view('pengajar/materi/TambahMateri',$data);
+                $this->load->view('part/footer');
+            }else{
+                $upload = $this->upload->data();
+                $data = array(
+                    'mapel_id' => $idmapel,
+                    'pengajar_id' =>$this->session->userdata('id'),
+                    'tgl_posting' => $tanggal,
+                    'judul' => $judul,
+                    'konten' => $content,
+                    'file' => $upload['file_name'],
+                    'publish' => 1,
+                    'views' => 1,
+                );
+                $id = $this->pengajar_model->insert($data,'el_materi');
+                $data = array('materi_id' => $id,'kelas_id' =>$idkelas);
+                $this->pengajar_model->insert($data,'el_materi_kelas');
+                redirect('Pengajar/listMateri/'.$idkelas.'/'.$idmapel);
+            }
+        }
+
+        public function detailMateri($idmateri)
+        {
+            $data['materi'] = $this->pengajar_model->view_where('el_materi',array('id'=>$idmateri))->result();
+            
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarpengajar');
+            $this->load->view('pengajar/materi/detailmateri',$data);
+            $this->load->view('part/footer');
+        }
+        public function download($nama)
+        {
+            $pth    =   file_get_contents(base_url()."assets/materi/".$nama);
+            force_download($nama, $pth);
+        }
+
+        public function hapusMateri($id,$kelas,$mapelid)
+        {
+            $this->pengajar_model->hapusMateri($id);
+            redirect("pengajar/listMateri/".$kelas."/".$mapelid);
         }
 
         public function filterPengajar()

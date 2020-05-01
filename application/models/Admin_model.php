@@ -17,8 +17,6 @@
         {
             $this->db->where($id);
             $this->db->delete($table);
-            
-            
         }
         public function getDataSiswa($status)
         {

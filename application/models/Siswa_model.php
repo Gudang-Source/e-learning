@@ -225,9 +225,14 @@
         {
             return $this->db->query('SELECT * FROM el_ujian_soal JOIN el_soal USING(id_soal) WHERE el_ujian_soal.id_ujian='.$id);
         }
+        public function getAllKelas()
+        {
+            return  $this->db->query("SELECT * FROM  el_kelas ORDER BY urutan");
+        }
         public function getKelas($id)
         {
             return $this->db->query("SELECT
+            ek.id,
             ek.nama
             FROM
             el_kelas_siswa AS eks
@@ -237,6 +242,47 @@
             eks.siswa_id = 
             ".$id);
         }
+
+        public function getMapelKelas()
+        {
+            return  $this->db->query("SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif
+            FROM
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            WHERE
+            emk.aktif = 1");
+        }
+        
+
+        public function getMateriKelas($kelas,$mapel)
+        {
+            return $this->db->query('SELECT
+            em.id,
+            em.mapel_id,
+            em.pengajar_id,
+            em.judul,
+            em.konten,
+            em.file,
+            em.tgl_posting,
+            em.publish,
+            em.views,
+            emk.id AS id_materi_kelas,
+            emk.kelas_id,
+            ep.nama
+            FROM
+            el_materi AS em
+            INNER JOIN el_materi_kelas AS emk ON emk.materi_id = em.id
+            INNER JOIN el_pengajar AS ep ON ep.id = em.pengajar_id
+            WHERE
+            em.mapel_id = '.$mapel.' AND 
+            emk.kelas_id = '.$kelas);
+        }
+    
     }
     
 ?>

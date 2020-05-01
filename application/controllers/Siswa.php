@@ -81,12 +81,42 @@ class siswa extends CI_Controller {
 
     public function materi()
     {
-        $data['nama'] = $this->session->userdata('nama');
+        $data['data']=$this->siswa_model->getAllKelas()->result();
+        $data['kelas']=$this->siswa_model->getKelas($this->session->userdata('id'))->result();
+        $data['mapel']=$this->siswa_model->getMapelKelas()->result();
         $this->load->view('part/header');
         $this->load->view('part/sidebarsiswa',$data);
-        $this->load->view('siswa/profile');
+        $this->load->view('siswa/materi/materikelas');
         $this->load->view('part/footer');
     }
+
+    public function listMateri($kelas,$mapelid)
+    {
+        $data['idkelas'] = $kelas;
+        $data['mapelid'] = $mapelid;
+        $data['mapel']=$this->siswa_model->view_where('el_mapel',array('id'=>$mapelid))->result();
+        $data['materi']=$this->siswa_model->getMateriKelas($kelas,$mapelid)->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/materi/listmateri',$data);
+        $this->load->view('part/footer');
+    }
+    public function detailMateri($idmateri)
+    {
+        $data['materi'] = $this->pengajar_model->view_where('el_materi',array('id'=>$idmateri))->result();
+        
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa');
+        $this->load->view('siswa/materi/detailmateri',$data);
+        $this->load->view('part/footer');
+    }
+
+    public function download($nama)
+    {
+        $pth = file_get_contents(base_url()."assets/materi/".$nama);
+        force_download($nama, $pth);
+    }
+    
     
     public function filterPengajar()
     {
