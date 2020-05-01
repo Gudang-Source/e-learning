@@ -13,11 +13,18 @@
                 <div class="mx-auto d-block">
                     <div class="container-fluid">
                       <div class="card card-body">
+                        <p class="text-small">Aturan Penilaian Essay
+                            <ul>
+                                <li>1 Soal Essay memiliki point 0-3</li>
+                                <li>Yang dimasukkan di nilai essay merupakan total point dari semua soal essay</li>
+                            </ul>
+                        </p>
                             <a href="#modalUjian"  type="button" data-toggle="modal" class="btn btn-primary pull-right">Buat Ujian</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <th>Nama Ujian</th>
+                                        <th>Tanggal</th>
                                         <th>Nama Siswa</th>
                                         <th>Jawaban</th>
                                         <th>Nilai PG</th>
@@ -36,6 +43,7 @@
                                                 }
                                             }?>
                                         </td>
+                                        <td><?=$k->tgl?></td>
                                         <td><?php foreach ($siswa as $key) {
                                                 if ($key->id == $k->id_siswa) {
                                                     echo $key->nama;
@@ -47,7 +55,7 @@
                                         if ($k->nilai_essay=='') {
                                             ?>
                                             <form action="<?=base_url()?>pengajar/nilaiEssay/<?=$k->id_jawaban?>/<?=$id_ujian?>" method="post">
-                                                <input type="number" name="nilai_essay" placeholder="0-3" style="border: 1px solid black">
+                                                <input type="number" name="nilai_essay" placeholder="total point" style="border: 1px solid black;width: 100px">
                                                 <input type="hidden" name="nilai_pg" value="<?=$k->nilai_pg?>">
                                                 <input type="hidden" name="jumlah_soal" value="<?=$k->jumlah_soal?>">
                                                 <button type="Submit" class="btn btn-primary btn-sm">Submit</button>
@@ -57,7 +65,7 @@
                                             echo $k->nilai_essay;
                                         }
                                         ?></td>
-                                        <td><?=$k->nilai_total?></td>
+                                        <td><?=round($k->nilai_total,2)?></td>
                                         <td><?=$k->jumlah_soal?></td>
                                     </tr>
                                     <?php } ?>

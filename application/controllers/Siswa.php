@@ -277,6 +277,7 @@ class siswa extends CI_Controller {
     }
     public function savePesan()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $values=array(
             'type_id'=>1,
             'content'=>$this->input->post('isiPesan'),
@@ -326,6 +327,7 @@ class siswa extends CI_Controller {
     }
     public function koreksiUjian($id_siswa,$id_ujian)
     {
+        date_default_timezone_set('Asia/Jakarta');
         $soal_ujian= $this->siswa_model->getSoalUjian($id_ujian)->result();
         $jumlah_soal= count($soal_ujian);
         // echo $jumlah_soal;
@@ -340,15 +342,18 @@ class siswa extends CI_Controller {
             }
         }
         $tes_jawaban=implode(',', $jawaban);
-        $nilai_total=($nilai/$jumlah_soal)*100;
+        $nilai_total=(($nilai/3)/$jumlah_soal)*100;
         $dataJawaban=array(
             'id_ujian'=>$id_ujian,
             'id_siswa'=>$id_siswa,
             'jawaban'=>$tes_jawaban,
-            'nilai_pg'=>$nilai,
+            'nilai_pg'=>$nilai*3,
             'nilai_total'=>$nilai_total,
-            'jumlah_soal'=>$jumlah_soal
+            'jumlah_soal'=>$jumlah_soal,
+            'tgl'=>date('Y-m-d H:i')
         );
+
+        // print_r($dataJawaban);
         $this->siswa_model->insert($dataJawaban,'el_jawaban');
         redirect('siswa/ujian');
         // echo $nilai;

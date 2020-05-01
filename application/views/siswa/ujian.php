@@ -32,7 +32,7 @@
                                         <td><?=$k->tgl_expired?></td>
                                         <td><?php  foreach ($jawaban as $kuy) {
                                             if ($kuy->id_ujian == $k->id) {
-                                                echo $kuy->nilai_total;
+                                                echo round($kuy->nilai_total,2);
                                             }
                                         } ?>
                                         </td>

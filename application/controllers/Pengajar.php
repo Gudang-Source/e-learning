@@ -542,7 +542,7 @@
         $nilaiEssay=$this->input->post('nilai_essay');
         $nilaiPG= $this->input->post('nilai_pg');
         $jumlahSoal= $this->input->post('jumlah_soal');
-        $nilai_total=((($nilaiEssay/3)+$nilaiPG)/$jumlahSoal)*100;
+        $nilai_total=((($nilaiEssay+$nilaiPG)/3)/$jumlahSoal)*100;
         $values=array(
             'nilai_essay'=>$this->input->post('nilai_essay'),
             'nilai_total'=>$nilai_total
