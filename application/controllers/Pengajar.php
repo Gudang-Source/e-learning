@@ -38,7 +38,7 @@
             $data['profile'] = $this->pengajar_model->getProfilePengajar($this->session->userdata('id'))->result();
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar');
-            $this->load->view('admin/profile',$data);
+            $this->load->view('pengajar/profile',$data);
             $this->load->view('part/footer');
         }
         
@@ -55,7 +55,7 @@
                 
                 $this->load->view('part/header');
                 $this->load->view('part/sidebarsiswa');
-                $this->load->view('siswa/profile',$data);
+                $this->load->view('pengajar/profile',$data);
                 $this->load->view('part/footer');
             }else{
                 $upload = $this->upload->data();
@@ -419,7 +419,7 @@
             // print_r($data);
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('siswa/tambahPesan',$data);
+            $this->load->view('pengajar/tambahPesan',$data);
             $this->load->view('part/footer');
         }
         public function savePesan()
@@ -433,7 +433,7 @@
                 'opened'=>0
             );
             $this->pengajar_model->insert($values,'el_messages');
-            redirect(base_url().'siswa/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
+            redirect(base_url().'pengajar/detailPesan/'.$this->session->userdata('idLogin').'/'.$this->input->post('tujuan'));
         }
         public function detailPesan($send,$receive)
         {
@@ -443,7 +443,7 @@
             $data['receiver']=$penerima[0]->id;
             $this->load->view('part/header');
             $this->load->view('part/sidebarpengajar',$data);
-            $this->load->view('siswa/detailPesan',$data);
+            $this->load->view('pengajar/detailPesan',$data);
             $this->load->view('part/footer');
         }
 
