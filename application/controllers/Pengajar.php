@@ -83,7 +83,7 @@
                 'tgl_lahir' => $this->input->post('tgllahir'), 
                 'alamat' => $this->input->post('alamat')
             );
-            $this->Pengajar_model->updateProfile($data,$id);
+            $this->pengajar_model->updateProfile($data,$id);
             redirect('pengajar/profile');
         }
         public function Pesan()
@@ -506,6 +506,7 @@
         $data['siswa']= $this->pengajar_model->view('el_siswa')->result();
         $data['jawaban']= $this->pengajar_model->view_where('el_jawaban',array('id_ujian'=>$id))->result();
         $data['id_ujian']=$id;
+        // print_r($data);
         $this->load->view('part/header');
         $this->load->view('part/sidebarpengajar',$data);
         $this->load->view('pengajar/hasilUjian',$data);
