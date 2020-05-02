@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2020 at 03:59 AM
+-- Generation Time: May 02, 2020 at 04:11 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_elearning3`
+-- Database: `new_elearning4`
 --
 
 -- --------------------------------------------------------
@@ -101,15 +101,18 @@ CREATE TABLE `el_jawaban` (
   `nilai_pg` int(11) NOT NULL,
   `nilai_essay` int(11) DEFAULT NULL,
   `nilai_total` double DEFAULT NULL,
-  `jumlah_soal` int(11) NOT NULL
+  `jumlah_soal` int(11) NOT NULL,
+  `tgl` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `el_jawaban`
 --
 
-INSERT INTO `el_jawaban` (`id_jawaban`, `id_ujian`, `id_siswa`, `jawaban`, `nilai_pg`, `nilai_essay`, `nilai_total`, `jumlah_soal`) VALUES
-(2, 1, 2, '1:C,3:aaa', 1, 2, 83.333333333333, 2);
+INSERT INTO `el_jawaban` (`id_jawaban`, `id_ujian`, `id_siswa`, `jawaban`, `nilai_pg`, `nilai_essay`, `nilai_total`, `jumlah_soal`, `tgl`) VALUES
+(2, 1, 2, '1:C,3:aaa', 1, 2, 83.333333333333, 2, '0000-00-00 00:00:00'),
+(3, 1, 2, '1:C,3:asdsdasdsa', 3, 3, 100, 2, '0000-00-00 00:00:00'),
+(4, 3, 2, '1:C,3:adasd,5:B,6:adasdas', 3, 5, 66.666666666667, 4, '2020-05-02 05:04:00');
 
 -- --------------------------------------------------------
 
@@ -560,8 +563,8 @@ CREATE TABLE `el_pengajar` (
 --
 
 INSERT INTO `el_pengajar` (`id`, `nip`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `alamat`, `foto`, `status_id`, `id_mapel`) VALUES
-(1, '150212046', 'Alvino Pam', 'Laki-laki', '', NULL, 'PBB', 'ok-cak-lontong2.jpg', 1, '1'),
-(2, '123456', 'Dicky Pamungkas', 'Laki-laki', 'penarik', '2999-03-14', 'pbb', 'ok-cak-lontong1.jpg', 1, '2'),
+(1, '150212046', 'Alvino Pam', 'Laki-laki', '', NULL, 'PBB', 'pengajar-almadani.jpeg', 1, '1'),
+(2, '123456', 'Dicky Pamungkas', 'Laki-laki', 'penarik', '2999-03-14', 'pbb', 'pengajar-dicky-pamungkas.jpg', 1, '2'),
 (3, '12345', 'diki', 'Laki-laki', 'penarik', '2000-02-16', 'pbb', NULL, 0, '3'),
 (4, '1234123412341234', 'asdf', 'option1', 'asdf', NULL, 'ASDF', NULL, 0, '3'),
 (5, '666', 'Oliver', 'Laki-laki', 'cekcek', '2020-04-22', 'Cikole', NULL, 2, '4');
@@ -693,9 +696,9 @@ CREATE TABLE `el_siswa` (
 --
 
 INSERT INTO `el_siswa` (`id`, `nis`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `agama`, `alamat`, `tahun_masuk`, `foto`, `status_id`) VALUES
-(1, '1151', 'Afriadi', 'Laki-laki', 'ACEH SELATAN', '2005-04-21', 'ISLAM', 'Pasi Kuala Bau, Kluet Utara, Kabupaten Aceh Selatan, Aceh 23771', 2018, '', 1),
-(2, '1157', 'SAIYIDA NATISA', 'Perempuan', 'aceh selatan', '2002-03-07', 'ISLAM', 'aceh selatan', 2018, 'ok-cak-lontong.jpg', 1),
-(3, '1152', 'FITRIA SUKMA', 'Perempuan', 'aceh selatan', '2002-10-07', 'ISLAM', 'aceh selatan', 2018, '', 1),
+(1, '1151', 'Afriadi', 'Laki-laki', 'ACEH SELATAN', '2005-04-21', 'ISLAM', 'Pasi Kuala Bau, Kluet Utara, Kabupaten Aceh Selatan, Aceh 23771', 2018, 'siswa-afriadi-1151.jpg', 1),
+(2, '1157', 'SAIYIDA NATISA', 'Perempuan', 'aceh selatan', '2002-03-07', 'ISLAM', 'aceh selatan', 2018, NULL, 1),
+(3, '1152', 'FITRIA SUKMA', 'Perempuan', 'aceh selatan', '2002-10-07', 'ISLAM', 'aceh selatan', 2018, 'siswa-fitria-sukma-11521.jpg', 1),
 (4, '12345', 'dicky', 'Laki-laki', 'penarik', '2000-01-14', 'KATOLIK', 'pbb', 2018, NULL, 0),
 (9, '123123123123', 'asdf', 'option1', 'asdf', NULL, NULL, 'asdf', 0000, NULL, 0),
 (10, '666', 'Satan', 'Laki-laki', 'Kandang', '0000-00-00', 'BUDHA', 'asana', 2020, NULL, 3),
@@ -724,7 +727,9 @@ CREATE TABLE `el_soal` (
 
 INSERT INTO `el_soal` (`id_soal`, `pertanyaan`, `pg_a`, `pg_b`, `pg_c`, `jawaban_pg`, `tipe`, `pengajar_id`) VALUES
 (1, '1+1=0 ?', 'A.Ya', 'B.Tidak', 'C.Pertanyaan macam apa ini', 'C', 1, 2),
-(3, 'Jelaskan menurut anda bumi bulat atau datar?', NULL, NULL, NULL, NULL, 2, 2);
+(3, 'Jelaskan menurut anda bumi bulat atau datar?', NULL, NULL, NULL, NULL, 2, 2),
+(5, 'aasdasd', 'A.a', 'B.d', 'C.s', 'C', 1, 2),
+(6, 'dasdasdasd??', NULL, NULL, NULL, NULL, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -839,8 +844,9 @@ CREATE TABLE `el_ujian` (
 --
 
 INSERT INTO `el_ujian` (`id`, `judul`, `tgl_dibuat`, `tgl_expired`, `waktu`, `mapel_kelas_id`, `pengajar_id`) VALUES
-(1, 'Testingg', '2020-04-30', '2020-04-30', 30, 11, 2),
-(2, 'coba lagi dong', '2020-04-29', '2020-05-02', 20, 3, 2);
+(1, 'Testingg', '2020-04-30', '2020-05-02', 30, 11, 2),
+(2, 'coba lagi dong', '2020-04-29', '2020-05-02', 20, 3, 2),
+(3, 'asdasdasd', '2020-05-01', '2020-05-04', 10, 11, 2);
 
 -- --------------------------------------------------------
 
@@ -863,7 +869,11 @@ INSERT INTO `el_ujian_soal` (`id_ujian_soal`, `id_ujian`, `id_soal`, `aktif`) VA
 (1, 2, 1, 1),
 (2, 2, 3, 0),
 (3, 1, 1, 1),
-(5, 1, 3, 1);
+(5, 1, 3, 1),
+(6, 3, 1, 1),
+(7, 3, 3, 1),
+(8, 3, 5, 1),
+(9, 3, 6, 1);
 
 --
 -- Indexes for dumped tables
@@ -1096,7 +1106,7 @@ ALTER TABLE `el_absen_siswa`
 -- AUTO_INCREMENT for table `el_jawaban`
 --
 ALTER TABLE `el_jawaban`
-  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `el_kelas`
@@ -1198,7 +1208,7 @@ ALTER TABLE `el_siswa`
 -- AUTO_INCREMENT for table `el_soal`
 --
 ALTER TABLE `el_soal`
-  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `el_tugas`
@@ -1228,13 +1238,13 @@ ALTER TABLE `el_tugas_pertanyaan`
 -- AUTO_INCREMENT for table `el_ujian`
 --
 ALTER TABLE `el_ujian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `el_ujian_soal`
 --
 ALTER TABLE `el_ujian_soal`
-  MODIFY `id_ujian_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ujian_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
