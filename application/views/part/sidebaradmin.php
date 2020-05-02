@@ -2,7 +2,7 @@
 <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
+                    <img src="images/user/11231.jpg" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -74,7 +74,11 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin" />
+                                            <?php if ($this->session->userdata('foto') != null) { ?>
+                                                <img src="<?= base_url('assets/images/user/'.$this->session->userdata('foto'))?>" alt="Admin" />
+                                            <?php }else{ ?>
+                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin" />
+                                            <?php } ?>
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#"><?= 
@@ -85,7 +89,11 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin"/>
+                                                    <?php if ($this->session->userdata('foto') != null) { ?>
+                                                        <img src="<?= base_url('assets/images/user/'.$this->session->userdata('foto'))?>" alt="Admin" />
+                                                    <?php }else{ ?>
+                                                        <img src="<?= base_url('assets/images/icon/user.png')?>" alt="Admin" />
+                                                    <?php } ?>
                                                     </a>
                                                 </div>
                                                 <div class="content">

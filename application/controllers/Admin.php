@@ -93,6 +93,37 @@ class admin extends CI_Controller {
         $this->Admin_model->updateProfile($data,$id);
         redirect('admin/profile');
     }
+
+    
+    public function updateGambar()
+    {
+        $config['upload_path']          = './assets/images/user/';
+        $config['allowed_types']        = 'jpg|jpeg|png';
+
+        $this->load->library('upload', $config);
+        $upload = $this->upload->do_upload('file-input');
+        if (!$upload){
+            $data['profile'] = $this->pengajar_model->getProfilePengajar($this->session->userdata('id'))->result();
+            $this->session->set_flashdata('error', $this->upload->display_errors());
+            
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarsiswa');
+            $this->load->view('siswa/profile',$data);
+            $this->load->view('part/footer');
+        }else{
+            $upload = $this->upload->data();
+            $data = array(
+                'foto' => $upload['file_name']
+            );
+            $array = array(
+                'foto' => $upload['file_name']
+            );
+            $this->session->set_userdata( $array );
+            $this->pengajar_model->updateImage($data,$this->session->userdata('id'));
+            redirect('admin/profile');
+        }
+    }
+
     public function updateStatusPengajar($id,$status)
     {
         $this->Admin_model->update(array('status_id'=>$status),array('id'=>$id),'el_pengajar');

@@ -5,11 +5,26 @@
             <div class="map-data m-b-40">
                 <h3 class="title-3 m-b-30">Profile</h3>
                 <div class="mx-auto d-block">
-                    <img class="rounded-circle " src="<?=base_url('assets/images/icon/user.png') ?>" alt="Card image cap">
+                    <?php if ($profile[0]->foto == null) { ?>
+                        <img class="rounded-circle " src="<?=base_url('assets/images/icon/user.png') ?>" alt="Card image cap">
+                        
+                    <?php }else{ ?>
+                        <img class="rounded-circle " src="<?=base_url('assets/images/user/'.$profile[0]->foto) ?>" alt="Card image cap">
+                    
+                    <?php }?>
                 </div>
                 <div class="filters">
                     <form action="<?= base_url('siswa/updategambar')?>" enctype="multipart/form-data" method="post" class="row form-group">
                         <div class="col col-md-3">
+                            <?php if ($this->session->flashdata('error') != null) {?>
+                                <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-danger">error</span>
+                                    <?= $this->session->flashdata('error') ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php }?>
                             <input type="file" id="file-input" name="file-input" class="form-control-file">
                         </div>
                         <div class="col-10 col-md-5">

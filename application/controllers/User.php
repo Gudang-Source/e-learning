@@ -57,7 +57,8 @@ class user extends CI_Controller {
                     'idLogin'=> $auth[0]->id,
                     'id' => $auth[0]->siswa_id,
                     'nama' => $datasiswa[0]->nama,
-                    'username' => $auth[0]->username
+                    'username' => $auth[0]->username,
+                    'foto' => $datasiswa[0]->foto
                 );
                 // print_r($siswa);
                 $this->session->set_userdata($siswa);
@@ -72,7 +73,8 @@ class user extends CI_Controller {
                         'idLogin'=> $auth[0]->id,
                         'id' => $auth[0]->pengajar_id,
                         'nama' => $dataguru[0]->nama,
-                        'username' => $auth[0]->username
+                        'username' => $auth[0]->username,
+                        'foto' => $dataguru[0]->foto
                     );
                     $this->session->set_userdata( $admin );
                     
@@ -85,7 +87,8 @@ class user extends CI_Controller {
                     'idLogin'=> $auth[0]->id,
                     'id' => $auth[0]->pengajar_id,
                     'nama' => $dataguru[0]->nama,
-                    'username' => $auth[0]->username
+                    'username' => $auth[0]->username,
+                    'foto' => $dataguru[0]->foto
                 );
                 $this->session->set_userdata($pengajar);
                 
@@ -134,7 +137,8 @@ class user extends CI_Controller {
                     'tempat_lahir' => $tempatlahir,
                     'jenis_kelamin' => $jk,
                     'alamat' => $alamat,
-                    'tahun_masuk' => $tahunmasuk
+                    'tahun_masuk' => $tahunmasuk,
+                    'status_id' => 0
                 );
                 $this->user_model->registerSiswa($data2);
                 
@@ -191,7 +195,8 @@ class user extends CI_Controller {
                     'nip' => $nip,
                     'tempat_lahir' => $tempatlahir,
                     'jenis_kelamin' => $jk,
-                    'alamat' => $alamat
+                    'alamat' => $alamat,
+                    'status_id' => 0
                 );
                 $this->user_model->registerGuru($data2);
                 

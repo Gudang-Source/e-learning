@@ -45,9 +45,37 @@ class siswa extends CI_Controller {
         );
         $this->siswa_model->updateProfile($data,$id);
         redirect('siswa/profile');
-        
     }
+    
+    public function updateGambar()
+    {
+        $config['upload_path']          = './assets/images/user/';
+        $config['allowed_types']        = 'jpg|jpeg|png';
 
+        $this->load->library('upload', $config);
+        $upload = $this->upload->do_upload('file-input');
+        if (!$upload){
+            $data['profile'] = $this->siswa_model->getProfileSiswa($this->session->userdata('id'))->result();
+            $this->session->set_flashdata('error', $this->upload->display_errors());
+            
+            $this->load->view('part/header');
+            $this->load->view('part/sidebarsiswa');
+            $this->load->view('siswa/profile',$data);
+            $this->load->view('part/footer');
+        }else{
+            $upload = $this->upload->data();
+            $data = array(
+                'foto' => $upload['file_name']
+            );
+            $array = array(
+                'foto' => $upload['file_name']
+            );
+            $this->session->set_userdata( $array );
+            $this->siswa_model->updateImage($data,$this->session->userdata('id'));
+            redirect('siswa/profile');
+        }
+    }
+    
     public function Pesan()
     {
         $data['nama'] = $this->session->userdata('nama');
@@ -95,6 +123,7 @@ class siswa extends CI_Controller {
     public function detailTugas($idtugas,$mapelid,$kelas)
     {
         $data['materi'] = $this->pengajar_model->view_where('el_tugas',array('id'=>$idtugas))->result();
+        $data['nilai'] = $this->pengajar_model->view_where('el_tugas_kumpul',array('tugas_id'=>$idtugas,'siswa_id'=>$this->session->userdata('id')))->result();
         $data['kelasid'] = $kelas;
         $data['mapelid'] = $mapelid;
         $data['tugasid'] = $idtugas;
@@ -369,6 +398,26 @@ class siswa extends CI_Controller {
     {
         $this->pengajar_model->delete(array('id'=>$id),'el_messages');
         redirect('siswa/detailPesan/'.$sender.'/'.$receiver);
+    }
+    
+    public function absen()
+    {
+        $data['data']=$this->siswa_model->getAllKelas()->result();
+        $data['kelas']=$this->siswa_model->getKelas($this->session->userdata('id'))->result();
+        $data['mapel']=$this->siswa_model->getMapelKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/absen/absenkelas');
+        $this->load->view('part/footer');
+    }
+
+    public function listAbsen($kelas,$mapel)
+    {
+        $data['absen']=$this->siswa_model->absensi($kelas,$mapel,$this->session->userdata('id'))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarsiswa',$data);
+        $this->load->view('siswa/absen/keteranganabsen');
+        $this->load->view('part/footer');
     }
 }
 ?>

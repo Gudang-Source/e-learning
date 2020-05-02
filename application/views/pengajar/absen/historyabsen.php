@@ -5,35 +5,30 @@
                     <div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Tugas</h3>
-                                <h3 class="title-5 m-b-35"> <?= $mapel[0]->nama?></h3>
+                                <h3 class="title-5 m-b-35">History Absen</h3>
                                 <div class="table-data__tool">
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
                                     <table class="table table-data2">
                                         <thead>
                                             <tr>
-                                                <th>id</th>
-                                                <th>Judul</th>
-                                                <th>Tanggal Upload</th>
-                                                <th>Deadline</th>
-                                                <th>Pengajar</th>
+                                                <th>Tanggal</th>
+                                                <th>Jam Mulai </th>
+                                                <th>Jam Selesai</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php foreach ($materi as $i) { ?>
+                                            <?php foreach ($absen as $i) { ?>
                                                 <tr class="tr-shadow">
-                                                    <td><?= $i->id ?></td>
                                                     <td>
-                                                        <?= $i->judul ?>
+                                                        <?= $i->tanggal ?>
                                                     </td>
-                                                    <td class="desc"><?= $i->tgl_buat ?></td>
-                                                    <td class="desc"><?= $i->durasi ?></td>
-                                                    <td class="desc"><?= $i->nama ?></td>
+                                                    <td class="desc"><?= $i->jam_mulai ?></td>
+                                                    <td class="desc"><?= $i->jam_selesai ?></td>
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <a href="<?= base_url('siswa/detailTugas/').$i->id."/".$mapelid."/".$idkelas?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
+                                                            <a href="<?= base_url('Pengajar/absensi/'). $i->id?>"class="item" data-toggle="tooltip" data-placement="top" title="Open">
                                                                 <i class="zmdi zmdi-open-in-new"></i>
                                                             </a>
                                                         </div>

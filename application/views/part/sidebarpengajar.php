@@ -53,6 +53,10 @@
                     <a href="<?= base_url('pengajar/soal')?>">
                         <i class="fas fa-table"></i>Soal Ujian</a>
                 </li>
+                <li>
+                    <a href="<?= base_url('pengajar/absen')?>">
+                        <i class="fas fa-users"></i>Absensi</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -104,7 +108,11 @@
                 <li>
                     <a href="<?= base_url('pengajar/soal')?>">
                         <i class="fas fa-table"></i>Soal Ujian</a>
-                </li>                 
+                </li>
+                <li>
+                    <a href="<?= base_url('pengajar/absen')?>">
+                        <i class="fas fa-users"></i>Absensi</a>
+                </li>               
             </ul>
         </nav>
     </div>
@@ -127,9 +135,11 @@
                         <div class="account-wrap">
                             <div class="account-item clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo 
-                                                $this->session->userdata('nama');
-                                                 ?>" />
+                                    <?php if ($this->session->userdata('foto') != null) { ?>
+                                        <img src="<?= base_url('assets/images/user/'.$this->session->userdata('foto'))?>" alt="<?php echo $this->session->userdata('nama');?>" />
+                                    <?php }else{ ?>
+                                        <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo $this->session->userdata('nama');?>" />
+                                    <?php } ?>
                                 </div>
                                 <div class="content">
                                     <a class="js-acc-btn" href="#"><?php echo 
@@ -140,9 +150,11 @@
                                     <div class="info clearfix">
                                         <div class="image">
                                             <a href="#">
-                                                <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo 
-                                                $this->session->userdata('nama');
-                                                 ?>" />
+                                                <?php if ($this->session->userdata('foto') != null) { ?>
+                                                    <img src="<?= base_url('assets/images/user/'.$this->session->userdata('foto'))?>" alt="<?php echo $this->session->userdata('nama');?>" />
+                                                <?php }else{ ?>
+                                                    <img src="<?= base_url('assets/images/icon/user.png')?>" alt="<?php echo $this->session->userdata('nama');?>" />
+                                                <?php } ?>
                                             </a>
                                         </div>
                                         <div class="content">

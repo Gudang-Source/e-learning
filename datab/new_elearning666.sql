@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2020 at 11:43 AM
+-- Generation Time: May 02, 2020 at 03:59 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -21,6 +21,51 @@ SET time_zone = "+00:00";
 --
 -- Database: `new_elearning3`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `el_absen`
+--
+
+CREATE TABLE `el_absen` (
+  `id` int(11) NOT NULL,
+  `kelas_id` int(11) DEFAULT NULL,
+  `mapel_id` int(11) DEFAULT NULL,
+  `pengajar_id` int(11) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `jam_mulai` time DEFAULT NULL,
+  `jam_selesai` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `el_absen`
+--
+
+INSERT INTO `el_absen` (`id`, `kelas_id`, `mapel_id`, `pengajar_id`, `tanggal`, `jam_mulai`, `jam_selesai`) VALUES
+(3, 2, 2, 2, '2020-05-04', '11:00:00', '13:00:00'),
+(4, 7, 2, 2, '2020-05-02', '12:15:00', '02:16:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `el_absen_siswa`
+--
+
+CREATE TABLE `el_absen_siswa` (
+  `id` int(11) NOT NULL,
+  `absen_id` int(11) DEFAULT NULL,
+  `siswa_id` int(11) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL COMMENT '0 = alpha, 1 = masuk, 2 = izin,3 = sakit'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `el_absen_siswa`
+--
+
+INSERT INTO `el_absen_siswa` (`id`, `absen_id`, `siswa_id`, `status`) VALUES
+(1, 3, 11, 1),
+(2, 4, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -515,8 +560,8 @@ CREATE TABLE `el_pengajar` (
 --
 
 INSERT INTO `el_pengajar` (`id`, `nip`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `alamat`, `foto`, `status_id`, `id_mapel`) VALUES
-(1, '150212046', 'Alvino Pam', 'Laki-laki', '', NULL, 'PBB', 'pengajar-almadani.jpeg', 1, '1'),
-(2, '123456', 'Dicky Pamungkas', 'Laki-laki', 'penarik', '2999-03-14', 'pbb', 'pengajar-dicky-pamungkas.jpg', 1, '2'),
+(1, '150212046', 'Alvino Pam', 'Laki-laki', '', NULL, 'PBB', 'ok-cak-lontong2.jpg', 1, '1'),
+(2, '123456', 'Dicky Pamungkas', 'Laki-laki', 'penarik', '2999-03-14', 'pbb', 'ok-cak-lontong1.jpg', 1, '2'),
 (3, '12345', 'diki', 'Laki-laki', 'penarik', '2000-02-16', 'pbb', NULL, 0, '3'),
 (4, '1234123412341234', 'asdf', 'option1', 'asdf', NULL, 'ASDF', NULL, 0, '3'),
 (5, '666', 'Oliver', 'Laki-laki', 'cekcek', '2020-04-22', 'Cikole', NULL, 2, '4');
@@ -648,9 +693,9 @@ CREATE TABLE `el_siswa` (
 --
 
 INSERT INTO `el_siswa` (`id`, `nis`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `agama`, `alamat`, `tahun_masuk`, `foto`, `status_id`) VALUES
-(1, '1151', 'Afriadi', 'Laki-laki', 'ACEH SELATAN', '2005-04-21', 'ISLAM', 'Pasi Kuala Bau, Kluet Utara, Kabupaten Aceh Selatan, Aceh 23771', 2018, 'siswa-afriadi-1151.jpg', 1),
-(2, '1157', 'SAIYIDA NATISA', 'Perempuan', 'aceh selatan', '2002-03-07', 'ISLAM', 'aceh selatan', 2018, NULL, 1),
-(3, '1152', 'FITRIA SUKMA', 'Perempuan', 'aceh selatan', '2002-10-07', 'ISLAM', 'aceh selatan', 2018, 'siswa-fitria-sukma-11521.jpg', 1),
+(1, '1151', 'Afriadi', 'Laki-laki', 'ACEH SELATAN', '2005-04-21', 'ISLAM', 'Pasi Kuala Bau, Kluet Utara, Kabupaten Aceh Selatan, Aceh 23771', 2018, '', 1),
+(2, '1157', 'SAIYIDA NATISA', 'Perempuan', 'aceh selatan', '2002-03-07', 'ISLAM', 'aceh selatan', 2018, 'ok-cak-lontong.jpg', 1),
+(3, '1152', 'FITRIA SUKMA', 'Perempuan', 'aceh selatan', '2002-10-07', 'ISLAM', 'aceh selatan', 2018, '', 1),
 (4, '12345', 'dicky', 'Laki-laki', 'penarik', '2000-01-14', 'KATOLIK', 'pbb', 2018, NULL, 0),
 (9, '123123123123', 'asdf', 'option1', 'asdf', NULL, NULL, 'asdf', 0000, NULL, 0),
 (10, '666', 'Satan', 'Laki-laki', 'Kandang', '0000-00-00', 'BUDHA', 'asana', 2020, NULL, 3),
@@ -823,6 +868,18 @@ INSERT INTO `el_ujian_soal` (`id_ujian_soal`, `id_ujian`, `id_soal`, `aktif`) VA
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `el_absen`
+--
+ALTER TABLE `el_absen`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `el_absen_siswa`
+--
+ALTER TABLE `el_absen_siswa`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `el_field_tambahan`
@@ -1022,6 +1079,18 @@ ALTER TABLE `el_ujian_soal`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `el_absen`
+--
+ALTER TABLE `el_absen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `el_absen_siswa`
+--
+ALTER TABLE `el_absen_siswa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `el_jawaban`

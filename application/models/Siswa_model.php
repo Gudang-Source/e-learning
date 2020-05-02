@@ -52,6 +52,7 @@
         public function insert($data,$table)
         {
             $this->db->insert($table,$data);
+            return $this->db->insert_id(); 
         }
         public function updateProfile($data,$id)
         {
@@ -61,7 +62,7 @@
         public function updateImage($data,$id)
         {
             $this->db->where('id', $id);
-            $this->db->update('el_pengajar', $data);
+            $this->db->update('el_siswa', $data);
         }
         public function filterSiswa($like,$kelamin,$agama,$kelas)
         {
@@ -301,6 +302,30 @@
             WHERE
             et.mapel_id = '.$mapel.' AND
             etk.kelas_id = '.$kelas);
+        }
+        public function getPengajar($id)
+        {
+            $this->db->where('id', $id);
+            return $this->db->get('el_pengajar');
+        }
+
+        public function absensi($kelas,$mapel,$id)
+        {
+            return $this->db->query('SELECT
+            eas.`status`,
+            ea.tanggal,
+            ea.jam_mulai,
+            ea.jam_selesai,
+            ep.nama
+            FROM
+            el_absen_siswa AS eas
+            INNER JOIN el_absen AS ea ON eas.absen_id = ea.id
+            INNER JOIN el_pengajar AS ep ON ea.pengajar_id = ep.id
+            WHERE
+            ea.kelas_id = '.$kelas.' AND
+            ea.mapel_id = '.$mapel.' AND
+            eas.siswa_id ='.$id);
+            
         }
     
     }

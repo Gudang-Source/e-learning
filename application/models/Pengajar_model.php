@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class pengajar_model extends CI_Model {
     public function update($data,$where,$table)
-        {
-            $this->db->where($where);
-            $this->db->update($table, $data);
-        }
+    {
+        $this->db->where($where);
+        $this->db->update($table, $data);
+    }
     public function getPengumumanGuru()
     {
         $this->db->where('tampil_pengajar', '1');
@@ -131,10 +131,10 @@ class pengajar_model extends CI_Model {
         return $this->db->query('SELECT * FROM el_ujian_soal JOIN el_soal USING(id_soal) WHERE el_ujian_soal.aktif=1 and el_ujian_soal.id_ujian='.$id);
     }
     public function delete($where,$table)
-        {
-            $this->db->where($where);
-            $this->db->delete($table);
-        }
+    {
+        $this->db->where($where);
+        $this->db->delete($table);
+    }
 
     public function GetAllMapel()
     {
@@ -151,6 +151,11 @@ class pengajar_model extends CI_Model {
     {
         return  $this->db->query("SELECT * FROM  el_kelas ORDER BY urutan");
     }
+    public function getKelasId($id)
+    {
+        return  $this->db->query("SELECT * FROM  el_kelas WHERE id = ".$id);
+    }
+
 
     public function getMapelKelas()
     {
@@ -253,6 +258,23 @@ class pengajar_model extends CI_Model {
         $this->db->where('id', $where);
         $this->db->update('el_tugas_kumpul', $data);
     }
+    
+    public function absenSiswa($id)
+    {
+        return $this->db->query('SELECT
+        es.nama,
+        eas.absen_id,
+        eas.siswa_id,
+        eas.`status`,
+        eas.id,
+        es.nis
+        FROM
+        el_absen_siswa AS eas
+        INNER JOIN el_siswa AS es ON eas.siswa_id = es.id
+        WHERE
+        eas.absen_id = '.$id);
+    }
+
 }
 
 /* End of file Pengajar_Model.php */

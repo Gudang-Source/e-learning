@@ -41,6 +41,38 @@
             $this->load->view('admin/profile',$data);
             $this->load->view('part/footer');
         }
+        
+        public function updateGambar()
+        {
+            $config['upload_path']          = './assets/images/user/';
+            $config['allowed_types']        = 'jpg|jpeg|png';
+
+            $this->load->library('upload', $config);
+            $upload = $this->upload->do_upload('file-input');
+            if (!$upload){
+                $data['profile'] = $this->pengajar_model->getProfilePengajar($this->session->userdata('id'))->result();
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                
+                $this->load->view('part/header');
+                $this->load->view('part/sidebarsiswa');
+                $this->load->view('siswa/profile',$data);
+                $this->load->view('part/footer');
+            }else{
+                $upload = $this->upload->data();
+                $data = array(
+                    'foto' => $upload['file_name']
+                );
+                
+                $array = array(
+                    'foto' => $upload['file_name']
+                );
+                $this->session->set_userdata( $array );
+                
+                $this->pengajar_model->updateImage($data,$this->session->userdata('id'));
+                redirect('pengajar/profile');
+            }
+        }
+
         public function updateprofile($id)
         {
             $data = array(
@@ -566,6 +598,85 @@
     {
         $this->pengajar_model->delete(array('id'=>$id),'el_messages');
         redirect('pengajar/detailPesan/'.$sender.'/'.$receiver);
+    }
+    
+    public function absen()
+    {
+        $data['data']=$this->pengajar_model->getKelas()->result();
+        $data['pengajar']=$this->pengajar_model->getPengajar($this->session->userdata('id'))->result();
+        $data['mapel']=$this->pengajar_model->getMapelKelas()->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/absen/absenkelas');
+        $this->load->view('part/footer');
+    }
+
+    public function setabsensi($kelas,$mapel)
+    {
+        $data['idkelas']=$kelas;
+        $data['idmapelkelas']=$mapel;
+        $data['kelas']=$this->pengajar_model->getKelasId($kelas)->result();
+        $data['mapel']=$this->pengajar_model->view_where('el_mapel',array('id'=>$mapel))->result();
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/absen/setabsenkelas');
+        $this->load->view('part/footer');
+    }
+    public function setabsens()
+    {
+        $idkelas = $this->input->post('idkelas');
+        $idmapel = $this->input->post('idmapelkelas');
+        $tanggal = $this->input->post('tanggal');
+        $jammulai = $this->input->post('jammulai');
+        $jamselesai = $this->input->post('jamselesai');
+        $data = array(
+            'kelas_id' => $idkelas, 
+            'mapel_id' => $idmapel, 
+            'pengajar_id' => $this->session->userdata('id'), 
+            'tanggal' => $tanggal, 
+            'jam_mulai' => $jammulai, 
+            'jam_selesai' => $jamselesai
+        );
+
+        $id = $this->pengajar_model->insert($data,'el_absen');
+
+        $kelassiswa = $this->pengajar_model->view_where('el_kelas_siswa',array('kelas_id'=>$idkelas,'aktif'=>1))->result();
+        
+        foreach ($kelassiswa as $i) {
+            $data = array('absen_id' => $id,'siswa_id'=>$i->siswa_id,'status'=>0);
+            $this->pengajar_model->insert($data,'el_absen_siswa');
+        }
+
+        redirect('pengajar/absensi/'.$id);
+    }
+
+    public function absensi($idabsen)
+    {
+        $data['absen'] = $this->pengajar_model->absenSiswa($idabsen)->result();
+        
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/absen/absenSiswa');
+        $this->load->view('part/footer');
+
+    }
+
+    public function updateAbsenSiswa($idabsensi,$idabsen,$status)
+    {
+        $data = array('status' => $status );
+        $where = array('id' => $idabsensi);
+        $this->pengajar_model->update($data,$where,'el_absen_siswa');
+        redirect('pengajar/absensi/'.$idabsen);
+    }
+    public function historyAbsen($kelas,$mapel)
+    {
+        $where = array('kelas_id'=>$kelas,'mapel_id'=>$mapel);
+        $data['absen'] = $this->pengajar_model->view_where('el_absen',$where)->result();
+
+        $this->load->view('part/header');
+        $this->load->view('part/sidebarpengajar',$data);
+        $this->load->view('pengajar/absen/historyabsen');
+        $this->load->view('part/footer');
     }
 }
 ?>
