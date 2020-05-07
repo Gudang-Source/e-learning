@@ -687,5 +687,10 @@
         $this->load->view('pengajar/absen/historyabsen');
         $this->load->view('part/footer');
     }
+    public function hapusUjian($id)
+    {
+        $this->pengajar_model->delete(array('id'=>$id),'el_ujian');
+        redirect('pengajar/ujian/');
+    }
 }
 ?>
