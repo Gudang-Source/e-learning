@@ -48,7 +48,10 @@
             </div>
             <div class="map-data m-b-40">
                 <h3 class="title-3 m-b-30">Soal</h3>
-                <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                        <a href="#modalPG"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal PG</a>
+                        <a href="#modalEssay"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal Essay</a>
+                </div><!--<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Atur Soal
                     </button><br>
                 <div class="collapse" id="collapseExample">
@@ -69,7 +72,7 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>-->
                 <div class="mx-auto d-block">
                     <div class="container-fluid">
                         <div class="table-responsive">
@@ -154,6 +157,70 @@ $(document).ready(function(){
                 <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
             <?php }?>
+            </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="modalPG" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Buat Ujian</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="modal-body">
+                <form action="<?=base_url()?>pengajar/simpanSoal/1/<?=$id_ujian?>" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label >Pertanyaan <span class="text-error">*</span></label>
+                        <textarea class="form-control" name="pertanyaan" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label >Piilihan A <span class="text-error">*</span></label>
+                        <input type="text" name="pg_a" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label >Piilihan B <span class="text-error">*</span></label>
+                        <input type="text" name="pg_b" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label >Piilihan C <span class="text-error">*</span></label>
+                        <input type="text" name="pg_c" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label >Jawaban Pilihan <span class="text-error"></span></label>
+                        <select class="form-control" required name="jawaban_pg">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                    </select>
+                    </div>
+                <button type="submit" class="btn btn-primary">Buat</button>
+                </form>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalEssay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Buat Soal Essay</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="modal-body">
+                <form action="<?=base_url()?>pengajar/simpanSoal/2/<?=$id_ujian?>" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label >Pertanyaan <span class="text-error">*</span></label>
+                        <textarea class="form-control" name="pertanyaan" required></textarea>
+                    </div>
+                <button type="submit" class="btn btn-primary">Buat</button>
+                </form>
             </div>
             </div>
           </div>

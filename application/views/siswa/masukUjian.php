@@ -55,19 +55,17 @@
                                             <label for="inputEmail3" class="col-sm-2 col-form-label"><?=$no.'. '.$key->pertanyaan?></label>
                                             <div class="col-sm-10">
                                             <div class="form-check form-check-inline">
+                                                <input type="radio" id="A" name="<?=$key->id_soal?>" value="A">
                                               <label class="form-check-label" for="A"><?=$key->pg_a?></label>
                                             </div>
                                             <div class="form-check form-check-inline">
+                                                <input type="radio" id="B" name="<?=$key->id_soal?>" value="B">
                                               <label class="form-check-label" for="B"><?=$key->pg_b?></label>
                                             </div>
                                             <div class="form-check form-check-inline">
+                                                <input type="radio" id="C" name="<?=$key->id_soal?>" value="C">
                                               <label class="form-check-label" for="C"><?=$key->pg_c?></label>
                                             </div>
-                                              <select name="<?=$key->id_soal?>" class="form-control">
-                                                  <option value="A">A</option>
-                                                  <option value="B">B</option>
-                                                  <option value="C">C</option>
-                                              </select>
                                             </div>
                                         </div>
                                     <?}elseif ($key->tipe==2) {?>

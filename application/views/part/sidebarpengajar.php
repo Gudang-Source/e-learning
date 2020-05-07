@@ -49,10 +49,10 @@
                     <a href="<?= base_url('pengajar/ujian')?>">
                         <i class="fas fa-table"></i>Ujian</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="<?= base_url('pengajar/soal')?>">
                         <i class="fas fa-table"></i>Soal Ujian</a>
-                </li>
+                </li>-->
                 <li>
                     <a href="<?= base_url('pengajar/absen')?>">
                         <i class="fas fa-users"></i>Absensi</a>
@@ -105,10 +105,10 @@
                     <a href="<?= base_url('pengajar/ujian')?>">
                         <i class="fas fa-table"></i>Ujian Online</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="<?= base_url('pengajar/soal')?>">
                         <i class="fas fa-table"></i>Soal Ujian</a>
-                </li>
+                </li>-->
                 <li>
                     <a href="<?= base_url('pengajar/absen')?>">
                         <i class="fas fa-users"></i>Absensi</a>

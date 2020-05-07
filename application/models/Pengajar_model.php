@@ -108,7 +108,7 @@ class pengajar_model extends CI_Model {
     }
     public function getKelasPengajar($id)
     {
-        return $this->db->query('SELECT mapel_kelas_id,el_mapel.nama as mapel,el_kelas.nama as kelas,kelas_id FROM el_mapel_ajar 
+        return $this->db->query('SELECT DISTINCT mapel_kelas_id,el_mapel.nama as mapel,el_kelas.nama as kelas,kelas_id FROM el_mapel_ajar 
             JOIN el_mapel_kelas on el_mapel_kelas.id=el_mapel_ajar.mapel_kelas_id 
             JOIN el_mapel on el_mapel.id=el_mapel_kelas.mapel_id 
             JOIN el_kelas on el_kelas.id=el_mapel_kelas.kelas_id 

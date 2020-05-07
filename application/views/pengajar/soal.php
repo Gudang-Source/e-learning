@@ -13,8 +13,10 @@
                 <div class="mx-auto d-block">
                     <div class="container-fluid">
                       <div class="card card-body">
-                            <a href="#modalPG"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal PG</a><hr>
-                            <a href="#modalEssay"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal Essay</a>
+                            <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                                    <a href="#modalPG"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal PG</a>
+                                    <a href="#modalEssay"  type="button" data-toggle="modal" class="btn btn-primary ">Buat Soal Essay</a>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>

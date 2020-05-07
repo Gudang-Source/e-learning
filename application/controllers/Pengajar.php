@@ -488,12 +488,13 @@
     }
     public function detailUjian($id)
     {
+        $data['id_ujian']=$id;
         $data['nama'] = $this->session->userdata('nama');
         $data['ujian']= $this->pengajar_model->getUjianDetail($id)->result();
         $data['mapel'] = $this->pengajar_model->getKelasPengajar($this->session->userdata('id'))->result();
         $data['soal']= $this->pengajar_model->view_where('el_soal',array('pengajar_id'=>$this->session->userdata('id')))->result();
         $data['soal_ujian']= $this->pengajar_model->getSoalUjian($id)->result();
-        $data['id_soalnya']=$id;
+        //$data['id_soalnya']=$id;
         $this->load->view('part/header');
         $this->load->view('part/sidebarpengajar',$data);
         $this->load->view('pengajar/detailUjian',$data);
@@ -534,28 +535,35 @@
         $this->load->view('pengajar/soal',$data);
         $this->load->view('part/footer');
     }
-    public function simpanSoal($id)
+    public function simpanSoal($tipe,$id_ujian)
     {
-        if ($id==1) {
+        $insert_id='';
+        if ($tipe==1) {
             $values=array(
                 'pertanyaan'=>$this->input->post('pertanyaan'),
                 'pg_a'=>'A.'.$this->input->post('pg_a'),
                 'pg_b'=>'B.'.$this->input->post('pg_b'),
                 'pg_c'=>'C.'.$this->input->post('pg_c'),
                 'jawaban_pg'=>$this->input->post('jawaban_pg'),
-                'tipe'=>$id,
+                'tipe'=>$tipe,
                 'pengajar_id'=>$this->session->userdata('id')
             );
-        $this->pengajar_model->insert($values,'el_soal');
-        }elseif ($id==2) {
+        $insert_id=$this->pengajar_model->insert($values,'el_soal');
+        }elseif ($tipe==2) {
             $values=array(
                 'pertanyaan'=>$this->input->post('pertanyaan'),
-                'tipe'=>$id,
+                'tipe'=>$tipe,
                 'pengajar_id'=>$this->session->userdata('id')
             );
-        $this->pengajar_model->insert($values,'el_soal');
+        $insert_id=$this->pengajar_model->insert($values,'el_soal');
         }
-        redirect('pengajar/soal');
+        $data=array(
+                'id_ujian'=>$id_ujian,
+                'id_soal'=>$insert_id,
+                'aktif'=>1
+            );
+            $this->pengajar_model->insert($data,'el_ujian_soal');
+        redirect('pengajar/detailUjian/'.$id_ujian);
     }
     public function tambahSoalUjian($id)
     {
