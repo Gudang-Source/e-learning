@@ -30,6 +30,18 @@
                                 <i class="fas fa-table"></i>Pesan</a>
                         </li>
                         <li>
+                            <a href="<?= base_url('admin/jadwalMengajar/1')?>">
+                                <i class="far fa-check-square"></i>Jadwal Mapel Guru</a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url('admin/tugas')?>">
+                                <i class="fas fa-calendar-alt"></i>Tugas</a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url('admin/materi')?>">
+                                <i class="fas fa-map-marker-alt"></i>Materi</a>
+                        </li>
+                        <li>
                             <a href="<?= base_url('admin/jadwalMapel')?>">
                                 <i class="far fa-check-square"></i>Jadwal Mata pelajaran</a>
                         </li>

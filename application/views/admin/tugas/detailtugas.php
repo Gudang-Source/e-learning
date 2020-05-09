@@ -7,7 +7,7 @@
                         <h3 class="title-5 m-b-35">Tugas </h3>
                         <?php echo $this->session->flashdata('alert');?>
                         <?php foreach ($materi as $i) {?> 
-                        <form action="<?= base_url('pengajar/prosesTambahPengumuman')?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="<?= base_url('admin/prosesTambahPengumuman')?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <div class="card">
                                 <div class="card-header">
                                     <strong>Isi Materi</strong>

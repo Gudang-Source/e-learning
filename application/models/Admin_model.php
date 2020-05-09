@@ -200,9 +200,133 @@
             INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
             WHERE
             emk.aktif = 1 AND
-            ema.id = ".$id);
+            ema.id = ".$id); 
+        }
+        public function jadwalPelajaran($hari,$id)
+        {
+            return $this->db->query('SELECT
+            emk.id AS id,
+            emk.kelas_id,
+            em.nama AS mapel,
+            emk.mapel_id,
+            emk.aktif AS kelas_aktif,
+            ema.jam_mulai,
+            ema.id AS mapelajarid,
+            ema.jam_selesai,
+            ema.hari_id,
+            ema.pengajar_id,
+            ep.nama AS pengajar,
+            ek.nama AS nama_kelas,
+            eks.siswa_id,
+            eks.aktif
+            FROM
+            el_mapel_kelas AS emk
+            JOIN el_mapel AS em ON em.id = emk.mapel_id
+            INNER JOIN el_mapel_ajar AS ema ON ema.mapel_kelas_id = emk.id
+            INNER JOIN el_pengajar AS ep ON ema.pengajar_id = ep.id
+            INNER JOIN el_kelas AS ek ON ek.id = emk.kelas_id
+            INNER JOIN el_kelas_siswa AS eks ON ek.id = eks.kelas_id
+            WHERE
+            emk.aktif = 1 AND
+            eks.aktif = 1 AND
+            ema.hari_id = '.$hari.' AND 
+            ema.pengajar_id = '.$id.' 
+            ORDER BY
+            ema.jam_mulai ASC
+            
+            '); 
+        }
+        public function updateMapelPengajar($data,$id)
+        {
+            $this->db->where('id', $id);
+            $this->db->update('el_pengajar', $data);    
+        }
+        public function hapusTugas($id)
+        {
+            $this->db->where('id', $id);
+            $this->db->delete('el_tugas');
+            
+            $this->db->where('tugas_id', $id);
+            $this->db->delete('el_tugas_kelas');
+        }
+
+        public function getTugasKelas($kelas,$mapel,$id)
+        {
+            return $this->db->query('SELECT
+            et.id,
+            et.mapel_id,
+            et.pengajar_id,
+            et.judul,
+            etk.id AS idtugaskelas,
+            etk.kelas_id,
+            ep.nama,
+            et.tgl_buat,
+            et.durasi
+            FROM
+            el_tugas AS et
+            INNER JOIN el_tugas_kelas AS etk ON etk.tugas_id = et.id
+            INNER JOIN el_pengajar AS ep ON ep.id = et.pengajar_id
+            WHERE
+            et.mapel_id = '.$mapel.' AND
+            et.pengajar_id = '.$id.' AND
+            etk.kelas_id = '.$kelas);
             
         }
+        public function hasilUploadTugas($kelas,$id)
+        {
+            return $this->db->query('SELECT
+            etk.file,
+            etk.nilai,
+            etk.id,
+            es.nama,
+            etk.siswa_id
+            FROM
+            el_tugas_kumpul AS etk
+            INNER JOIN el_siswa AS es ON es.id = etk.siswa_id
+            WHERE
+            etk.kelas_id = '.$kelas.' AND
+            etk.tugas_id = '.$id);
+        }
+
+        public function updateNilai($data,$where)
+        {
+            $this->db->where('id', $where);
+            $this->db->update('el_tugas_kumpul', $data);
+        }
+
+        public function getMateriKelas($kelas,$mapel,$id)
+        {
+            return $this->db->query('SELECT
+            em.id,
+            em.mapel_id,
+            em.pengajar_id,
+            em.judul,
+            em.konten,
+            em.file,
+            em.tgl_posting,
+            em.publish,
+            em.views,
+            emk.id AS id_materi_kelas,
+            emk.kelas_id,
+            ep.nama
+            FROM
+            el_materi AS em
+            INNER JOIN el_materi_kelas AS emk ON emk.materi_id = em.id
+            INNER JOIN el_pengajar AS ep ON ep.id = em.pengajar_id
+            WHERE
+            em.mapel_id = '.$mapel.' AND 
+            em.pengajar_id = '.$id.' AND 
+            emk.kelas_id = '.$kelas);
+        }
+        public function hapusMateri($id)
+        {
+            $this->db->where('id', $id);
+            $this->db->delete('el_materi');
+            
+            $this->db->where('materi_id', $id);
+            $this->db->delete('el_materi_kelas');
+        }
+    
         
     }
     
